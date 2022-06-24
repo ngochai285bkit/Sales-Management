@@ -130,25 +130,21 @@ public class MainUI extends JFrame {
         pnLeft.add(pnOption, BorderLayout.CENTER);
 
         // ==================== Tool Panel ====================
-        JPanel pnTop = new JPanel();
-        pnTop.setLayout(new BoxLayout(pnTop, BoxLayout.X_AXIS));
-        pnTop.setBackground(Color.WHITE);
-        pnTop.setPreferredSize(new Dimension(0, 30));
-
-        JPanel pnTitle = new JPanel();
-        pnTitle.setBackground(Color.WHITE);
-        pnTitle.setPreferredSize(new Dimension(200, 0));
-
         lblBtnLogout = new JLabel("Đăng xuất");
         lblBtnLogout.setForeground(Color.WHITE);
         lblBtnLogout.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 14));
         lblBtnLogout.setIcon(new FlatSVGIcon(Objects.requireNonNull(this.getClass().getResource(
                 "/Images/32x32/Logout_32px.svg"))));
-        lblBtnLogout.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 20));
+        lblBtnLogout.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createRaisedBevelBorder(),
+                BorderFactory.createEmptyBorder(1, 2, 1, 10)));
         lblBtnLogout.setBackground(new Color(78, 138, 201));
+        lblBtnLogout.setVerticalAlignment(JLabel.CENTER);
         lblBtnLogout.setOpaque(true);
 
-        pnTop.add(Box.createHorizontalGlue());
+        JPanel pnTop = new JPanel();
+        pnTop.setLayout(new FlowLayout(FlowLayout.RIGHT));
+        pnTop.setBackground(Color.WHITE);
+        pnTop.setPreferredSize(new Dimension(0, 45));
         pnTop.add(lblBtnLogout);
 
         // ==================== Center Panel ====================
@@ -164,18 +160,15 @@ public class MainUI extends JFrame {
         pnStatusBar.setBorder(new EtchedBorder(EtchedBorder.LOWERED));
 
 
-        // ==================== Main Panel ====================
+        // ==================== Add Main Panel to Content panel ====================
+        Container con = this.getContentPane();
         JPanel pnMain = new JPanel();
         pnMain.setLayout(new BorderLayout());
-        pnMain.add(pnLeft, BorderLayout.WEST);
         pnMain.add(pnTop, BorderLayout.NORTH);
-        pnMain.add(pnStatusBar, BorderLayout.SOUTH);
+        pnMain.add(pnLeft, BorderLayout.WEST);
         pnMain.add(pnCenter, BorderLayout.CENTER);
-
-        // ==================== Content Panel ====================
-        Container con = this.getContentPane();
-        con.setLayout(new BorderLayout());
-        con.add(pnMain, BorderLayout.CENTER);
+        pnMain.add(pnStatusBar, BorderLayout.SOUTH);
+        con.add(pnMain);
     }
 
     private void addEvents() {
