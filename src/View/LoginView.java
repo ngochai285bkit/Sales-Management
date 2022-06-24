@@ -319,7 +319,7 @@ public class LoginView extends JFrame {
                 LoginModel account = this.getUser();
                 if (LoginController.checkData(conn, account)) {
                     this.setVisible(false);
-                    new MainUI("Quản lý bán hàng", conn);
+                    new MainUI("Quản lý bán hàng", database);
                 } else {
                     JOptionPane.showMessageDialog(LoginView.this, "Tài khoản không tồn tại!", "Error",
                             JOptionPane.ERROR_MESSAGE);
