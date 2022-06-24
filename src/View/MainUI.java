@@ -8,8 +8,6 @@ import com.formdev.flatlaf.extras.FlatSVGUtils;
 import javax.swing.*;
 import javax.swing.border.EtchedBorder;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
@@ -142,11 +140,12 @@ public class MainUI extends JFrame {
         pnTitle.setPreferredSize(new Dimension(200, 0));
 
         lblBtnLogout = new JLabel("Đăng xuất");
+        lblBtnLogout.setForeground(Color.WHITE);
         lblBtnLogout.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 14));
         lblBtnLogout.setIcon(new FlatSVGIcon(Objects.requireNonNull(this.getClass().getResource(
                 "/Images/32x32/Logout_32px.svg"))));
         lblBtnLogout.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 20));
-        lblBtnLogout.setBackground(new Color(151, 195, 243));
+        lblBtnLogout.setBackground(new Color(78, 138, 201));
         lblBtnLogout.setOpaque(true);
 
         pnTop.add(Box.createHorizontalGlue());
@@ -190,11 +189,13 @@ public class MainUI extends JFrame {
             @Override
             public void mouseEntered(MouseEvent e) {
                 lblBtnLogout.setBackground(Color.YELLOW);
+                lblBtnLogout.setForeground(Color.BLACK);
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-                lblBtnLogout.setBackground(new Color(151, 195, 243));
+                lblBtnLogout.setBackground(new Color(78, 138, 201));
+                lblBtnLogout.setForeground(Color.WHITE);
             }
         });
 
@@ -279,12 +280,7 @@ public class MainUI extends JFrame {
 
         menuItemExit.addActionListener(e -> System.exit(0));
 
-        menuItemInformation.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-            }
-        });
+        menuItemInformation.addActionListener(e -> new InformationDialog(MainUI.this));
     }
 
     private void showWindow() {
