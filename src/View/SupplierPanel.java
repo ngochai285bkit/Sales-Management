@@ -47,7 +47,7 @@ public class SupplierPanel extends JPanel {
         btnThemMoi.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new AddAndChangeSupplierDialog(MainUI.frame, "Thêm nhà cung cấp", database);
+                new AddAndChangeSupplierDialog1(MainUI.frame, "Thêm nhà cung cấp", database);
                 try {
                     showListSupplier(getAllSuppliers());
                 } catch (SQLException ex) {
