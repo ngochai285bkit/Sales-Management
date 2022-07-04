@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 
-public class AddAndChangeSupplierDialog extends JDialog {
+public class AddAndChangeSupplierDialog1 extends JDialog {
     private JTextField txtMaNhaCungCap, txtDiaChi, txtTenNhaCungCap, txtSDT, txtSoTaiKhoan;
     private JButton btnGhiLai, btnThoat;
     private final Dimension dimenLabel = new Dimension(200, 25);
@@ -28,7 +28,7 @@ public class AddAndChangeSupplierDialog extends JDialog {
     private Database database;
 
     // constructor
-    public AddAndChangeSupplierDialog(Window owner, String title, Database database) {
+    public AddAndChangeSupplierDialog1(Window owner, String title, Database database) {
         super(owner);
         this.setTitle(title);
         this.setModal(true);
@@ -199,7 +199,7 @@ public class AddAndChangeSupplierDialog extends JDialog {
                         ex.printStackTrace();
                     }
                 } else {
-                    JOptionPane.showMessageDialog(AddAndChangeSupplierDialog.this, "Kết nối CSDL không thành công!", "Error", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(AddAndChangeSupplierDialog1.this, "Kết nối CSDL không thành công!", "Error", JOptionPane.ERROR_MESSAGE);
                 }
             }
         });
@@ -207,9 +207,8 @@ public class AddAndChangeSupplierDialog extends JDialog {
     }
 
 
-    //    private void setInforSupplier(SupplierModel supplier) {
-//        txtMaNhaCungCap.setText(supplier.getMaNhaCungCap());
-//    }
+
+
     private List<SupplierModel> getAllSuppliers() throws SQLException {
         List<SupplierModel> listSupplier = new ArrayList<>();
         Connection conn = DatabaseConnection.getConnection(database);
