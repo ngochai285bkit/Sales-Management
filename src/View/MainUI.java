@@ -16,16 +16,19 @@ import java.util.Objects;
 
 public class MainUI extends JFrame {
     // attributes
-    private Database database;
+    private final Database database;
     // components
     private JLabel lblBtnLogout;
     private CustomJLabel lblTrangChu, lblNhanVien, lblSanPham, lblKhachHang, lblNhaCungCap;
     private JMenuItem menuItemGithub, menuItemInformation, menuItemExit;
     private JPanel pnCenter;
 
+    public static Frame frame;
+
     // constructor
     public MainUI(String title, Database database) {
         super(title);
+        MainUI.frame = this;
         this.database = database;
         initComponents();
         addEvents();
@@ -153,7 +156,7 @@ public class MainUI extends JFrame {
         pnCenter.setBackground(new Color(245, 245, 251));
         pnCenter.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(0,
                 5, 0, 0), BorderFactory.createLineBorder(new Color(78, 138, 201), 4)));
-        pnCenter.add(new HomePanel(database), BorderLayout.CENTER);
+        pnCenter.add(new HomePanel(), BorderLayout.CENTER);
 
         // ==================== Status bar ====================
         JPanel pnStatusBar = new JPanel();
@@ -201,7 +204,7 @@ public class MainUI extends JFrame {
                 lblKhachHang.setSelected(false);
                 lblSanPham.setSelected(false);
                 pnCenter.removeAll();
-                pnCenter.add(new HomePanel(database), BorderLayout.CENTER);
+                pnCenter.add(new HomePanel(), BorderLayout.CENTER);
                 pnCenter.updateUI();
             }
         });
