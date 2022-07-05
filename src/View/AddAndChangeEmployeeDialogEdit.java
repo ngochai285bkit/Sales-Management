@@ -1,32 +1,46 @@
 package View;
 
+import Controller.DatabaseConnection;
 import Model.Database;
 import Model.EmployeeModel;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.CallableStatement;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Vector;
 
-public class AddAndChangeEmployeeDialog extends JDialog {
+public class AddAndChangeEmployeeDialogEdit extends JDialog {
     private JTextField txtMaNhanVien, txtDiaChi, txtChucVu, txtTenNhanVien, txtSDT, txtNgaySinh, txtNgayBatDauLam;
     private final Dimension dimenLabel = new Dimension(150, 25);
     private final Dimension dimenTextField=  new Dimension(220, 25);
     private final Color backGroundBlue= new Color(78 , 138 , 201);
     private JButton btnXacNhan, btnThoat;
-    private Database database;
+    private final Database database;
+    private JComboBox chonGioiTinh;
 
     // constructor
-    public AddAndChangeEmployeeDialog(Frame parent, String title, Database database){
-        super(parent, title, true);
-        this.database=database;
-        initComponents();
-        showDialog(parent);
-    }
+//    public AddAndChangeEmployeeDialogAdd(Frame parent, String title, Database database){
+//        super(parent, title, true);
+//        this.database=database;
+//        initComponents();
+//        addEvents();
+//        showDialog(parent);
+//    }
 
-    public AddAndChangeEmployeeDialog(Frame parent, String title, EmployeeModel employee, Database database){
+    public AddAndChangeEmployeeDialogEdit(Frame parent, String title, EmployeeModel employee, Database database){
         super(parent, title , true);
         this.database= database;
         initComponents();
         setInforEmployee(employee);
+        addEvents();
         showDialog(parent);
     }
 
@@ -133,7 +147,7 @@ public class AddAndChangeEmployeeDialog extends JDialog {
         lblGioiTinh.setPreferredSize(dimenLabel);
         pnGioiTinh.setBackground(Color.WHITE);
         String gioiTinh[] = {"Nam", "Nữ"};
-        JComboBox chonGioiTinh =  new JComboBox(gioiTinh);
+        chonGioiTinh =  new JComboBox(gioiTinh);
         chonGioiTinh.setPreferredSize(dimenTextField);
         pnGioiTinh.add(lblGioiTinh);
         pnGioiTinh.add(chonGioiTinh);
@@ -160,8 +174,96 @@ public class AddAndChangeEmployeeDialog extends JDialog {
         con.add(pnMain);
     }
 
+    private void addEvents(){
+        btnThoat.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                setVisible(false);
+            }
+        });
+        btnXacNhan.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Connection conn = DatabaseConnection.getConnection(database);
+                if (conn != null) {
+                    try {
+                        CallableStatement statement = conn.prepareCall("{CALL sp_Employee_Update(?,?,?,?,?,?,?,?)}");
+                        statement.setString(1, txtMaNhanVien.getText());
+                        statement.setString(2, txtTenNhanVien.getText());
+                        statement.setString(3, txtDiaChi.getText());
+                        statement.setString(4, txtSDT.getText());
+                        statement.setString(5, txtChucVu.getText());
+                        statement.setString(6, txtNgaySinh.getText());
+                        statement.setString(7, txtNgayBatDauLam.getText());
+                        statement.setString(8, Arrays.toString(chonGioiTinh.getSelectedObjects()));
+
+                        int result = statement.executeUpdate();
+                        if (result != 0) {
+                            showListEmployee(getAllEmployee());
+                            dispose();
+                            JOptionPane.showMessageDialog(MainUI.frame, "Chỉnh sửa thành công", "Thông báo",
+                                    JOptionPane.INFORMATION_MESSAGE);
+
+                        }
+                    } catch (SQLException ex) {
+                        ex.printStackTrace();
+                    }
+                }
+            }
+        });
+    }
+
+    private java.util.List<EmployeeModel> getAllEmployee() throws SQLException {
+        List<EmployeeModel> listEmployee = new ArrayList<>();
+        Connection conn = DatabaseConnection.getConnection(database);
+        if (conn != null) {
+            CallableStatement statement = ((Connection) conn).prepareCall("{ CALL sp_Employee_GetAll() }");
+            ResultSet rs = statement.executeQuery();
+            while (rs != null && rs.next()) {
+                EmployeeModel employeeModel = new EmployeeModel();
+                employeeModel.setMaNhanVien(rs.getString("MaNV"));
+                employeeModel.setHoTenNhanVien(rs.getString("HoTenNV"));
+                employeeModel.setDiaChiNhanVien(rs.getString("DiaChiNV"));
+                employeeModel.setSdtNhanVien(rs.getString("SdtNV"));
+                employeeModel.setChucVuNhanVien(rs.getString("ChucVu"));
+                employeeModel.setNgaySinhNhanVien(rs.getString("NgaySinh"));
+                employeeModel.setNgayBatDauLam(rs.getString("NgayLamViec"));
+                employeeModel.setGioiTinh(rs.getString("GioiTinh"));
+                listEmployee.add(employeeModel);
+            }
+        }
+        return listEmployee;
+    }
+
+    private void showListEmployee(java.util.List<EmployeeModel> listEmployee) {
+        EmployeePanel.dtmDsNhanVien.setRowCount(0);
+        for (EmployeeModel employeeModel : listEmployee) {
+            Vector<String> vector = new Vector<>();
+            vector.add(employeeModel.getMaNhanVien());
+            vector.add(employeeModel.getHoTenNhanVien());
+            vector.add(employeeModel.getDiaChiNhanVien());
+            vector.add(employeeModel.getSdtNhanVien());
+            vector.add(employeeModel.getChucVuNhanVien());
+            vector.add(employeeModel.getNgaySinhNhanVien());
+            vector.add(employeeModel.getNgayBatDauLam());
+            vector.add(employeeModel.getGioiTinh());
+            EmployeePanel.dtmDsNhanVien.addRow(vector);
+        }
+    }
+
     private void setInforEmployee(EmployeeModel employee){
         txtMaNhanVien.setText(employee.getMaNhanVien());
+        txtTenNhanVien.setText(employee.getHoTenNhanVien());
+        txtDiaChi.setText(employee.getDiaChiNhanVien());
+        txtSDT.setText(employee.getSdtNhanVien());
+        txtChucVu.setText(employee.getChucVuNhanVien());
+        txtNgaySinh.setText(employee.getNgaySinhNhanVien());
+        txtNgayBatDauLam.setText(employee.getNgayBatDauLam());
+        if(employee.getGioiTinh().equals("Nam")){
+            chonGioiTinh.setSelectedIndex(0);
+        } else {
+            chonGioiTinh.setSelectedIndex(1);
+        }
     }
 
     private void showDialog(Frame parent){

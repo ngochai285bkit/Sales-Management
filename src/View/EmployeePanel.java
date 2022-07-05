@@ -1,6 +1,9 @@
 package View;
 
+import Controller.DatabaseConnection;
+import Model.CustomerModel;
 import Model.Database;
+import Model.EmployeeModel;
 import com.formdev.flatlaf.FlatIntelliJLaf;
 
 import javax.swing.*;
@@ -10,6 +13,13 @@ import javax.swing.table.JTableHeader;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.CallableStatement;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Vector;
+import java.util.List;
 
 public class EmployeePanel extends JPanel {
     // attributes
@@ -18,7 +28,7 @@ public class EmployeePanel extends JPanel {
     private final Color backGroundBlue = new Color(78, 138, 201);
     private final Font font = new Font(Font.SANS_SERIF, Font.PLAIN, 18);
     private JButton btnSua, btnThemMoi, btnXoa;
-    private static DefaultTableModel dtmDsNhanVien;
+    public static DefaultTableModel dtmDsNhanVien;
     private JRadioButton rbtnMaNhanVien, rbtnTenNhanVien, rbtnDiaChi, rbtnDienThoai, rbtnChucVu, rbtnNgaySinh, rbtnNgayBatDauLam, rbtnGioiTinh;
     private JTable tbDsNhanVien;
 
@@ -35,7 +45,7 @@ public class EmployeePanel extends JPanel {
 
     }
 
-    private void initComponents() {
+    private void initComponents(){
         // implementation the top panel
         JPanel pnTop = new JPanel();
         pnTop.setLayout(new BorderLayout());
@@ -94,6 +104,11 @@ public class EmployeePanel extends JPanel {
         tbDsNhanVien.getColumnModel().getColumn(7).setCellRenderer(cellRendererCenter);
         pnCenter.add(scrollDanhSachKH, BorderLayout.CENTER);
 
+        try {
+            showListEmployee(getAllEmployee());
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         //Panel bottom
 
         JPanel pnSouth = new JPanel();
@@ -189,21 +204,106 @@ public class EmployeePanel extends JPanel {
         this.add(pnCenterMain, BorderLayout.CENTER);
         this.add(pnEast, BorderLayout.EAST);
     }
+    private EmployeeModel getEmployee() {
+        EmployeeModel employee = new EmployeeModel();
+        return employee;
+    }
 
     public void addEvents() {
         btnSua.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new AddAndChangeEmployeeDialog(MainUI.frame, "Sửa thông tin nhân viên", database);
+                int rowSelected = tbDsNhanVien.getSelectedRow();
+                if(rowSelected!=-1){
+                    EmployeeModel employeeModel = new EmployeeModel();
+                    employeeModel.setMaNhanVien((String) tbDsNhanVien.getValueAt(rowSelected, 0));
+                    employeeModel.setHoTenNhanVien((String) tbDsNhanVien.getValueAt(rowSelected, 1));
+                    employeeModel.setDiaChiNhanVien((String) tbDsNhanVien.getValueAt(rowSelected, 2));
+                    employeeModel.setSdtNhanVien((String) tbDsNhanVien.getValueAt(rowSelected, 3));
+                    employeeModel.setChucVuNhanVien((String) tbDsNhanVien.getValueAt(rowSelected, 4));
+                    employeeModel.setNgaySinhNhanVien((String) tbDsNhanVien.getValueAt(rowSelected, 5));
+                    employeeModel.setNgayBatDauLam((String) tbDsNhanVien.getValueAt(rowSelected, 6));
+                    employeeModel.setGioiTinh((String) tbDsNhanVien.getValueAt(rowSelected, 7));
+
+                    new AddAndChangeEmployeeDialogEdit(MainUI.frame, "Chỉnh sửa thông tin nhân viên", employeeModel,
+                            database);
+                } else {
+                    JOptionPane.showMessageDialog(MainUI.frame, "Bạn chưa chọn đối tượng cần sửa!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                }
             }
         });
         btnThemMoi.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new AddAndChangeEmployeeDialog(MainUI.frame, "Thêm nhân viên", database);
+                new AddAndChangeEmployeeDialogAdd(MainUI.frame, "Thêm nhân viên", database);
+            }
+        });
+        btnXoa.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int rowSelected = tbDsNhanVien.getSelectedRow();
+                if(rowSelected!=-1){
+                    Connection conn = DatabaseConnection.getConnection(database);
+                    try {
+                        CallableStatement statement = conn.prepareCall("{ CALL sp_Employee_Delete(?) }");
+                        statement.setString(1, (String) tbDsNhanVien.getValueAt(rowSelected, 0));
+                        int result = statement.executeUpdate();
+                        if(result!= 0){
+                            showListEmployee(getAllEmployee());
+                            JOptionPane.showMessageDialog(MainUI.frame, "Xoá thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                        }
+                    } catch (SQLException ex) {
+                        ex.printStackTrace();
+                    }
+
+                } else {
+                    JOptionPane.showMessageDialog(MainUI.frame, "Bạn chưa chọn đối tượng cần xoá!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                }
             }
         });
     }
+
+    private List<EmployeeModel> getAllEmployee() throws SQLException {
+        List<EmployeeModel> listEmployee = new ArrayList<>();
+        Connection conn = DatabaseConnection.getConnection(database);
+        if (conn != null) {
+            CallableStatement statement = ((Connection) conn).prepareCall("{ CALL sp_Employee_GetAll() }");
+            ResultSet rs = statement.executeQuery();
+            while (rs != null && rs.next()) {
+                EmployeeModel employeeModel = new EmployeeModel();
+                employeeModel.setMaNhanVien(rs.getString("MaNV"));
+                employeeModel.setHoTenNhanVien(rs.getString("HoTenNV"));
+                employeeModel.setDiaChiNhanVien(rs.getString("DiaChiNV"));
+                employeeModel.setSdtNhanVien(rs.getString("SdtNV"));
+                employeeModel.setChucVuNhanVien(rs.getString("ChucVu"));
+                employeeModel.setNgaySinhNhanVien(rs.getString("NgaySinh"));
+                employeeModel.setNgayBatDauLam(rs.getString("NgayLamViec"));
+                employeeModel.setGioiTinh(rs.getString("GioiTinh"));
+                listEmployee.add(employeeModel);
+            }
+        }
+        return listEmployee;
+    }
+
+    private void showListEmployee(java.util.List<EmployeeModel> listEmployee) {
+        dtmDsNhanVien.setRowCount(0);
+        for (EmployeeModel employeeModel : listEmployee) {
+            Vector<String> vector = new Vector<>();
+            vector.add(employeeModel.getMaNhanVien());
+            vector.add(employeeModel.getHoTenNhanVien());
+            vector.add(employeeModel.getDiaChiNhanVien());
+            vector.add(employeeModel.getSdtNhanVien());
+            vector.add(employeeModel.getChucVuNhanVien());
+            vector.add(employeeModel.getNgaySinhNhanVien());
+            vector.add(employeeModel.getNgayBatDauLam());
+            vector.add(employeeModel.getGioiTinh());
+            dtmDsNhanVien.addRow(vector);
+        }
+    }
+
+
+
+
 
     public static void main(String[] args) {
         FlatIntelliJLaf.setup();
