@@ -197,7 +197,7 @@ public class InformationDialog extends JDialog {
         this.setIconImages(FlatSVGUtils.createWindowIconImages(Objects.requireNonNull(this.getClass().getResource(
                 "/Images/icon.svg"))));
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        this.setSize(800, 550);
+        this.setSize(850, 550);
         this.setLocationRelativeTo(owner);
         this.setResizable(false);
         this.setVisible(true);

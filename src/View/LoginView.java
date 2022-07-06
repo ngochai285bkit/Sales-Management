@@ -44,7 +44,6 @@ public class LoginView extends JFrame {
         JPanel pnLeft = new JPanel();
         pnLeft.setLayout(new BoxLayout(pnLeft, BoxLayout.Y_AXIS));
         pnLeft.setBackground(Color.WHITE);
-        pnLeft.setPreferredSize(new Dimension(450, 0));
 
         JLabel lblTitle = new JLabel("HỆ THỐNG QUẢN LÝ BÁN HÀNG");
         lblTitle.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 26));
@@ -83,6 +82,7 @@ public class LoginView extends JFrame {
         JPanel pnRight = new JPanel();
         pnRight.setLayout(new BorderLayout());
         pnRight.setBackground(new Color(25, 118, 211));
+        pnRight.setPreferredSize(new Dimension(350, 0));
 
         lblBtnClose = new JLabel();
         lblBtnClose.setIcon(new FlatSVGIcon(Objects.requireNonNull(this.getClass().getResource("/Images" +
@@ -199,8 +199,8 @@ public class LoginView extends JFrame {
         pnMain.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createRaisedBevelBorder(),
                 BorderFactory.createLineBorder(new Color(240, 240, 240), 10)));
         pnMain.setBackground(Color.WHITE);
-        pnMain.add(pnLeft, BorderLayout.WEST);
-        pnMain.add(pnRight, BorderLayout.CENTER);
+        pnMain.add(pnLeft, BorderLayout.CENTER);
+        pnMain.add(pnRight, BorderLayout.EAST);
 
         // Add main panel to the content pane
         Container con = this.getContentPane();
@@ -332,7 +332,8 @@ public class LoginView extends JFrame {
     }
 
     private void showWindow() {
-        this.setSize(820, 450);
+        this.setSize(850, 450);
+        this.setResizable(false);
         this.setIconImages(FlatSVGUtils.createWindowIconImages(Objects.requireNonNull(this.getClass().getResource(
                 "/Images/icon.svg"))));
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);

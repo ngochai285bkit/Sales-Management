@@ -7,8 +7,6 @@ import com.formdev.flatlaf.util.SystemInfo;
 import javax.swing.*;
 
 public class Launch {
-    static boolean screenshotsMode = Boolean.parseBoolean(System.getProperty("flatlaf.demo.screenshotsMode"));
-
     public static void main(String[] args) {
         // macOS  (see https://www.formdev.com/flatlaf/macos/)
         if (SystemInfo.isMacOS) {
@@ -32,16 +30,20 @@ public class Launch {
         // Linux
         if (SystemInfo.isLinux) {
             // enable custom window decorations
-            JFrame.setDefaultLookAndFeelDecorated(true);
-            JDialog.setDefaultLookAndFeelDecorated(true);
+            JFrame.setDefaultLookAndFeelDecorated(false);
+            JDialog.setDefaultLookAndFeelDecorated(false);
+
+            // fix scaling app with fullHD Screen HiDPI
+            System.setProperty("sun.java2d.uiScale.enabled", "true");
+            System.setProperty("sun.java2d.uiScale", "2.0");
         }
 
-        if (Launch.screenshotsMode && !SystemInfo.isJava_9_orLater && System.getProperty("flatlaf.uiScale") == null)
-            System.setProperty("flatlaf.uiScale", "2x");
-
-
         SwingUtilities.invokeLater(() -> {
-            FlatIntelliJLaf.setup();
+            try {
+                UIManager.setLookAndFeel(new FlatIntelliJLaf());
+            } catch (UnsupportedLookAndFeelException e) {
+                throw new RuntimeException(e);
+            }
             new LoginView();
         });
     }
