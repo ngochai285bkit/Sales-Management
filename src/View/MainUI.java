@@ -137,7 +137,7 @@ public class MainUI extends JFrame {
         lblBtnLogout.setForeground(Color.WHITE);
         lblBtnLogout.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 14));
         lblBtnLogout.setIcon(new FlatSVGIcon(Objects.requireNonNull(this.getClass().getResource(
-                "/Images/32x32/Logout_32px.svg"))));
+                "/Images/32x32/logout_32px.svg"))));
         lblBtnLogout.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createRaisedBevelBorder(),
                 BorderFactory.createEmptyBorder(1, 2, 1, 10)));
         lblBtnLogout.setBackground(new Color(78, 138, 201));
