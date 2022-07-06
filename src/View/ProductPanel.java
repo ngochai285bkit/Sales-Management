@@ -3,7 +3,6 @@ package View;
 import Controller.DatabaseConnection;
 import Model.Database;
 import Model.ProductModel;
-import Model.ProductModel;
 import com.formdev.flatlaf.FlatIntelliJLaf;
 
 import javax.swing.*;
@@ -48,7 +47,7 @@ public class ProductPanel extends JPanel {
         btnThemMoi.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new AddAndChangeProductDialog1(MainUI.frame, "Thêm sản phẩm", database);
+                new AddAndChangeProductDialogAdd(MainUI.frame, "Thêm sản phẩm", database);
                 try {
                     showListProduct(getAllProducts());
                 } catch (SQLException ex) {
@@ -70,7 +69,7 @@ public class ProductPanel extends JPanel {
                     product.setGia((String) tbDsSP.getValueAt(rowSelected, 4));
                     product.setHan((String) tbDsSP.getValueAt(rowSelected, 5));
                     product.setSoLuong((String) tbDsSP.getValueAt(rowSelected, 6));
-                    new AddAndChangeProductDialog2(MainUI.frame, "Sửa sản phẩm", product, database);
+                    new AddAndChangeProductDialogEdit(MainUI.frame, "Sửa sản phẩm", product, database);
                 } else {
                     JOptionPane.showMessageDialog(MainUI.frame, "bạn chưa chọn hàng", "Lỗi", JOptionPane.ERROR_MESSAGE);
                 }
@@ -161,6 +160,7 @@ public class ProductPanel extends JPanel {
         tbDsSP.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 15));
         tbDsSP.setShowGrid(true);
         tbDsSP.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        tbDsSP.setAutoCreateRowSorter(true);
 
 
         JTableHeader tableHeader = tbDsSP.getTableHeader();

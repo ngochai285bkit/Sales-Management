@@ -4,9 +4,10 @@ package View;
 import Controller.DatabaseConnection;
 import Model.Database;
 import Model.ProductModel;
-import Model.SupplierModel;
+import Model.ProductModel;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -20,25 +21,24 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 
-public class AddAndChangeProductDialog2 extends JDialog {
+public class AddAndChangeProductDialogAdd extends JDialog {
     private JTextField txtMaSanPham, txtTenSanPham, txtGia, txtDonVi, txtLoai,txtHan,txtSoLuong;
-    private JButton btnXacNhan, btnThoat;
+    private JButton btnGhiLai, btnThoat;
     private final Dimension dimenLabel = new Dimension(200, 25);
     private final Dimension dimenTextField = new Dimension(200, 25);
     private final Color backGroundBlue = new Color(78, 138, 201);
     private Database database;
 
-    public AddAndChangeProductDialog2(Window owner, String title, ProductModel Product, Database database) {
+    // constructor
+    public AddAndChangeProductDialogAdd(Window owner, String title, Database database) {
         super(owner);
         this.setTitle(title);
         this.setModal(true);
         this.database = database;
         initComponents();
-        setInforProduct(Product);
 
         addEvents();
         showDialog(owner);
-
     }
 
     private void initComponents() {
@@ -60,7 +60,6 @@ public class AddAndChangeProductDialog2 extends JDialog {
         JPanel pnMaSanPham = new JPanel();
         pnMaSanPham.setBackground(Color.WHITE);
         txtMaSanPham = new JTextField();
-        txtMaSanPham.setEditable(false);
         txtMaSanPham.setPreferredSize(dimenTextField);
         JLabel lblMaSanPham = new JLabel("Mã sản phẩm: ");
         lblMaSanPham.setFont(new Font(Font.SANS_SERIF, Font.ITALIC, 20));
@@ -82,7 +81,7 @@ public class AddAndChangeProductDialog2 extends JDialog {
         pnGia.setBackground(Color.WHITE);
         txtGia = new JTextField();
         txtGia.setPreferredSize(dimenTextField);
-        JLabel lblGia = new JLabel("Giá: ");
+        JLabel lblGia = new JLabel("Giá ");
         lblGia.setFont(new Font(Font.SANS_SERIF, Font.ITALIC, 20));
         lblGia.setPreferredSize(dimenLabel);
         pnGia.add(lblGia);
@@ -102,7 +101,7 @@ public class AddAndChangeProductDialog2 extends JDialog {
         pnLoai.setBackground(Color.WHITE);
         txtLoai = new JTextField();
         txtLoai.setPreferredSize(dimenTextField);
-        JLabel lblLoai = new JLabel("Loại: ");
+        JLabel lblLoai = new JLabel("Loại ");
         lblLoai.setFont(new Font(Font.SANS_SERIF, Font.ITALIC, 20));
         lblLoai.setPreferredSize(dimenLabel);
         pnLoai.add(lblLoai);
@@ -112,7 +111,7 @@ public class AddAndChangeProductDialog2 extends JDialog {
         pnHan.setBackground(Color.WHITE);
         txtHan = new JTextField();
         txtHan.setPreferredSize(dimenTextField);
-        JLabel lblHan = new JLabel("Hạn: ");
+        JLabel lblHan = new JLabel("Hạn sử dụng: ");
         lblHan.setFont(new Font(Font.SANS_SERIF, Font.ITALIC, 20));
         lblHan.setPreferredSize(dimenLabel);
         pnHan.add(lblHan);
@@ -143,12 +142,12 @@ public class AddAndChangeProductDialog2 extends JDialog {
         pnSouth.setLayout(new FlowLayout(FlowLayout.CENTER));
         pnSouth.setBackground(Color.WHITE);
 
-        btnXacNhan = new JButton("Xác Nhận");
-        btnXacNhan.setBackground(backGroundBlue);
-        btnXacNhan.setForeground(Color.WHITE);
-        btnXacNhan.setPreferredSize(new Dimension(200, 30));
-        JPanel pnbtnXacNhan = new JPanel();
-        pnbtnXacNhan.add(btnXacNhan);
+        btnGhiLai = new JButton("Ghi Lại");
+        btnGhiLai.setBackground(backGroundBlue);
+        btnGhiLai.setForeground(Color.WHITE);
+        btnGhiLai.setPreferredSize(new Dimension(200, 30));
+        JPanel pnbtnGhiLai = new JPanel();
+        pnbtnGhiLai.add(btnGhiLai);
 
         btnThoat = new JButton("Thoát");
         btnThoat.setBackground(backGroundBlue);
@@ -157,7 +156,7 @@ public class AddAndChangeProductDialog2 extends JDialog {
         JPanel pnbtnThoat = new JPanel();
         pnbtnThoat.add(btnThoat);
 
-        pnSouth.add(pnbtnXacNhan);
+        pnSouth.add(pnbtnGhiLai);
         pnSouth.add(pnbtnThoat);
 
         JPanel pnMain = new JPanel();
@@ -179,40 +178,71 @@ public class AddAndChangeProductDialog2 extends JDialog {
                 setVisible(false);
             }
         });
-        btnXacNhan.addActionListener(new ActionListener() {
+        btnGhiLai.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+
+
                 Connection conn = DatabaseConnection.getConnection(database);
                 if (conn != null) {
                     try {
-                        CallableStatement statement = conn.prepareCall("{CALL sp_Product_Update(?,?,?,?,?,?,?)}");
-                        statement.setString(1,txtMaSanPham.getText());
-                        statement.setString(2,txtTenSanPham.getText());
-                        statement.setString(3,txtDonVi.getText());
-                        statement.setString(4,txtLoai.getText());
-                        statement.setString(5,txtHan.getText());
-                        statement.setString(6,txtGia.getText());
-                        statement.setString(7,txtSoLuong.getText());
-                        int result = statement.executeUpdate();
-                        if(result==0){
-                            JOptionPane.showMessageDialog(AddAndChangeProductDialog2.this, "Sửa thất bại!", "Error", JOptionPane.ERROR_MESSAGE);
+                        CallableStatement statement = conn.prepareCall("{ CALL sp_Product_Check(?) }");//gọi đến lệnh trong procerdeur
+                        statement.setString(1, txtMaSanPham.getText());
+                        ResultSet resultSet = statement.executeQuery();
+                        if (resultSet.next()) {
+                            int select = JOptionPane.showConfirmDialog(MainUI.frame, "Mã sản phẩm đã tồn tại.\nBạn có muốn thay đổi?", "Thông báo", JOptionPane.OK_CANCEL_OPTION);
+                            if (select == JOptionPane.OK_OPTION) {
+                                statement = conn.prepareCall("{ CALL sp_Product_Update(?,?,?,?,?,?,?) }");
+                                statement.setString(1, txtMaSanPham.getText());
+                                statement.setString(2, txtTenSanPham.getText());
+                                statement.setString(3, txtDonVi.getText());
+                                statement.setString(4, txtLoai.getText());
+                                statement.setString(5,txtHan.getText());
+                                statement.setString(6, txtGia.getText());
+                                statement.setString(7,txtSoLuong.getText());
+                                int result = statement.executeUpdate();
+                                if(result != 0){
+                                    showListProduct(getAllProducts());
+                                    dispose();
+                                    JOptionPane.showMessageDialog(MainUI.frame, "Sửa thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                                }
+                            }
                         } else {
-                            showListProduct(getAllProducts());
-                            dispose();
-                            JOptionPane.showMessageDialog(AddAndChangeProductDialog2.this, "Sửa thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                            statement = conn.prepareCall("{ CALL sp_Product_Add(?,?,?,?,?,?,?) }");
+                            statement.setString(1, txtMaSanPham.getText());
+                            statement.setString(2, txtTenSanPham.getText());
+                            statement.setString(3, txtDonVi.getText());
+                            statement.setString(4, txtLoai.getText());
+                            statement.setString(5, txtHan.getText());
+                            statement.setString(6,txtGia.getText());
+                            statement.setString(7,txtSoLuong.getText());
+                            int result = statement.executeUpdate();
+                            if(result != 0){
+                                showListProduct(getAllProducts());
+                                dispose();
+                                JOptionPane.showMessageDialog(MainUI.frame, "Thêm thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                            }
                         }
-
                     } catch (SQLException ex) {
                         ex.printStackTrace();
                     }
                 } else {
-                    JOptionPane.showMessageDialog(AddAndChangeProductDialog2.this, "Kết nối CSDL không thành công!", "Error", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(AddAndChangeProductDialogAdd.this, "Kết nối CSDL không thành công!", "Error", JOptionPane.ERROR_MESSAGE);
                 }
-
             }
         });
 
     }
+
+
+
+
+    private ProductModel getProduct() {
+        ProductModel Product = new ProductModel();
+
+        return Product;
+    }
+
     private List<ProductModel> getAllProducts() throws SQLException {
         List<ProductModel> listProduct = new ArrayList<>();
         Connection conn = DatabaseConnection.getConnection(database);
@@ -248,18 +278,6 @@ public class AddAndChangeProductDialog2 extends JDialog {
             vector.add(ProductModel.getSoLuong());
             ProductPanel.dtmDanhSachSP.addRow(vector);
         }
-    }
-
-
-    private void setInforProduct(ProductModel Product) {
-
-        txtMaSanPham.setText(Product.getMaSanPham());
-        txtTenSanPham.setText(Product.getTenSanPham());
-        txtDonVi.setText(Product.getDonVi());
-        txtLoai.setText(Product.getLoai());
-        txtHan.setText(Product.getHan());
-        txtGia.setText(Product.getGia());
-        txtSoLuong.setText(Product.getSoLuong());
     }
 
     private void showDialog(Window owner) {

@@ -4,7 +4,6 @@ import Controller.DatabaseConnection;
 import Model.Database;
 import Model.SupplierModel;
 import com.formdev.flatlaf.FlatIntelliJLaf;
-
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -47,7 +46,7 @@ public class SupplierPanel extends JPanel {
         btnThemMoi.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new AddAndChangeSupplierDialog1(MainUI.frame, "Thêm nhà cung cấp", database);
+                new AddAndChangeSupplierDialogAdd(MainUI.frame, "Thêm nhà cung cấp", database);
                 try {
                     showListSupplier(getAllSuppliers());
                 } catch (SQLException ex) {
@@ -67,7 +66,7 @@ public class SupplierPanel extends JPanel {
                     supplier.setDiaChi((String) tbDsNCC.getValueAt(rowSelected, 2));
                     supplier.setSoDienThoai((String) tbDsNCC.getValueAt(rowSelected, 3));
                     supplier.setSoTaiKhoan((String) tbDsNCC.getValueAt(rowSelected, 4));
-                    new AddAndChangeSupplierDialog2(MainUI.frame, "Sửa nhà cung cấp", supplier, database);
+                    new AddAndChangeSupplierDialogEdit(MainUI.frame, "Sửa nhà cung cấp", supplier, database);
                 } else {
                     JOptionPane.showMessageDialog(MainUI.frame, "bạn chưa chọn hàng", "Lỗi", JOptionPane.ERROR_MESSAGE);
                 }
@@ -98,6 +97,9 @@ public class SupplierPanel extends JPanel {
                             throwables.printStackTrace();
                         }
                     }
+                }
+                else{
+                    JOptionPane.showMessageDialog(null,"chưa chọn hàng","Thông báo",JOptionPane.ERROR_MESSAGE);
                 }
 
             }
@@ -155,6 +157,7 @@ public class SupplierPanel extends JPanel {
         tbDsNCC.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 15));
         tbDsNCC.setShowGrid(true);
         tbDsNCC.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        tbDsNCC.setAutoCreateRowSorter(true);
 
 
         JTableHeader tableHeader = tbDsNCC.getTableHeader();

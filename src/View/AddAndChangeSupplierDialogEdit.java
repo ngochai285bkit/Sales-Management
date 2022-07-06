@@ -19,24 +19,25 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 
-public class AddAndChangeSupplierDialog1 extends JDialog {
+public class AddAndChangeSupplierDialogEdit extends JDialog {
     private JTextField txtMaNhaCungCap, txtDiaChi, txtTenNhaCungCap, txtSDT, txtSoTaiKhoan;
-    private JButton btnGhiLai, btnThoat;
+    private JButton btnXacNhan, btnThoat;
     private final Dimension dimenLabel = new Dimension(200, 25);
     private final Dimension dimenTextField = new Dimension(200, 25);
     private final Color backGroundBlue = new Color(78, 138, 201);
     private Database database;
 
-    // constructor
-    public AddAndChangeSupplierDialog1(Window owner, String title, Database database) {
+    public AddAndChangeSupplierDialogEdit(Window owner, String title, SupplierModel supplier, Database database) {
         super(owner);
         this.setTitle(title);
         this.setModal(true);
         this.database = database;
         initComponents();
+        setInforSupplier(supplier);
 
         addEvents();
         showDialog(owner);
+
     }
 
     private void initComponents() {
@@ -53,11 +54,12 @@ public class AddAndChangeSupplierDialog1 extends JDialog {
         JPanel pnEast = new JPanel();
         pnEast.setLayout(new BoxLayout(pnEast, BoxLayout.Y_AXIS));
         pnEast.setBackground(Color.WHITE);
-        //pnEast.setPreferredSize(new Dimension(400, 0));
+
 
         JPanel pnMaNhaCungCap = new JPanel();
         pnMaNhaCungCap.setBackground(Color.WHITE);
         txtMaNhaCungCap = new JTextField();
+        txtMaNhaCungCap.setEditable(false);
         txtMaNhaCungCap.setPreferredSize(dimenTextField);
         JLabel lblMaNhaCungCap = new JLabel("Mã nhà cung cấp: ");
         lblMaNhaCungCap.setFont(new Font(Font.SANS_SERIF, Font.ITALIC, 20));
@@ -118,12 +120,12 @@ public class AddAndChangeSupplierDialog1 extends JDialog {
         pnSouth.setLayout(new FlowLayout(FlowLayout.CENTER));
         pnSouth.setBackground(Color.WHITE);
 
-        btnGhiLai = new JButton("Ghi Lại");
-        btnGhiLai.setBackground(backGroundBlue);
-        btnGhiLai.setForeground(Color.WHITE);
-        btnGhiLai.setPreferredSize(new Dimension(200, 30));
-        JPanel pnbtnGhiLai = new JPanel();
-        pnbtnGhiLai.add(btnGhiLai);
+        btnXacNhan = new JButton("Xác Nhận");
+        btnXacNhan.setBackground(backGroundBlue);
+        btnXacNhan.setForeground(Color.WHITE);
+        btnXacNhan.setPreferredSize(new Dimension(200, 30));
+        JPanel pnbtnXacNhan = new JPanel();
+        pnbtnXacNhan.add(btnXacNhan);
 
         btnThoat = new JButton("Thoát");
         btnThoat.setBackground(backGroundBlue);
@@ -132,7 +134,7 @@ public class AddAndChangeSupplierDialog1 extends JDialog {
         JPanel pnbtnThoat = new JPanel();
         pnbtnThoat.add(btnThoat);
 
-        pnSouth.add(pnbtnGhiLai);
+        pnSouth.add(pnbtnXacNhan);
         pnSouth.add(pnbtnThoat);
 
         JPanel pnMain = new JPanel();
@@ -154,68 +156,45 @@ public class AddAndChangeSupplierDialog1 extends JDialog {
                 setVisible(false);
             }
         });
-        btnGhiLai.addActionListener(new ActionListener() {
+        btnXacNhan.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
-
                 Connection conn = DatabaseConnection.getConnection(database);
                 if (conn != null) {
                     try {
-                        CallableStatement statement = conn.prepareCall("{ CALL sp_Supplier_Check(?) }");//gọi đến lệnh trong procerdeur
+                        CallableStatement statement = conn.prepareCall("{CALL sp_Supplier_Update(?,?,?,?,?)}");
                         statement.setString(1, txtMaNhaCungCap.getText());
-                        ResultSet resultSet = statement.executeQuery();
-                        if (resultSet.next()) {
-                            int select = JOptionPane.showConfirmDialog(MainUI.frame, "Mã khách hàng đã tồn tại.\nBạn có muốn thay đổi?", "Thông báo", JOptionPane.OK_CANCEL_OPTION);
-                            if (select == JOptionPane.OK_OPTION) {
-                                statement = conn.prepareCall("{ CALL sp_Supplier_Update(?,?,?,?,?) }");
-                                statement.setString(1, txtMaNhaCungCap.getText());
-                                statement.setString(2, txtTenNhaCungCap.getText());
-                                statement.setString(3, txtDiaChi.getText());
-                                statement.setString(4, txtSDT.getText());
-                                statement.setString(5, txtSoTaiKhoan.getText());
-                                int result = statement.executeUpdate();
-                                if(result != 0){
-                                    showListSupplier(getAllSuppliers());
-                                    dispose();
-                                    JOptionPane.showMessageDialog(MainUI.frame, "Sửa thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-                                }
-                            }
+                        statement.setString(2, txtTenNhaCungCap.getText());
+                        statement.setString(3, txtDiaChi.getText());
+                        statement.setString(4, txtSDT.getText());
+                        statement.setString(5, txtSoTaiKhoan.getText());
+                        int result = statement.executeUpdate();
+                        if(result==0){
+                            JOptionPane.showMessageDialog(AddAndChangeSupplierDialogEdit.this, "Sửa thất bại!", "Error", JOptionPane.ERROR_MESSAGE);
                         } else {
-                            statement = conn.prepareCall("{ CALL sp_Supplier_Add(?,?,?,?,?) }");
-                            statement.setString(1, txtMaNhaCungCap.getText());
-                            statement.setString(2, txtTenNhaCungCap.getText());
-                            statement.setString(3, txtDiaChi.getText());
-                            statement.setString(4, txtSDT.getText());
-                            statement.setString(5, txtSoTaiKhoan.getText());
-                            int result = statement.executeUpdate();
-                            if(result != 0){
-                                showListSupplier(getAllSuppliers());
-                                dispose();
-                                JOptionPane.showMessageDialog(MainUI.frame, "Thêm thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-                            }
+                            showListSupplier(getAllSuppliers());
+                            dispose();
+                            JOptionPane.showMessageDialog(AddAndChangeSupplierDialogEdit.this, "Sửa thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
                         }
+
                     } catch (SQLException ex) {
                         ex.printStackTrace();
                     }
                 } else {
-                    JOptionPane.showMessageDialog(AddAndChangeSupplierDialog1.this, "Kết nối CSDL không thành công!", "Error", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(AddAndChangeSupplierDialogEdit.this, "Kết nối CSDL không thành công!", "Error", JOptionPane.ERROR_MESSAGE);
                 }
+
             }
         });
 
     }
-
-
-
-
     private List<SupplierModel> getAllSuppliers() throws SQLException {
         List<SupplierModel> listSupplier = new ArrayList<>();
         Connection conn = DatabaseConnection.getConnection(database);
-        if (conn != null) {
+        if(conn!=null){
             CallableStatement statement = conn.prepareCall("{ CALL sp_Supplier_GetAll() }");
             ResultSet rs = statement.executeQuery();
-            while (rs != null && rs.next()) {
+            while (rs != null && rs.next()){
                 SupplierModel supplierModel = new SupplierModel();
                 supplierModel.setMaNhaCungCap(rs.getString("Ma"));
                 supplierModel.setTenNhaCungCap(rs.getString("Ten"));
@@ -228,9 +207,9 @@ public class AddAndChangeSupplierDialog1 extends JDialog {
         return listSupplier;
     }
 
-    private void showListSupplier(List<SupplierModel> listSuppliers) {
+    private void showListSupplier(List<SupplierModel> listSuppliers){
         SupplierPanel.dtmDanhSachNCC.setRowCount(0);
-        for (SupplierModel supplierModel : listSuppliers) {
+        for(SupplierModel supplierModel:listSuppliers){
             Vector<String> vector = new Vector<>();
             vector.add(supplierModel.getMaNhaCungCap());
             vector.add(supplierModel.getTenNhaCungCap());
@@ -239,6 +218,16 @@ public class AddAndChangeSupplierDialog1 extends JDialog {
             vector.add(supplierModel.getSoTaiKhoan());
             SupplierPanel.dtmDanhSachNCC.addRow(vector);
         }
+    }
+
+
+    private void setInforSupplier(SupplierModel supplier) {
+
+        txtMaNhaCungCap.setText(supplier.getMaNhaCungCap());
+        txtTenNhaCungCap.setText(supplier.getTenNhaCungCap());
+        txtDiaChi.setText(supplier.getDiaChi());
+        txtSDT.setText(supplier.getSoDienThoai());
+        txtSoTaiKhoan.setText(supplier.getSoTaiKhoan());
     }
 
     private void showDialog(Window owner) {
