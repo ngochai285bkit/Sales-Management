@@ -7,6 +7,8 @@ import Model.EmployeeModel;
 import com.formdev.flatlaf.FlatIntelliJLaf;
 
 import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
@@ -18,7 +20,10 @@ import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Locale;
 import java.util.Vector;
 import java.util.List;
 =======
@@ -38,10 +43,12 @@ public class EmployeePanel extends JPanel {
 >>>>>>> 39db23b (Duy Thai update Employee va Customer)
     private JRadioButton rbtnMaNhanVien, rbtnTenNhanVien, rbtnDiaChi, rbtnDienThoai, rbtnChucVu, rbtnNgaySinh, rbtnNgayBatDauLam, rbtnGioiTinh;
     private JTable tbDsNhanVien;
+    private JTextField txtTimKiem;
 
-    public EmployeePanel(){
+    public EmployeePanel() {
 
     }
+
     // constructor
     public EmployeePanel(Database database) {
         this.database = database;
@@ -52,7 +59,7 @@ public class EmployeePanel extends JPanel {
 
     }
 
-    private void initComponents(){
+    private void initComponents() {
         // implementation the top panel
         JPanel pnTop = new JPanel();
         pnTop.setLayout(new BorderLayout());
@@ -126,10 +133,19 @@ public class EmployeePanel extends JPanel {
         pnSouth.setBackground(backGroundColor);
         btnSua = new JButton("Sửa");
         btnSua.setPreferredSize(new Dimension(200, 30));
-        btnThemMoi = new JButton("Thêm Mới");
+        btnSua.setBackground(backGroundBlue);
+        btnSua.setForeground(Color.WHITE);
+        btnSua.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 16));
+        btnThemMoi = new JButton("Thêm mới");
         btnThemMoi.setPreferredSize(new Dimension(200, 30));
+        btnThemMoi.setBackground(backGroundBlue);
+        btnThemMoi.setForeground(Color.WHITE);
+        btnThemMoi.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 16));
         btnXoa = new JButton("Xoá");
         btnXoa.setPreferredSize(new Dimension(200, 30));
+        btnXoa.setBackground(backGroundBlue);
+        btnXoa.setForeground(Color.WHITE);
+        btnXoa.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 16));
         pnSouth.add(Box.createHorizontalGlue());
         pnSouth.add(btnSua);
         pnSouth.add(btnThemMoi);
@@ -174,7 +190,7 @@ public class EmployeePanel extends JPanel {
         buttonGroup.add(rbtnNgayBatDauLam);
         buttonGroup.add(rbtnGioiTinh);
 
-        JTextField txtTimKiem = new JTextField(20);
+        txtTimKiem = new JTextField(20);
         txtTimKiem.putClientProperty("JTextField.placeholderText", "Tìm kiếm");
 
         pnTimKiem.add(txtTimKiem);
@@ -232,6 +248,7 @@ public class EmployeePanel extends JPanel {
         });
 >>>>>>> 39db23b (Duy Thai update Employee va Customer)
     }
+
     private EmployeeModel getEmployee() {
         EmployeeModel employee = new EmployeeModel();
         return employee;
@@ -242,15 +259,23 @@ public class EmployeePanel extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 int rowSelected = tbDsNhanVien.getSelectedRow();
-                if(rowSelected!=-1){
+                if (rowSelected != -1) {
                     EmployeeModel employeeModel = new EmployeeModel();
                     employeeModel.setMaNhanVien((String) tbDsNhanVien.getValueAt(rowSelected, 0));
                     employeeModel.setHoTenNhanVien((String) tbDsNhanVien.getValueAt(rowSelected, 1));
                     employeeModel.setDiaChiNhanVien((String) tbDsNhanVien.getValueAt(rowSelected, 2));
                     employeeModel.setSdtNhanVien((String) tbDsNhanVien.getValueAt(rowSelected, 3));
                     employeeModel.setChucVuNhanVien((String) tbDsNhanVien.getValueAt(rowSelected, 4));
-                    employeeModel.setNgaySinhNhanVien((String) tbDsNhanVien.getValueAt(rowSelected, 5));
-                    employeeModel.setNgayBatDauLam((String) tbDsNhanVien.getValueAt(rowSelected, 6));
+                    try {
+                        employeeModel.setNgaySinhNhanVien(new SimpleDateFormat("dd/MM/yyyy").parse((String) tbDsNhanVien.getValueAt(rowSelected, 5)));
+                    } catch (ParseException ex) {
+                        ex.printStackTrace();
+                    }
+                    try {
+                        employeeModel.setNgayBatDauLam((new SimpleDateFormat("dd/MM/yyyy")).parse((String) tbDsNhanVien.getValueAt(rowSelected, 6)));
+                    } catch (ParseException ex) {
+                        ex.printStackTrace();
+                    }
                     employeeModel.setGioiTinh((String) tbDsNhanVien.getValueAt(rowSelected, 7));
 
                     new AddAndChangeEmployeeDialogEdit(MainUI.frame, "Chỉnh sửa thông tin nhân viên", employeeModel,
@@ -270,13 +295,13 @@ public class EmployeePanel extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 int rowSelected = tbDsNhanVien.getSelectedRow();
-                if(rowSelected!=-1){
+                if (rowSelected != -1) {
                     Connection conn = DatabaseConnection.getConnection(database);
                     try {
                         CallableStatement statement = conn.prepareCall("{ CALL sp_Employee_Delete(?) }");
                         statement.setString(1, (String) tbDsNhanVien.getValueAt(rowSelected, 0));
                         int result = statement.executeUpdate();
-                        if(result!= 0){
+                        if (result != 0) {
                             showListEmployee(getAllEmployee());
                             JOptionPane.showMessageDialog(MainUI.frame, "Xoá thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
                         }
@@ -289,6 +314,128 @@ public class EmployeePanel extends JPanel {
                 }
             }
         });
+
+        txtTimKiem.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                showListEmployee(listFiltered());
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                showListEmployee(listFiltered());
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                showListEmployee(listFiltered());
+            }
+        });
+
+        rbtnMaNhanVien.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showListEmployee(listFiltered());
+            }
+        });
+
+        rbtnTenNhanVien.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showListEmployee(listFiltered());
+            }
+        });
+        rbtnDiaChi.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showListEmployee(listFiltered());
+            }
+        });
+        rbtnDienThoai.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showListEmployee(listFiltered());
+            }
+        });
+        rbtnChucVu.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showListEmployee(listFiltered());
+            }
+        });
+        rbtnGioiTinh.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showListEmployee(listFiltered());
+            }
+        });
+        rbtnNgaySinh.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showListEmployee(listFiltered());
+            }
+        });
+        rbtnNgayBatDauLam.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showListEmployee(listFiltered());
+            }
+        });
+
+    }
+
+    private List<EmployeeModel> listFiltered() {
+        List<EmployeeModel> listLater = new ArrayList<>();
+        String searchText = txtTimKiem.getText().toLowerCase();
+        try {
+            List<EmployeeModel> list = getAllEmployee();
+            for (EmployeeModel employee : list) {
+                if (txtTimKiem.getText().isEmpty()) {
+                    listLater.add(employee);
+                } else {
+                    if (rbtnMaNhanVien.isSelected()) {
+                        if (employee.getMaNhanVien().toLowerCase().contains(searchText)) {
+                            listLater.add(employee);
+                        }
+                    } else if(rbtnTenNhanVien.isSelected()){
+                        if (employee.getHoTenNhanVien().toLowerCase().contains(searchText)) {
+                            listLater.add(employee);
+                        }
+                    } else if(rbtnDiaChi.isSelected()){
+                        if (employee.getDiaChiNhanVien().toLowerCase().contains(searchText)) {
+                            listLater.add(employee);
+                        }
+                    } else if (rbtnDienThoai.isSelected()){
+                        if (employee.getSdtNhanVien().toLowerCase().contains(searchText)) {
+                            listLater.add(employee);
+                        }
+                    } else if(rbtnChucVu.isSelected()){
+                        if (employee.getChucVuNhanVien().toLowerCase().contains(searchText)) {
+                            listLater.add(employee);
+                        }
+                    } else if(rbtnGioiTinh.isSelected()){
+                        if (employee.getGioiTinh().toLowerCase().contains(searchText)) {
+                            listLater.add(employee);
+                        }
+                    } else if(rbtnNgaySinh.isSelected()){
+                        String ngaySinh= new SimpleDateFormat("dd/MM/yyyy").format(employee.getNgaySinhNhanVien());
+                        if(ngaySinh.contains(searchText)){
+                            listLater.add(employee);
+                        }
+                    } else if (rbtnNgayBatDauLam.isSelected()){
+                        String ngayBatDauLam = new SimpleDateFormat("dd/MM/yyyy").format(employee.getNgayBatDauLam());
+                        if(ngayBatDauLam.contains(searchText)){
+                            listLater.add(employee);
+                        }
+
+                    }
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return listLater;
     }
 
     private List<EmployeeModel> getAllEmployee() throws SQLException {
@@ -304,8 +451,16 @@ public class EmployeePanel extends JPanel {
                 employeeModel.setDiaChiNhanVien(rs.getString("DiaChiNV"));
                 employeeModel.setSdtNhanVien(rs.getString("SdtNV"));
                 employeeModel.setChucVuNhanVien(rs.getString("ChucVu"));
-                employeeModel.setNgaySinhNhanVien(rs.getString("NgaySinh"));
-                employeeModel.setNgayBatDauLam(rs.getString("NgayLamViec"));
+                try {
+                    employeeModel.setNgaySinhNhanVien(new SimpleDateFormat("dd/MM/yyyy").parse(rs.getString("NgaySinh")));
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                try {
+                    employeeModel.setNgayBatDauLam(new SimpleDateFormat("dd/MM/yyyy").parse(rs.getString("NgayLamViec")));
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
                 employeeModel.setGioiTinh(rs.getString("GioiTinh"));
                 listEmployee.add(employeeModel);
             }
@@ -322,15 +477,12 @@ public class EmployeePanel extends JPanel {
             vector.add(employeeModel.getDiaChiNhanVien());
             vector.add(employeeModel.getSdtNhanVien());
             vector.add(employeeModel.getChucVuNhanVien());
-            vector.add(employeeModel.getNgaySinhNhanVien());
-            vector.add(employeeModel.getNgayBatDauLam());
+            vector.add(new SimpleDateFormat("dd/MM/yyyy").format(employeeModel.getNgaySinhNhanVien()));
+            vector.add(new SimpleDateFormat("dd/MM/yyyy").format(employeeModel.getNgayBatDauLam()));
             vector.add(employeeModel.getGioiTinh());
             dtmDsNhanVien.addRow(vector);
         }
     }
-
-
-
 
 
     public static void main(String[] args) {

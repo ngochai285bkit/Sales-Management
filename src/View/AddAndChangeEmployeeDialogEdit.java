@@ -3,6 +3,8 @@ package View;
 import Controller.DatabaseConnection;
 import Model.Database;
 import Model.EmployeeModel;
+import org.jdatepicker.JDatePanel;
+import org.jdatepicker.JDatePicker;
 
 import javax.swing.*;
 import java.awt.*;
@@ -12,34 +14,29 @@ import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Vector;
 
 public class AddAndChangeEmployeeDialogEdit extends JDialog {
-    private JTextField txtMaNhanVien, txtDiaChi, txtChucVu, txtTenNhanVien, txtSDT, txtNgaySinh, txtNgayBatDauLam;
+    private JTextField txtMaNhanVien, txtDiaChi, txtChucVu, txtTenNhanVien, txtSDT;
+    private JDatePicker txtNgaySinh, txtNgayBatDauLam;
     private final Dimension dimenLabel = new Dimension(150, 25);
     private final Dimension dimenTextField=  new Dimension(220, 25);
     private final Color backGroundBlue= new Color(78 , 138 , 201);
     private JButton btnXacNhan, btnThoat;
     private final Database database;
     private JComboBox chonGioiTinh;
-
-    // constructor
-//    public AddAndChangeEmployeeDialogAdd(Frame parent, String title, Database database){
-//        super(parent, title, true);
-//        this.database=database;
-//        initComponents();
-//        addEvents();
-//        showDialog(parent);
-//    }
+    private EmployeeModel employee;
 
     public AddAndChangeEmployeeDialogEdit(Frame parent, String title, EmployeeModel employee, Database database){
         super(parent, title , true);
         this.database= database;
+        this.employee= employee;
         initComponents();
-        setInforEmployee(employee);
         addEvents();
         showDialog(parent);
     }
@@ -55,12 +52,19 @@ public class AddAndChangeEmployeeDialogEdit extends JDialog {
 
         //The bottom panel
         JPanel pnBottom = new JPanel();
+        pnBottom.setBorder(BorderFactory.createEmptyBorder(0 ,0, 20,0));
         pnBottom.setBackground(Color.WHITE);
-        pnBottom.setLayout(new FlowLayout(FlowLayout.RIGHT));
+        pnBottom.setLayout(new FlowLayout(FlowLayout.CENTER));
         btnXacNhan = new JButton("Lưu thay đổi");
         btnXacNhan.setPreferredSize(new Dimension(150, 30));
+        btnXacNhan.setBackground(backGroundBlue);
+        btnXacNhan.setForeground(Color.WHITE);
+        btnXacNhan.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 16));
         btnThoat = new JButton("Thoát");
         btnThoat.setPreferredSize(new Dimension(150, 30));
+        btnThoat.setBackground(backGroundBlue);
+        btnThoat.setForeground(Color.WHITE);
+        btnThoat.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 16));
         pnBottom.add(btnXacNhan);
         pnBottom.add(btnThoat);
 
@@ -74,6 +78,7 @@ public class AddAndChangeEmployeeDialogEdit extends JDialog {
         JPanel pnMaNhanVien= new JPanel();
         pnMaNhanVien.setBackground(Color.WHITE);
         txtMaNhanVien = new JTextField();
+        txtMaNhanVien.setEditable(false);
         txtMaNhanVien.setPreferredSize(dimenTextField);
         JLabel lblMaNhanVien = new JLabel("Mã nhân viên: ");
         lblMaNhanVien.setFont(new Font(Font.SANS_SERIF, Font.ITALIC, 20));
@@ -123,7 +128,7 @@ public class AddAndChangeEmployeeDialogEdit extends JDialog {
 
         JPanel pnNgaySinh= new JPanel();
         pnNgaySinh.setBackground(Color.WHITE);
-        txtNgaySinh = new JTextField();
+        txtNgaySinh = new JDatePicker(employee.getNgaySinhNhanVien());
         txtNgaySinh.setPreferredSize(dimenTextField);
         JLabel lblNgaySinh = new JLabel("Ngày sinh: ");
         lblNgaySinh.setFont(new Font(Font.SANS_SERIF, Font.ITALIC, 20));
@@ -133,7 +138,7 @@ public class AddAndChangeEmployeeDialogEdit extends JDialog {
 
         JPanel pnNgayBatDauLam = new JPanel();
         pnNgayBatDauLam.setBackground(Color.WHITE);
-        txtNgayBatDauLam = new JTextField();
+        txtNgayBatDauLam = new JDatePicker(employee.getNgayBatDauLam());
         txtNgayBatDauLam.setPreferredSize(dimenTextField);
         JLabel lblNgayBatDauLam = new JLabel("Ngày làm việc: ");
         lblNgayBatDauLam.setFont(new Font(Font.SANS_SERIF, Font.ITALIC, 20));
@@ -152,6 +157,16 @@ public class AddAndChangeEmployeeDialogEdit extends JDialog {
         pnGioiTinh.add(lblGioiTinh);
         pnGioiTinh.add(chonGioiTinh);
 
+        txtMaNhanVien.setText(employee.getMaNhanVien());
+        txtTenNhanVien.setText(employee.getHoTenNhanVien());
+        txtDiaChi.setText(employee.getDiaChiNhanVien());
+        txtSDT.setText(employee.getSdtNhanVien());
+        txtChucVu.setText(employee.getChucVuNhanVien());
+        if(employee.getGioiTinh().equals("Nam")){
+            chonGioiTinh.setSelectedIndex(0);
+        } else {
+            chonGioiTinh.setSelectedIndex(1);
+        }
 
         pnEast.add(Box.createVerticalGlue());
         pnEast.add(pnMaNhanVien);
@@ -193,9 +208,11 @@ public class AddAndChangeEmployeeDialogEdit extends JDialog {
                         statement.setString(3, txtDiaChi.getText());
                         statement.setString(4, txtSDT.getText());
                         statement.setString(5, txtChucVu.getText());
-                        statement.setString(6, txtNgaySinh.getText());
-                        statement.setString(7, txtNgayBatDauLam.getText());
-                        statement.setString(8, Arrays.toString(chonGioiTinh.getSelectedObjects()));
+                        statement.setString(6,
+                                new SimpleDateFormat("dd/MM/yyyy").format(txtNgaySinh.getModel().getValue()));
+                        statement.setString(7,
+                                new SimpleDateFormat("dd/MM/yyyy").format(txtNgayBatDauLam.getModel().getValue()));
+                        statement.setString(8, (String) chonGioiTinh.getSelectedItem());
 
                         int result = statement.executeUpdate();
                         if (result != 0) {
@@ -213,23 +230,39 @@ public class AddAndChangeEmployeeDialogEdit extends JDialog {
         });
     }
 
-    private java.util.List<EmployeeModel> getAllEmployee() throws SQLException {
+    private List<EmployeeModel> getAllEmployee() {
         List<EmployeeModel> listEmployee = new ArrayList<>();
         Connection conn = DatabaseConnection.getConnection(database);
         if (conn != null) {
-            CallableStatement statement = ((Connection) conn).prepareCall("{ CALL sp_Employee_GetAll() }");
-            ResultSet rs = statement.executeQuery();
-            while (rs != null && rs.next()) {
-                EmployeeModel employeeModel = new EmployeeModel();
-                employeeModel.setMaNhanVien(rs.getString("MaNV"));
-                employeeModel.setHoTenNhanVien(rs.getString("HoTenNV"));
-                employeeModel.setDiaChiNhanVien(rs.getString("DiaChiNV"));
-                employeeModel.setSdtNhanVien(rs.getString("SdtNV"));
-                employeeModel.setChucVuNhanVien(rs.getString("ChucVu"));
-                employeeModel.setNgaySinhNhanVien(rs.getString("NgaySinh"));
-                employeeModel.setNgayBatDauLam(rs.getString("NgayLamViec"));
-                employeeModel.setGioiTinh(rs.getString("GioiTinh"));
-                listEmployee.add(employeeModel);
+            try{
+                CallableStatement statement = ((Connection) conn).prepareCall("{ CALL sp_Employee_GetAll() }");
+                ResultSet rs = statement.executeQuery();
+                while (rs != null && rs.next()) {
+                    EmployeeModel employeeModel = new EmployeeModel();
+                    employeeModel.setMaNhanVien(rs.getString("MaNV"));
+                    employeeModel.setHoTenNhanVien(rs.getString("HoTenNV"));
+                    employeeModel.setDiaChiNhanVien(rs.getString("DiaChiNV"));
+                    employeeModel.setSdtNhanVien(rs.getString("SdtNV"));
+                    employeeModel.setChucVuNhanVien(rs.getString("ChucVu"));
+                    try {
+                        employeeModel.setNgaySinhNhanVien(new SimpleDateFormat("dd/MM/yyyy").parse(rs.getString("NgaySinh")));
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                    try {
+                        employeeModel.setNgayBatDauLam(new SimpleDateFormat("dd/MM/yyyy").parse(rs.getString("NgayLamViec")));
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                    try {
+                        employeeModel.setGioiTinh(rs.getString("GioiTinh"));
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+                    listEmployee.add(employeeModel);
+                }
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
             }
         }
         return listEmployee;
@@ -244,27 +277,13 @@ public class AddAndChangeEmployeeDialogEdit extends JDialog {
             vector.add(employeeModel.getDiaChiNhanVien());
             vector.add(employeeModel.getSdtNhanVien());
             vector.add(employeeModel.getChucVuNhanVien());
-            vector.add(employeeModel.getNgaySinhNhanVien());
-            vector.add(employeeModel.getNgayBatDauLam());
+            vector.add(new SimpleDateFormat("dd/MM/yyyy").format(employeeModel.getNgaySinhNhanVien()));
+            vector.add(new SimpleDateFormat("dd/MM/yyyy").format(employeeModel.getNgayBatDauLam()));
             vector.add(employeeModel.getGioiTinh());
             EmployeePanel.dtmDsNhanVien.addRow(vector);
         }
     }
 
-    private void setInforEmployee(EmployeeModel employee){
-        txtMaNhanVien.setText(employee.getMaNhanVien());
-        txtTenNhanVien.setText(employee.getHoTenNhanVien());
-        txtDiaChi.setText(employee.getDiaChiNhanVien());
-        txtSDT.setText(employee.getSdtNhanVien());
-        txtChucVu.setText(employee.getChucVuNhanVien());
-        txtNgaySinh.setText(employee.getNgaySinhNhanVien());
-        txtNgayBatDauLam.setText(employee.getNgayBatDauLam());
-        if(employee.getGioiTinh().equals("Nam")){
-            chonGioiTinh.setSelectedIndex(0);
-        } else {
-            chonGioiTinh.setSelectedIndex(1);
-        }
-    }
 
     private void showDialog(Frame parent){
         this.setSize(1000,600);

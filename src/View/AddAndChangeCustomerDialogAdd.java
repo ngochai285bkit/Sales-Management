@@ -47,12 +47,19 @@ public class AddAndChangeCustomerDialogAdd extends JDialog {
 
         //The bottom panel
         JPanel pnBottom = new JPanel();
+        pnBottom.setBorder(BorderFactory.createEmptyBorder(0 ,0, 30,0));
         pnBottom.setBackground(Color.WHITE);
         pnBottom.setLayout(new FlowLayout(FlowLayout.CENTER));
         btnXacNhan = new JButton("Lưu thay đổi");
         btnXacNhan.setPreferredSize(new Dimension(150, 30));
+        btnXacNhan.setBackground(backGroundBlue);
+        btnXacNhan.setForeground(Color.WHITE);
+        btnXacNhan.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 16));
         btnThoat = new JButton("Thoát");
         btnThoat.setPreferredSize(new Dimension(150, 30));
+        btnThoat.setBackground(backGroundBlue);
+        btnThoat.setForeground(Color.WHITE);
+        btnThoat.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 16));
         pnBottom.add(btnXacNhan);
         pnBottom.add(btnThoat);
 
@@ -108,13 +115,13 @@ public class AddAndChangeCustomerDialogAdd extends JDialog {
         pnCenter.add(pnTenKhachHang);
         pnCenter.add(pnDiaChi);
         pnCenter.add(pnSDT);
-        pnCenter.add(pnBottom);
         pnCenter.add(Box.createVerticalGlue());
 
         JPanel pnMain = new JPanel();
         pnMain.setLayout(new BorderLayout());
         pnMain.add(pnTop, BorderLayout.NORTH);
         pnMain.add(pnCenter, BorderLayout.CENTER);
+        pnMain.add(pnBottom, BorderLayout.SOUTH);
 
 
         Container con = this.getContentPane();
@@ -205,7 +212,7 @@ public class AddAndChangeCustomerDialogAdd extends JDialog {
 
 
     private void showDialog(Frame parent){
-        this.setSize(600,500);
+        this.setSize(600,450);
         this.setLocationRelativeTo(parent);
         this.setResizable(false);
         this.setVisible(true);

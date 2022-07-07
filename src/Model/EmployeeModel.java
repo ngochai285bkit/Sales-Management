@@ -1,19 +1,22 @@
 package Model;
 
+import java.util.Date;
+
 public class EmployeeModel {
     private String maNhanVien;
     private String hoTenNhanVien;
     private String diaChiNhanVien;
     private String sdtNhanVien;
     private String chucVuNhanVien;
-    private String ngaySinhNhanVien;
-    private String ngayBatDauLam;
+    private Date ngaySinhNhanVien;
+    private Date ngayBatDauLam;
     private String gioiTinh;
 
     public EmployeeModel(){
 
     }
-    public EmployeeModel(String maNhanVien, String hoTenNhanVien, String diaChiNhanVien, String sdtNhanVien, String chucVuNhanVien, String ngaySinhNhanVien, String ngayBatDauLam, String gioiTinh) {
+    public EmployeeModel(String maNhanVien, String hoTenNhanVien, String diaChiNhanVien, String sdtNhanVien,
+                         String chucVuNhanVien, Date ngaySinhNhanVien, Date ngayBatDauLam, String gioiTinh) {
         this.maNhanVien = maNhanVien;
         this.hoTenNhanVien = hoTenNhanVien;
         this.diaChiNhanVien = diaChiNhanVien;
@@ -56,19 +59,19 @@ public class EmployeeModel {
         this.chucVuNhanVien = chucVuNhanVien;
     }
 
-    public String getNgaySinhNhanVien() {
+    public Date getNgaySinhNhanVien() {
         return ngaySinhNhanVien;
     }
 
-    public void setNgaySinhNhanVien(String ngaySinhNhanVien) {
+    public void setNgaySinhNhanVien(Date ngaySinhNhanVien) {
         this.ngaySinhNhanVien = ngaySinhNhanVien;
     }
 
-    public String getNgayBatDauLam() {
+    public Date getNgayBatDauLam() {
         return ngayBatDauLam;
     }
 
-    public void setNgayBatDauLam(String ngayBatDauLam) {
+    public void setNgayBatDauLam(Date ngayBatDauLam) {
         this.ngayBatDauLam = ngayBatDauLam;
     }
 

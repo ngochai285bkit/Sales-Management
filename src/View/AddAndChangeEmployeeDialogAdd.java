@@ -3,6 +3,7 @@ package View;
 import Controller.DatabaseConnection;
 import Model.Database;
 import Model.EmployeeModel;
+import org.jdatepicker.JDatePicker;
 
 import javax.swing.*;
 import java.awt.*;
@@ -12,14 +13,15 @@ import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Vector;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 import java.util.List;
 
 
 public class AddAndChangeEmployeeDialogAdd extends JDialog {
-    private JTextField txtMaNhanVien, txtDiaChi, txtChucVu, txtTenNhanVien, txtSDT, txtNgaySinh, txtNgayBatDauLam;
+    private JTextField txtMaNhanVien, txtDiaChi, txtChucVu, txtTenNhanVien, txtSDT;
+    private JDatePicker txtNgaySinh, txtNgayBatDauLam;
     private final Dimension dimenLabel = new Dimension(150, 25);
     private final Dimension dimenTextField=  new Dimension(220, 25);
     private final Color backGroundBlue= new Color(78 , 138 , 201);
@@ -55,12 +57,19 @@ public class AddAndChangeEmployeeDialogAdd extends JDialog {
 
         //The bottom panel
         JPanel pnBottom = new JPanel();
+        pnBottom.setBorder(BorderFactory.createEmptyBorder(0 ,0, 20,0));
         pnBottom.setBackground(Color.WHITE);
-        pnBottom.setLayout(new FlowLayout(FlowLayout.RIGHT));
+        pnBottom.setLayout(new FlowLayout(FlowLayout.CENTER));
         btnXacNhan = new JButton("Lưu thay đổi");
         btnXacNhan.setPreferredSize(new Dimension(150, 30));
+        btnXacNhan.setBackground(backGroundBlue);
+        btnXacNhan.setForeground(Color.WHITE);
+        btnXacNhan.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 16));
         btnThoat = new JButton("Thoát");
         btnThoat.setPreferredSize(new Dimension(150, 30));
+        btnThoat.setBackground(backGroundBlue);
+        btnThoat.setForeground(Color.WHITE);
+        btnThoat.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 16));
         pnBottom.add(btnXacNhan);
         pnBottom.add(btnThoat);
 
@@ -123,7 +132,9 @@ public class AddAndChangeEmployeeDialogAdd extends JDialog {
 
         JPanel pnNgaySinh= new JPanel();
         pnNgaySinh.setBackground(Color.WHITE);
-        txtNgaySinh = new JTextField();
+        Calendar cal = Calendar.getInstance();
+        Date now = cal.getTime();
+        txtNgaySinh = new JDatePicker(now);
         txtNgaySinh.setPreferredSize(dimenTextField);
         JLabel lblNgaySinh = new JLabel("Ngày sinh: ");
         lblNgaySinh.setFont(new Font(Font.SANS_SERIF, Font.ITALIC, 20));
@@ -133,7 +144,7 @@ public class AddAndChangeEmployeeDialogAdd extends JDialog {
 
         JPanel pnNgayBatDauLam = new JPanel();
         pnNgayBatDauLam.setBackground(Color.WHITE);
-        txtNgayBatDauLam = new JTextField();
+        txtNgayBatDauLam = new JDatePicker(now);
         txtNgayBatDauLam.setPreferredSize(dimenTextField);
         JLabel lblNgayBatDauLam = new JLabel("Ngày làm việc: ");
         lblNgayBatDauLam.setFont(new Font(Font.SANS_SERIF, Font.ITALIC, 20));
@@ -202,9 +213,11 @@ public class AddAndChangeEmployeeDialogAdd extends JDialog {
                                 statement.setString(3, txtDiaChi.getText());
                                 statement.setString(4, txtSDT.getText());
                                 statement.setString(5, txtChucVu.getText());
-                                statement.setString(6, txtNgaySinh.getText());
-                                statement.setString(7, txtNgayBatDauLam.getText());
-                                statement.setString(8, Arrays.toString(chonGioiTinh.getSelectedObjects()));
+                                statement.setString(6,
+                                        new SimpleDateFormat("dd/MM/yyyy").format(txtNgaySinh.getModel().getValue()));
+                                statement.setString(7,
+                                        new SimpleDateFormat("dd/MM/yyyy").format(txtNgayBatDauLam.getModel().getValue()));
+                                statement.setString(8, (String) chonGioiTinh.getSelectedItem());
                                 int result = statement.executeUpdate();
                                 if(result!= 0 ){
                                     showListEmployee(getAllEmployee());
@@ -219,9 +232,11 @@ public class AddAndChangeEmployeeDialogAdd extends JDialog {
                             statement.setString(3, txtDiaChi.getText());
                             statement.setString(4, txtSDT.getText());
                             statement.setString(5, txtChucVu.getText());
-                            statement.setString(6, txtNgaySinh.getText());
-                            statement.setString(7, txtNgayBatDauLam.getText());
-                            statement.setString(8, Arrays.toString(chonGioiTinh.getSelectedObjects()));
+                            statement.setString(6,
+                                    new SimpleDateFormat("dd/MM/yyyy").format(txtNgaySinh.getModel().getValue()));
+                            statement.setString(7,
+                                    new SimpleDateFormat("dd/MM/yyyy").format(txtNgayBatDauLam.getModel().getValue()));
+                            statement.setString(8, (String) chonGioiTinh.getSelectedItem());
                             int result = statement.executeUpdate();
                             if(result!= 0 ){
                                 showListEmployee(getAllEmployee());
@@ -251,8 +266,16 @@ public class AddAndChangeEmployeeDialogAdd extends JDialog {
                 employeeModel.setDiaChiNhanVien(rs.getString("DiaChiNV"));
                 employeeModel.setSdtNhanVien(rs.getString("SdtNV"));
                 employeeModel.setChucVuNhanVien(rs.getString("ChucVu"));
-                employeeModel.setNgaySinhNhanVien(rs.getString("NgaySinh"));
-                employeeModel.setNgayBatDauLam(rs.getString("NgayLamViec"));
+                try {
+                    employeeModel.setNgaySinhNhanVien(new SimpleDateFormat("dd/MM/yyyy").parse(rs.getString("NgaySinh")));
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                try {
+                    employeeModel.setNgayBatDauLam(new SimpleDateFormat("dd/MM/yyyy").parse(rs.getString("NgayLamViec")));
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
                 employeeModel.setGioiTinh(rs.getString("GioiTinh"));
                 listEmployee.add(employeeModel);
             }
@@ -269,8 +292,8 @@ public class AddAndChangeEmployeeDialogAdd extends JDialog {
             vector.add(employeeModel.getDiaChiNhanVien());
             vector.add(employeeModel.getSdtNhanVien());
             vector.add(employeeModel.getChucVuNhanVien());
-            vector.add(employeeModel.getNgaySinhNhanVien());
-            vector.add(employeeModel.getNgayBatDauLam());
+            vector.add(new SimpleDateFormat("dd/MM/yyyy").format(employeeModel.getNgaySinhNhanVien()));
+            vector.add(new SimpleDateFormat("dd/MM/yyyy").format(employeeModel.getNgayBatDauLam()));
             vector.add(employeeModel.getGioiTinh());
             EmployeePanel.dtmDsNhanVien.addRow(vector);
         }

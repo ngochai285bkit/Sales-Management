@@ -108,10 +108,20 @@ public class CustomerPanel extends JPanel {
         pnSouth.setBackground(backGroundColor);
         btnSua = new JButton("Sửa");
         btnSua.setPreferredSize(new Dimension(200, 30));
-        btnThemMoi = new JButton("Thêm Mới");
+        btnSua.setBackground(backGroundBlue);
+        btnSua.setForeground(Color.WHITE);
+        btnSua.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 16));
+        btnThemMoi = new JButton("Thêm mới");
         btnThemMoi.setPreferredSize(new Dimension(200, 30));
+        btnThemMoi.setBackground(backGroundBlue);
+        btnThemMoi.setForeground(Color.WHITE);
+        btnThemMoi.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 16));
         btnXoa = new JButton("Xoá");
         btnXoa.setPreferredSize(new Dimension(200, 30));
+        btnXoa.setBackground(backGroundBlue);
+        btnXoa.setForeground(Color.WHITE);
+        btnXoa.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 16));
+
         pnSouth.add(Box.createHorizontalGlue());
         pnSouth.add(btnSua);
         pnSouth.add(btnThemMoi);
