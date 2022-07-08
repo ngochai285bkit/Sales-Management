@@ -1,7 +1,6 @@
 package View;
 
 import Controller.DatabaseConnection;
-import Model.CustomerModel;
 import Model.Database;
 import Model.EmployeeModel;
 import com.formdev.flatlaf.FlatIntelliJLaf;
@@ -15,7 +14,6 @@ import javax.swing.table.JTableHeader;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-<<<<<<< HEAD
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -23,11 +21,8 @@ import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Locale;
-import java.util.Vector;
 import java.util.List;
-=======
->>>>>>> 39db23b (Duy Thai update Employee va Customer)
+import java.util.Vector;
 
 public class EmployeePanel extends JPanel {
     // attributes
@@ -36,11 +31,8 @@ public class EmployeePanel extends JPanel {
     private final Color backGroundBlue = new Color(78, 138, 201);
     private final Font font = new Font(Font.SANS_SERIF, Font.PLAIN, 18);
     private JButton btnSua, btnThemMoi, btnXoa;
-<<<<<<< HEAD
     public static DefaultTableModel dtmDsNhanVien;
-=======
-    private static DefaultTableModel dtmDsNhanVien;
->>>>>>> 39db23b (Duy Thai update Employee va Customer)
+
     private JRadioButton rbtnMaNhanVien, rbtnTenNhanVien, rbtnDiaChi, rbtnDienThoai, rbtnChucVu, rbtnNgaySinh, rbtnNgayBatDauLam, rbtnGioiTinh;
     private JTable tbDsNhanVien;
     private JTextField txtTimKiem;
@@ -118,14 +110,11 @@ public class EmployeePanel extends JPanel {
         tbDsNhanVien.getColumnModel().getColumn(7).setCellRenderer(cellRendererCenter);
         pnCenter.add(scrollDanhSachKH, BorderLayout.CENTER);
 
-<<<<<<< HEAD
         try {
             showListEmployee(getAllEmployee());
         } catch (SQLException e) {
             e.printStackTrace();
         }
-=======
->>>>>>> 39db23b (Duy Thai update Employee va Customer)
         //Panel bottom
 
         JPanel pnSouth = new JPanel();
@@ -229,24 +218,6 @@ public class EmployeePanel extends JPanel {
         this.add(pnTop, BorderLayout.NORTH);
         this.add(pnCenterMain, BorderLayout.CENTER);
         this.add(pnEast, BorderLayout.EAST);
-<<<<<<< HEAD
-=======
-    }
-
-    public void addEvents() {
-        btnSua.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                new AddAndChangeEmployeeDialog(MainUI.frame, "Sửa thông tin nhân viên", database);
-            }
-        });
-        btnThemMoi.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                new AddAndChangeEmployeeDialog(MainUI.frame, "Thêm nhân viên", database);
-            }
-        });
->>>>>>> 39db23b (Duy Thai update Employee va Customer)
     }
 
     private EmployeeModel getEmployee() {
@@ -254,7 +225,7 @@ public class EmployeePanel extends JPanel {
         return employee;
     }
 
-    public void addEvents() {
+    private void addEvents() {
         btnSua.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
