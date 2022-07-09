@@ -44,196 +44,6 @@ public class ProductPanel extends JPanel {
         initComponents();
         addEvents();
     }
-
-    private void addEvents() {
-
-        btnThemMoi.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                new AddAndChangeProductDialogAdd(MainUI.frame, "Thêm sản phẩm", database);
-                try {
-                    showListProduct(getAllProducts());
-                } catch (SQLException ex) {
-                    ex.printStackTrace();
-                }
-            }
-        });
-        btnSua.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-                int rowSelected = tbDsSP.getSelectedRow();
-                if (rowSelected != -1) {
-                    product = new ProductModel();
-                    product.setMaSanPham((String) tbDsSP.getValueAt(rowSelected, 0));
-                    product.setTenSanPham((String) tbDsSP.getValueAt(rowSelected, 1));
-                    product.setDonVi((String) tbDsSP.getValueAt(rowSelected, 2));
-                    product.setLoai((String) tbDsSP.getValueAt(rowSelected, 3));
-                    product.setGia((String) tbDsSP.getValueAt(rowSelected, 5));
-                    Date hsd = null;
-                    try {
-                        hsd = new SimpleDateFormat("dd/MM/yyyy").parse((String) tbDsSP.getValueAt(rowSelected, 4));
-
-                    } catch (ParseException ex) {
-                        ex.printStackTrace();
-                    }
-                    product.setHan(hsd);
-                    product.setSoLuong((String) tbDsSP.getValueAt(rowSelected, 6));
-                    new AddAndChangeProductDialogEdit(MainUI.frame, "Sửa sản phẩm", product, database);
-                } else {
-                    JOptionPane.showMessageDialog(MainUI.frame, "bạn chưa chọn hàng", "Lỗi", JOptionPane.ERROR_MESSAGE);
-                }
-                try {
-                    showListProduct(getAllProducts());
-                } catch (SQLException ex) {
-                    ex.printStackTrace();
-                }
-            }
-        });
-        btnXoa.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                int rowSelected = tbDsSP.getSelectedRow();
-                if (rowSelected != -1) {
-                    Connection conn = DatabaseConnection.getConnection(database);
-                    if (conn != null) {
-                        try {
-                            CallableStatement statement = conn.prepareCall("{ CALL sp_Product_Delete(?)} ");
-                            statement.setString(1, (String) tbDsSP.getValueAt(rowSelected, 0));
-                            int result = statement.executeUpdate();
-                            if (result != 0) {
-                                showListProduct(getAllProducts());
-                                JOptionPane.showMessageDialog(null, "Xóa thành công", "thông báo", JOptionPane.INFORMATION_MESSAGE);
-                            }
-
-                        } catch (SQLException throwables) {
-                            throwables.printStackTrace();
-                        }
-                    }
-                }
-                else {
-                    JOptionPane.showMessageDialog(null,"chưa chọn hàng","Lỗi",JOptionPane.ERROR_MESSAGE);
-                }
-
-            }
-        });
-
-        txtTimKiem.getDocument().addDocumentListener(new DocumentListener() {
-            @Override
-            public void insertUpdate(DocumentEvent e) {
-                showListProduct(listFiltered());
-            }
-
-            @Override
-            public void removeUpdate(DocumentEvent e) {
-                showListProduct(listFiltered());
-            }
-
-            @Override
-            public void changedUpdate(DocumentEvent e) {
-                showListProduct(listFiltered());
-
-            }
-        });
-        rbtnMaSanPham.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                showListProduct(listFiltered());
-            }
-        });
-        rbtnTenSanPham.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                showListProduct(listFiltered());
-            }
-        });
-        rbtnLoai.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                showListProduct(listFiltered());
-            }
-        });
-        rbtnDonVi.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                showListProduct(listFiltered());
-            }
-        });
-        rbtnHan.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                showListProduct(listFiltered());
-            }
-        });
-        rbtnGia.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                showListProduct(listFiltered());
-            }
-        });
-
-        rbtnSoLuong.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                showListProduct(listFiltered());
-            }
-        });
-    }
-
-
-
-    private List<ProductModel> listFiltered() {
-        List< ProductModel> listLater = new ArrayList<>();
-        String searchText = txtTimKiem.getText().toLowerCase();
-        try {
-            List< ProductModel> list = getAllProducts();
-            for ( ProductModel  Product : list) {
-                if (txtTimKiem.getText().isEmpty()) {
-                    listLater.add( Product);
-                } else {
-                    if (rbtnMaSanPham.isSelected()) {
-                        if ( product.getMaSanPham().toLowerCase().contains(searchText)) {
-                            listLater.add( product);
-                        }
-                    } else if(rbtnTenSanPham.isSelected()){
-                        if ( product.getTenSanPham().toLowerCase().contains(searchText)) {
-                            listLater.add( product);
-                        }
-                    } else if(rbtnLoai.isSelected()){
-                        if ( product.getLoai().toLowerCase().contains(searchText)) {
-                            listLater.add( product);
-                        }
-                    } else if (rbtnDonVi.isSelected()){
-                        if ( product.getDonVi().toLowerCase().contains(searchText)) {
-                            listLater.add( product);
-                        }
-                    } else if(rbtnHan.isSelected()){
-                        String han = new SimpleDateFormat("dd/MM/yyyy").format(product.getHan());
-                        if ( han.contains(searchText)) {
-                            listLater.add( product);
-                        }
-                    } else if(rbtnGia.isSelected()){
-                        if ( product.getGia().toLowerCase().contains(searchText)) {
-                            listLater.add( product);
-                        }
-                    } else if(rbtnSoLuong.isSelected()){
-                        String ngaySinh= new SimpleDateFormat("dd/MM/yyyy").format( product.getSoLuong());
-                        if(ngaySinh.contains(searchText)){
-                            listLater.add( product);
-                        }
-                    }
-                    }
-                }
-
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return listLater;
-    }
-
-
-
     private void initComponents() {
         // implementation the top panel
         JPanel pnTop = new JPanel();
@@ -415,6 +225,193 @@ public class ProductPanel extends JPanel {
 
 
     }
+    private void addEvents() {
+
+        btnThemMoi.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new AddAndChangeProductDialogAdd(MainUI.frame, "Thêm sản phẩm", database);
+                try {
+                    showListProduct(getAllProducts());
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        });
+        btnSua.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                int rowSelected = tbDsSP.getSelectedRow();
+                if (rowSelected != -1) {
+                    product = new ProductModel();
+                    product.setMaSanPham((String) tbDsSP.getValueAt(rowSelected, 0));
+                    product.setTenSanPham((String) tbDsSP.getValueAt(rowSelected, 1));
+                    product.setDonVi((String) tbDsSP.getValueAt(rowSelected, 2));
+                    product.setLoai((String) tbDsSP.getValueAt(rowSelected, 3));
+                    product.setGia((String) tbDsSP.getValueAt(rowSelected, 5));
+                    Date hsd = null;
+                    try {
+                        hsd = new SimpleDateFormat("dd/MM/yyyy").parse((String) tbDsSP.getValueAt(rowSelected, 4));
+
+                    } catch (ParseException ex) {
+                        ex.printStackTrace();
+                    }
+                    product.setHan(hsd);
+                    product.setSoLuong((String) tbDsSP.getValueAt(rowSelected, 6));
+                    new AddAndChangeProductDialogEdit(MainUI.frame, "Sửa sản phẩm", product, database);
+                } else {
+                    JOptionPane.showMessageDialog(MainUI.frame, "bạn chưa chọn hàng", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                }
+                try {
+                    showListProduct(getAllProducts());
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        });
+        btnXoa.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int rowSelected = tbDsSP.getSelectedRow();
+                if (rowSelected != -1) {
+                    Connection conn = DatabaseConnection.getConnection(database);
+                    if (conn != null) {
+                        try {
+                            CallableStatement statement = conn.prepareCall("{ CALL sp_Product_Delete(?)} ");
+                            statement.setString(1, (String) tbDsSP.getValueAt(rowSelected, 0));
+                            int result = statement.executeUpdate();
+                            if (result != 0) {
+                                showListProduct(getAllProducts());
+                                JOptionPane.showMessageDialog(null, "Xóa thành công", "thông báo", JOptionPane.INFORMATION_MESSAGE);
+                            }
+
+                        } catch (SQLException throwables) {
+                            throwables.printStackTrace();
+                        }
+                    }
+                }
+                else {
+                    JOptionPane.showMessageDialog(null,"chưa chọn hàng","Lỗi",JOptionPane.ERROR_MESSAGE);
+                }
+
+            }
+        });
+
+        txtTimKiem.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                showListProduct(listFiltered());
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                showListProduct(listFiltered());
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                showListProduct(listFiltered());
+
+            }
+        });
+        rbtnMaSanPham.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showListProduct(listFiltered());
+            }
+        });
+        rbtnTenSanPham.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showListProduct(listFiltered());
+            }
+        });
+        rbtnLoai.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showListProduct(listFiltered());
+            }
+        });
+        rbtnDonVi.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showListProduct(listFiltered());
+            }
+        });
+        rbtnHan.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showListProduct(listFiltered());
+            }
+        });
+        rbtnGia.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showListProduct(listFiltered());
+            }
+        });
+
+        rbtnSoLuong.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showListProduct(listFiltered());
+            }
+        });
+    }
+
+
+
+    private List<ProductModel> listFiltered() {
+        List< ProductModel> listLater = new ArrayList<>();
+        String searchText = txtTimKiem.getText().toLowerCase();
+        try {
+            List< ProductModel> list = getAllProducts();
+            for ( ProductModel  product : list) {
+                if (txtTimKiem.getText().isEmpty()) {
+                    listLater.add( product);
+                } else {
+                    if (rbtnMaSanPham.isSelected()) {
+                        if ( product.getMaSanPham().toLowerCase().contains(searchText)) {
+                            listLater.add( product);
+                        }
+                    } else if(rbtnTenSanPham.isSelected()){
+                        if ( product.getTenSanPham().toLowerCase().contains(searchText)) {
+                            listLater.add( product);
+                        }
+                    } else if(rbtnLoai.isSelected()){
+                        if ( product.getLoai().toLowerCase().contains(searchText)) {
+                            listLater.add( product);
+                        }
+                    } else if (rbtnDonVi.isSelected()){
+                        if ( product.getDonVi().toLowerCase().contains(searchText)) {
+                            listLater.add( product);
+                        }
+                    } else if(rbtnHan.isSelected()){
+                        String han = new SimpleDateFormat("dd/MM/yyyy").format(product.getHan());
+                        if ( han.contains(searchText)) {
+                            listLater.add( product);
+                        }
+                    } else if(rbtnGia.isSelected()){
+                        if ( product.getGia().toLowerCase().contains(searchText)) {
+                            listLater.add( product);
+                        }
+                    } else if(rbtnSoLuong.isSelected()){
+                        String ngaySinh= new SimpleDateFormat("dd/MM/yyyy").format( product.getSoLuong());
+                        if(ngaySinh.contains(searchText)){
+                            listLater.add( product);
+                        }
+                    }
+                }
+            }
+
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return listLater;
+    }
+
 
     private ProductModel getProduct() {
         ProductModel Product = new ProductModel();

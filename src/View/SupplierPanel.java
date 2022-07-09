@@ -44,164 +44,6 @@ public class SupplierPanel extends JPanel {
         initComponents();
         addEvents();
     }
-
-    private void addEvents() {
-
-        btnThemMoi.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                new AddAndChangeSupplierDialogAdd(MainUI.frame, "Thêm nhà cung cấp", database);
-                try {
-                    showListSupplier(getAllSuppliers());
-                } catch (SQLException ex) {
-                    ex.printStackTrace();
-                }
-            }
-        });
-        btnSua.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-                int rowSelected = tbDsNCC.getSelectedRow();
-                if (rowSelected != -1) {
-                    supplier = new SupplierModel();
-                    supplier.setMaNhaCungCap((String) tbDsNCC.getValueAt(rowSelected, 0));
-                    supplier.setTenNhaCungCap((String) tbDsNCC.getValueAt(rowSelected, 1));
-                    supplier.setDiaChi((String) tbDsNCC.getValueAt(rowSelected, 2));
-                    supplier.setSoDienThoai((String) tbDsNCC.getValueAt(rowSelected, 3));
-                    supplier.setSoTaiKhoan((String) tbDsNCC.getValueAt(rowSelected, 4));
-                    new AddAndChangeSupplierDialogEdit(MainUI.frame, "Sửa nhà cung cấp", supplier, database);
-                } else {
-                    JOptionPane.showMessageDialog(MainUI.frame, "bạn chưa chọn hàng", "Lỗi", JOptionPane.ERROR_MESSAGE);
-                }
-                try {
-                    showListSupplier(getAllSuppliers());
-                } catch (SQLException ex) {
-                    ex.printStackTrace();
-                }
-            }
-        });
-        btnXoa.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                int rowSelected = tbDsNCC.getSelectedRow();
-                if (rowSelected != -1) {
-                    Connection conn = DatabaseConnection.getConnection(database);
-                    if (conn != null) {
-                        try {
-                            CallableStatement statement = conn.prepareCall("{ CALL sp_Supplier_Delete(?)} ");
-                            statement.setString(1, (String) tbDsNCC.getValueAt(rowSelected, 0));
-                            int result = statement.executeUpdate();
-                            if (result != 0) {
-                                showListSupplier(getAllSuppliers());
-                                JOptionPane.showMessageDialog(null, "Xóa thành công", "thông báo", JOptionPane.INFORMATION_MESSAGE);
-                            }
-
-                        } catch (SQLException throwables) {
-                            throwables.printStackTrace();
-                        }
-                    }
-                }
-                else{
-                    JOptionPane.showMessageDialog(null,"chưa chọn hàng","Thông báo",JOptionPane.ERROR_MESSAGE);
-                }
-
-            }
-        });
-
-        txtTimKiem.getDocument().addDocumentListener(new DocumentListener() {
-            @Override
-            public void insertUpdate(DocumentEvent e) {
-                showListSupplier(listFiltered());
-            }
-
-            @Override
-            public void removeUpdate(DocumentEvent e) {
-                showListSupplier(listFiltered());
-            }
-
-            @Override
-            public void changedUpdate(DocumentEvent e) {
-                showListSupplier(listFiltered());
-
-            }
-        });
-        rbtnMaNhaCungCap.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                showListSupplier(listFiltered());
-            }
-        });
-        rbtnTenNhaCungCap.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                showListSupplier(listFiltered());
-            }
-        });
-        rbtnDiaChiNhaCungCap.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                showListSupplier(listFiltered());
-            }
-        });
-        rbtnDienThoai.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                showListSupplier(listFiltered());
-            }
-        });
-        rbtnSoTaiKhoan.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                showListSupplier(listFiltered());
-            }
-        });}
-        
-
-
-
-    private List<SupplierModel> listFiltered() {
-        List< SupplierModel> listLater = new ArrayList<>();
-        String searchText = txtTimKiem.getText().toLowerCase();
-        try {
-            List< SupplierModel> list = getAllSuppliers();
-            for ( SupplierModel  Supplier : list) {
-                if (txtTimKiem.getText().isEmpty()) {
-                    listLater.add( supplier);
-                } else {
-                    if (rbtnMaNhaCungCap.isSelected()) {
-                        if ( Supplier.getMaNhaCungCap().toLowerCase().contains(searchText)) {
-                            listLater.add( Supplier);
-                        }
-                    } else if(rbtnTenNhaCungCap.isSelected()){
-                        if ( Supplier.getTenNhaCungCap().toLowerCase().contains(searchText)) {
-                            listLater.add( Supplier);
-                        }
-                    } else if(rbtnDiaChiNhaCungCap.isSelected()){
-                        if ( Supplier.getDiaChi().toLowerCase().contains(searchText)) {
-                            listLater.add( Supplier);
-                        }
-                    } else if (rbtnDienThoai.isSelected()){
-                        if ( Supplier.getSoDienThoai().toLowerCase().contains(searchText)) {
-                            listLater.add( Supplier);
-                        }
-
-                    } else if(rbtnSoTaiKhoan.isSelected()){
-                        if ( Supplier.getSoTaiKhoan().toLowerCase().contains(searchText)) {
-                            listLater.add( Supplier);
-                        }
-                    }
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return listLater;
-}
-
-
-
-
     private void initComponents() {
                 // implementation the top panel
                 JPanel pnTop = new JPanel();
@@ -372,6 +214,159 @@ public class SupplierPanel extends JPanel {
 
     }
 
+    private void addEvents() {
+
+        btnThemMoi.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new AddAndChangeSupplierDialogAdd(MainUI.frame, "Thêm nhà cung cấp", database);
+                try {
+                    showListSupplier(getAllSuppliers());
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        });
+        btnSua.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                int rowSelected = tbDsNCC.getSelectedRow();
+                if (rowSelected != -1) {
+                    supplier = new SupplierModel();
+                    supplier.setMaNhaCungCap((String) tbDsNCC.getValueAt(rowSelected, 0));
+                    supplier.setTenNhaCungCap((String) tbDsNCC.getValueAt(rowSelected, 1));
+                    supplier.setDiaChi((String) tbDsNCC.getValueAt(rowSelected, 2));
+                    supplier.setSoDienThoai((String) tbDsNCC.getValueAt(rowSelected, 3));
+                    supplier.setSoTaiKhoan((String) tbDsNCC.getValueAt(rowSelected, 4));
+                    new AddAndChangeSupplierDialogEdit(MainUI.frame, "Sửa nhà cung cấp", supplier, database);
+                } else {
+                    JOptionPane.showMessageDialog(MainUI.frame, "bạn chưa chọn hàng", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                }
+                try {
+                    showListSupplier(getAllSuppliers());
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        });
+        btnXoa.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int rowSelected = tbDsNCC.getSelectedRow();
+                if (rowSelected != -1) {
+                    Connection conn = DatabaseConnection.getConnection(database);
+                    if (conn != null) {
+                        try {
+                            CallableStatement statement = conn.prepareCall("{ CALL sp_Supplier_Delete(?)} ");
+                            statement.setString(1, (String) tbDsNCC.getValueAt(rowSelected, 0));
+                            int result = statement.executeUpdate();
+                            if (result != 0) {
+                                showListSupplier(getAllSuppliers());
+                                JOptionPane.showMessageDialog(null, "Xóa thành công", "thông báo", JOptionPane.INFORMATION_MESSAGE);
+                            }
+
+                        } catch (SQLException throwables) {
+                            throwables.printStackTrace();
+                        }
+                    }
+                }
+                else{
+                    JOptionPane.showMessageDialog(null,"chưa chọn hàng","Thông báo",JOptionPane.ERROR_MESSAGE);
+                }
+
+            }
+        });
+
+        txtTimKiem.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                showListSupplier(listFiltered());
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                showListSupplier(listFiltered());
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                showListSupplier(listFiltered());
+
+            }
+        });
+        rbtnMaNhaCungCap.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showListSupplier(listFiltered());
+            }
+        });
+        rbtnTenNhaCungCap.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showListSupplier(listFiltered());
+            }
+        });
+        rbtnDiaChiNhaCungCap.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showListSupplier(listFiltered());
+            }
+        });
+        rbtnDienThoai.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showListSupplier(listFiltered());
+            }
+        });
+        rbtnSoTaiKhoan.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showListSupplier(listFiltered());
+            }
+        });}
+
+
+
+
+    private List<SupplierModel> listFiltered() {
+        List< SupplierModel> listLater = new ArrayList<>();
+        String searchText = txtTimKiem.getText().toLowerCase();
+        try {
+            List< SupplierModel> list = getAllSuppliers();
+            for ( SupplierModel  supplier : list) {
+                if (txtTimKiem.getText().isEmpty()) {
+                    listLater.add( supplier);
+                } else {
+                    if (rbtnMaNhaCungCap.isSelected()) {
+                        if ( supplier.getMaNhaCungCap().toLowerCase().contains(searchText)) {
+                            listLater.add( supplier);
+                        }
+                    } else if(rbtnTenNhaCungCap.isSelected()){
+                        if ( supplier.getTenNhaCungCap().toLowerCase().contains(searchText)) {
+                            listLater.add( supplier);
+                        }
+                    } else if(rbtnDiaChiNhaCungCap.isSelected()){
+                        if ( supplier.getDiaChi().toLowerCase().contains(searchText)) {
+                            listLater.add( supplier);
+                        }
+                    } else if (rbtnDienThoai.isSelected()){
+                        if ( supplier.getSoDienThoai().toLowerCase().contains(searchText)) {
+                            listLater.add( supplier);
+                        }
+
+                    } else if(rbtnSoTaiKhoan.isSelected()){
+                        if ( supplier.getSoTaiKhoan().toLowerCase().contains(searchText)) {
+                            listLater.add( supplier);
+                        }
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return listLater;
+    }
     private SupplierModel getSupplier() {
         SupplierModel supplier = new SupplierModel();
 
