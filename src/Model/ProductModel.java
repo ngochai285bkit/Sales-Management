@@ -1,18 +1,20 @@
 package Model;
 
+import java.util.Date;
+
 public class ProductModel {
     private String MaSanPham;
     private String TenSanPham;
     private String Loai;
     private String DonVi;
-    private String Han;
+    private Date Han;
     private String Gia;
     private String SoLuong;
     public ProductModel(){
 
     }
 
-    public ProductModel(String maSanPham, String tenSanPham, String loai, String donVi, String han, String gia, String soLuong) {
+    public ProductModel(String maSanPham, String tenSanPham, String loai, String donVi, Date han, String gia, String soLuong) {
         this.MaSanPham = maSanPham;
         this.TenSanPham = tenSanPham;
         this.Loai = loai;
@@ -54,11 +56,11 @@ public class ProductModel {
         this.DonVi = donVi;
     }
 
-    public String getHan() {
+    public Date getHan() {
         return Han;
     }
 
-    public void setHan(String han) {
+    public void setHan(Date han) {
         this.Han = han;
     }
 

@@ -5,6 +5,7 @@ import Controller.DatabaseConnection;
 import Model.Database;
 import Model.ProductModel;
 import Model.ProductModel;
+import org.jdatepicker.JDatePicker;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -17,15 +18,17 @@ import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 import java.util.List;
-import java.util.Vector;
 
 public class AddAndChangeProductDialogAdd extends JDialog {
-    private JTextField txtMaSanPham, txtTenSanPham, txtGia, txtDonVi, txtLoai,txtHan,txtSoLuong;
+    private JTextField txtMaSanPham, txtTenSanPham, txtGia, txtDonVi, txtLoai,txtSoLuong;
+    private JDatePicker txtHan;
     private JButton btnGhiLai, btnThoat;
     private final Dimension dimenLabel = new Dimension(200, 25);
-    private final Dimension dimenTextField = new Dimension(200, 25);
+    private final Dimension dimenTextField = new Dimension(200, 30);
     private final Color backGroundBlue = new Color(78, 138, 201);
     private Database database;
 
@@ -44,7 +47,7 @@ public class AddAndChangeProductDialogAdd extends JDialog {
     private void initComponents() {
         //The top panel
         JPanel pnTop = new JPanel();
-        pnTop.setBackground(Color.WHITE);
+        pnTop.setBackground(new Color(245, 245, 251));
         JLabel lblTieuDe = new JLabel("Thông tin sản phẩm");
         lblTieuDe.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 26));
         lblTieuDe.setForeground(backGroundBlue);
@@ -53,14 +56,17 @@ public class AddAndChangeProductDialogAdd extends JDialog {
 
         //The right panel
         JPanel pnEast = new JPanel();
+        pnEast.setBackground(new Color(245, 245, 251));
         pnEast.setLayout(new BoxLayout(pnEast, BoxLayout.Y_AXIS));
-        pnEast.setBackground(Color.WHITE);
-        //pnEast.setPreferredSize(new Dimension(400, 0));
+
+
 
         JPanel pnMaSanPham = new JPanel();
-        pnMaSanPham.setBackground(Color.WHITE);
+        pnMaSanPham.setBackground(new Color(245, 245, 251));
         txtMaSanPham = new JTextField();
+
         txtMaSanPham.setPreferredSize(dimenTextField);
+        txtMaSanPham.setFont(new Font(Font.SANS_SERIF,Font.PLAIN,16));
         JLabel lblMaSanPham = new JLabel("Mã sản phẩm: ");
         lblMaSanPham.setFont(new Font(Font.SANS_SERIF, Font.ITALIC, 20));
         lblMaSanPham.setPreferredSize(dimenLabel);
@@ -68,9 +74,10 @@ public class AddAndChangeProductDialogAdd extends JDialog {
         pnMaSanPham.add(txtMaSanPham);
 
         JPanel pnTenSanPham = new JPanel();
-        pnTenSanPham.setBackground(Color.WHITE);
+        pnTenSanPham.setBackground(new Color(245, 245, 251));
         txtTenSanPham = new JTextField();
         txtTenSanPham.setPreferredSize(dimenTextField);
+        txtTenSanPham.setFont(new Font(Font.SANS_SERIF,Font.PLAIN,16));
         JLabel lblTenSanPham = new JLabel("Tên sản phẩm: ");
         lblTenSanPham.setFont(new Font(Font.SANS_SERIF, Font.ITALIC, 20));
         lblTenSanPham.setPreferredSize(dimenLabel);
@@ -78,19 +85,22 @@ public class AddAndChangeProductDialogAdd extends JDialog {
         pnTenSanPham.add(txtTenSanPham);
 
         JPanel pnGia = new JPanel();
-        pnGia.setBackground(Color.WHITE);
+        pnGia.setBackground(new Color(245, 245, 251));
         txtGia = new JTextField();
         txtGia.setPreferredSize(dimenTextField);
-        JLabel lblGia = new JLabel("Giá ");
+        txtGia.setFont(new Font(Font.SANS_SERIF,Font.PLAIN,16));
+        JLabel lblGia = new JLabel("Giá: ");
         lblGia.setFont(new Font(Font.SANS_SERIF, Font.ITALIC, 20));
+        lblGia.setBackground(new Color(245, 245, 251));
         lblGia.setPreferredSize(dimenLabel);
         pnGia.add(lblGia);
         pnGia.add(txtGia);
 
         JPanel pnDonVi = new JPanel();
-        pnDonVi.setBackground(Color.WHITE);
+        pnDonVi.setBackground(new Color(245, 245, 251));
         txtDonVi = new JTextField();
         txtDonVi.setPreferredSize(dimenTextField);
+        txtDonVi.setFont(new Font(Font.SANS_SERIF,Font.PLAIN,16));
         JLabel lblDonVi = new JLabel("Đơn vị: ");
         lblDonVi.setFont(new Font(Font.SANS_SERIF, Font.ITALIC, 20));
         lblDonVi.setPreferredSize(dimenLabel);
@@ -98,29 +108,35 @@ public class AddAndChangeProductDialogAdd extends JDialog {
         pnDonVi.add(txtDonVi);
 
         JPanel pnLoai = new JPanel();
-        pnLoai.setBackground(Color.WHITE);
+        pnLoai.setBackground(new Color(245, 245, 251));
         txtLoai = new JTextField();
         txtLoai.setPreferredSize(dimenTextField);
-        JLabel lblLoai = new JLabel("Loại ");
+        txtLoai.setFont(new Font(Font.SANS_SERIF,Font.PLAIN,16));
+        JLabel lblLoai = new JLabel("Loại: ");
         lblLoai.setFont(new Font(Font.SANS_SERIF, Font.ITALIC, 20));
         lblLoai.setPreferredSize(dimenLabel);
         pnLoai.add(lblLoai);
         pnLoai.add(txtLoai);
 
         JPanel pnHan = new JPanel();
-        pnHan.setBackground(Color.WHITE);
-        txtHan = new JTextField();
-        txtHan.setPreferredSize(dimenTextField);
-        JLabel lblHan = new JLabel("Hạn sử dụng: ");
+        pnHan.setBackground(new Color(245, 245, 251));
+        Calendar cal = Calendar.getInstance();
+        Date now = cal.getTime();
+        txtHan = new JDatePicker(now);
+        txtHan.getComponent(0).setPreferredSize(new Dimension(170,30));
+        txtHan.getComponent(1).setPreferredSize(new Dimension(30,30));
+        txtHan.setFont(new Font(Font.SANS_SERIF,Font.PLAIN,16));
+        JLabel lblHan = new JLabel("Hạn: ");
         lblHan.setFont(new Font(Font.SANS_SERIF, Font.ITALIC, 20));
         lblHan.setPreferredSize(dimenLabel);
         pnHan.add(lblHan);
         pnHan.add(txtHan);
 
         JPanel pnSoLuong = new JPanel();
-        pnSoLuong.setBackground(Color.WHITE);
+        pnSoLuong.setBackground(new Color(245, 245, 251));
         txtSoLuong = new JTextField();
         txtSoLuong.setPreferredSize(dimenTextField);
+        txtSoLuong.setFont(new Font(Font.SANS_SERIF,Font.PLAIN,16));
         JLabel lblSoLuong = new JLabel("Số lượng: ");
         lblSoLuong.setFont(new Font(Font.SANS_SERIF, Font.ITALIC, 20));
         lblSoLuong.setPreferredSize(dimenLabel);
@@ -139,21 +155,26 @@ public class AddAndChangeProductDialogAdd extends JDialog {
         pnEast.add(Box.createVerticalGlue());
 
         JPanel pnSouth = new JPanel();
+        pnSouth.setBackground(new Color(245, 245, 251));
         pnSouth.setLayout(new FlowLayout(FlowLayout.CENTER));
-        pnSouth.setBackground(Color.WHITE);
+
 
         btnGhiLai = new JButton("Ghi Lại");
         btnGhiLai.setBackground(backGroundBlue);
         btnGhiLai.setForeground(Color.WHITE);
         btnGhiLai.setPreferredSize(new Dimension(200, 30));
+        btnGhiLai.setFont(new Font(Font.SANS_SERIF,Font.PLAIN,19));
         JPanel pnbtnGhiLai = new JPanel();
+        pnbtnGhiLai.setBackground(new Color(245, 245, 251));
         pnbtnGhiLai.add(btnGhiLai);
 
         btnThoat = new JButton("Thoát");
         btnThoat.setBackground(backGroundBlue);
         btnThoat.setForeground(Color.WHITE);
         btnThoat.setPreferredSize(new Dimension(200, 30));
+        btnThoat.setFont(new Font(Font.SANS_SERIF,Font.PLAIN,19));
         JPanel pnbtnThoat = new JPanel();
+        pnbtnThoat.setBackground(new Color(245, 245, 251));
         pnbtnThoat.add(btnThoat);
 
         pnSouth.add(pnbtnGhiLai);
@@ -197,7 +218,7 @@ public class AddAndChangeProductDialogAdd extends JDialog {
                                 statement.setString(2, txtTenSanPham.getText());
                                 statement.setString(3, txtDonVi.getText());
                                 statement.setString(4, txtLoai.getText());
-                                statement.setString(5,txtHan.getText());
+                                statement.setString(5, new SimpleDateFormat("dd/MM/yyyy").format(txtHan.getModel().getValue()));
                                 statement.setString(6, txtGia.getText());
                                 statement.setString(7,txtSoLuong.getText());
                                 int result = statement.executeUpdate();
@@ -213,7 +234,7 @@ public class AddAndChangeProductDialogAdd extends JDialog {
                             statement.setString(2, txtTenSanPham.getText());
                             statement.setString(3, txtDonVi.getText());
                             statement.setString(4, txtLoai.getText());
-                            statement.setString(5, txtHan.getText());
+                            statement.setString(5, new SimpleDateFormat("dd/MM/yyyy").format(txtHan.getModel().getValue()));
                             statement.setString(6,txtGia.getText());
                             statement.setString(7,txtSoLuong.getText());
                             int result = statement.executeUpdate();
@@ -255,7 +276,14 @@ public class AddAndChangeProductDialogAdd extends JDialog {
                 productModel.setTenSanPham(rs.getString("Ten"));
                 productModel.setDonVi(rs.getString("DonVi"));
                 productModel.setLoai(rs.getString("Loai"));
-                productModel.setHan(rs.getString("Han"));
+                String sDate = rs.getString("Han");
+                Date hsd = null;
+                try {
+                    hsd = new SimpleDateFormat("dd/MM/yyyy").parse(sDate);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                productModel.setHan(hsd);
                 productModel.setGia(rs.getString("Gia"));
                 productModel.setSoLuong(rs.getString("SoLuong"));
                 listProduct.add(productModel);
@@ -273,7 +301,7 @@ public class AddAndChangeProductDialogAdd extends JDialog {
             vector.add(ProductModel.getTenSanPham());
             vector.add(ProductModel.getDonVi());
             vector.add(ProductModel.getLoai());
-            vector.add(ProductModel.getHan());
+            vector.add(new SimpleDateFormat("dd/MM/yyyy").format(ProductModel.getHan()));
             vector.add(ProductModel.getGia());
             vector.add(ProductModel.getSoLuong());
             ProductPanel.dtmDanhSachSP.addRow(vector);

@@ -2,6 +2,7 @@ package View;
 
 import Controller.DatabaseConnection;
 import Model.Database;
+import Model.ProductModel;
 import Model.SupplierModel;
 import com.formdev.flatlaf.FlatIntelliJLaf;
 import javax.swing.*;
@@ -17,12 +18,14 @@ import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.List;
 
 public class SupplierPanel extends JPanel {
     // attributes
     private Database database;
+    private JRadioButton rbtnMaNhaCungCap,rbtnTenNhaCungCap,rbtnDiaChiNhaCungCap,rbtnDienThoai,rbtnSoTaiKhoan;
     private JButton btnSua, btnThemMoi, btnXoa, btnXuatfile;
     public static DefaultTableModel dtmDanhSachNCC;
     private JTable tbDsNCC;
@@ -31,6 +34,7 @@ public class SupplierPanel extends JPanel {
     private final Font font = new Font(Font.SANS_SERIF, Font.PLAIN, 18);
     private SupplierModel supplier;
     private JTextField txtTimKiem;
+
 
     // constructor
     public SupplierPanel(Database database) {
@@ -108,94 +112,160 @@ public class SupplierPanel extends JPanel {
         txtTimKiem.getDocument().addDocumentListener(new DocumentListener() {
             @Override
             public void insertUpdate(DocumentEvent e) {
-
+                showListSupplier(listFiltered());
             }
 
             @Override
             public void removeUpdate(DocumentEvent e) {
-
+                showListSupplier(listFiltered());
             }
 
             @Override
             public void changedUpdate(DocumentEvent e) {
-                try {
-                    List<SupplierModel> dsSupplierFiltered = getAllSuppliers();
-                } catch (SQLException ex) {
-                    ex.printStackTrace();
-                }
+                showListSupplier(listFiltered());
+
             }
         });
-    }
+        rbtnMaNhaCungCap.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showListSupplier(listFiltered());
+            }
+        });
+        rbtnTenNhaCungCap.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showListSupplier(listFiltered());
+            }
+        });
+        rbtnDiaChiNhaCungCap.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showListSupplier(listFiltered());
+            }
+        });
+        rbtnDienThoai.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showListSupplier(listFiltered());
+            }
+        });
+        rbtnSoTaiKhoan.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showListSupplier(listFiltered());
+            }
+        });}
+        
+
+
+
+    private List<SupplierModel> listFiltered() {
+        List< SupplierModel> listLater = new ArrayList<>();
+        String searchText = txtTimKiem.getText().toLowerCase();
+        try {
+            List< SupplierModel> list = getAllSuppliers();
+            for ( SupplierModel  Supplier : list) {
+                if (txtTimKiem.getText().isEmpty()) {
+                    listLater.add( supplier);
+                } else {
+                    if (rbtnMaNhaCungCap.isSelected()) {
+                        if ( Supplier.getMaNhaCungCap().toLowerCase().contains(searchText)) {
+                            listLater.add( Supplier);
+                        }
+                    } else if(rbtnTenNhaCungCap.isSelected()){
+                        if ( Supplier.getTenNhaCungCap().toLowerCase().contains(searchText)) {
+                            listLater.add( Supplier);
+                        }
+                    } else if(rbtnDiaChiNhaCungCap.isSelected()){
+                        if ( Supplier.getDiaChi().toLowerCase().contains(searchText)) {
+                            listLater.add( Supplier);
+                        }
+                    } else if (rbtnDienThoai.isSelected()){
+                        if ( Supplier.getSoDienThoai().toLowerCase().contains(searchText)) {
+                            listLater.add( Supplier);
+                        }
+
+                    } else if(rbtnSoTaiKhoan.isSelected()){
+                        if ( Supplier.getSoTaiKhoan().toLowerCase().contains(searchText)) {
+                            listLater.add( Supplier);
+                        }
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return listLater;
+}
 
 
 
 
     private void initComponents() {
-        // implementation the top panel
-        JPanel pnTop = new JPanel();
-        pnTop.setLayout(new BorderLayout());
-        pnTop.setBackground(new Color(245, 245, 251));
-        JLabel lblTitle = new JLabel("QUẢN LÝ NHÀ CUNG CẤP");
-        lblTitle.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 26));
-        lblTitle.setForeground(new Color(78, 138, 211));
-        lblTitle.setHorizontalAlignment(JLabel.CENTER);
-        lblTitle.setBorder(BorderFactory.createEmptyBorder(5, 0, 0, 0));
-        pnTop.add(lblTitle, BorderLayout.CENTER);
+                // implementation the top panel
+                JPanel pnTop = new JPanel();
+                pnTop.setLayout(new BorderLayout());
+                pnTop.setBackground(new Color(245, 245, 251));
+                JLabel lblTitle = new JLabel("QUẢN LÝ NHÀ CUNG CẤP");
+                lblTitle.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 26));
+                lblTitle.setForeground(new Color(78, 138, 211));
+                lblTitle.setHorizontalAlignment(JLabel.CENTER);
+                lblTitle.setBorder(BorderFactory.createEmptyBorder(5, 0, 0, 0));
+                pnTop.add(lblTitle, BorderLayout.CENTER);
 
-        //Center panel
-        JPanel pnCenter = new JPanel();
-        pnCenter.setLayout(new BorderLayout());
-//        pnCenter.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(0,
-//                5, 0, 0), BorderFactory.createLineBorder(new Color(99, 200, 221, 255), 3)));
+                //Center panel
+                JPanel pnCenter = new JPanel();
+                pnCenter.setLayout(new BorderLayout());
 
-        tbDsNCC = new JTable();
-        //tbDsNCC.set
-        tbDsNCC.setBackground(backGroundColor);
-        tbDsNCC.setForeground(Color.BLACK);
-        tbDsNCC.setDefaultEditor(Object.class, null);
-        tbDsNCC.setRowHeight(25);
-        tbDsNCC.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 15));
-        tbDsNCC.setShowGrid(true);
-        tbDsNCC.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        tbDsNCC.setAutoCreateRowSorter(true);
+                tbDsNCC = new JTable();
+                tbDsNCC.setGridColor(Color.BLACK);
+                tbDsNCC.setBackground(backGroundColor);
+                tbDsNCC.setForeground(Color.BLACK);
+                tbDsNCC.setDefaultEditor(Object.class, null);
+                tbDsNCC.setRowHeight(25);
+                tbDsNCC.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 15));
+                tbDsNCC.setShowGrid(true);
+                tbDsNCC.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+                tbDsNCC.setAutoCreateRowSorter(true);
 
 
-        JTableHeader tableHeader = tbDsNCC.getTableHeader();
-        tableHeader.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 16));
-        tableHeader.setBackground(new Color(79, 138, 201));
-        tableHeader.setForeground(Color.WHITE);
-        tableHeader.setOpaque(true);
-        tableHeader.setReorderingAllowed(true);
-        //tableHeader.setMaximumSize(t);
-        tableHeader.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        ((DefaultTableCellRenderer) tableHeader.getDefaultRenderer()).setHorizontalAlignment(JLabel.CENTER);
+                JTableHeader tableHeader = tbDsNCC.getTableHeader();
+                tableHeader.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 16));
+                tableHeader.setBackground(new Color(79, 138, 201));
+                tableHeader.setForeground(Color.WHITE);
+                tableHeader.setOpaque(true);
+                tableHeader.setReorderingAllowed(true);
+                //tableHeader.setMaximumSize(t);
+                tableHeader.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+                ((DefaultTableCellRenderer) tableHeader.getDefaultRenderer()).setHorizontalAlignment(JLabel.CENTER);
 
-        dtmDanhSachNCC = new DefaultTableModel();
-        dtmDanhSachNCC.addColumn("Mã Nhà cung cấp");
-        dtmDanhSachNCC.addColumn("Tên nhà cung cấp");
-        dtmDanhSachNCC.addColumn("Địa chỉ nhà cung cấp");
-        dtmDanhSachNCC.addColumn("Điện thoại");
-        dtmDanhSachNCC.addColumn("Số tài khoản ngân hàng");
+                dtmDanhSachNCC = new DefaultTableModel();
+                dtmDanhSachNCC.addColumn("Mã Nhà cung cấp");
+                dtmDanhSachNCC.addColumn("Tên nhà cung cấp");
+                dtmDanhSachNCC.addColumn("Địa chỉ nhà cung cấp");
+                dtmDanhSachNCC.addColumn("Điện thoại");
+                dtmDanhSachNCC.addColumn("Số tài khoản ngân hàng");
 
-        tbDsNCC.setModel(dtmDanhSachNCC);
-        tbDsNCC.getColumnModel().getColumn(1).setPreferredWidth(100);
-        JScrollPane scrollDanhSachNV = new JScrollPane(tbDsNCC, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-        //scrollDanhSachNV.setBorder(BorderFactory.createEmptyBorder(4 , 10,4 ,10));
-        scrollDanhSachNV.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(4, 4, 4, 4), BorderFactory.createLineBorder(Color.BLACK)));
+                tbDsNCC.setModel(dtmDanhSachNCC);
+                tbDsNCC.getColumnModel().getColumn(1).setPreferredWidth(100);
+                JScrollPane scrollDanhSachNV = new JScrollPane(tbDsNCC, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 
-        DefaultTableCellRenderer cellRendererCenter = new DefaultTableCellRenderer();
-        cellRendererCenter.setHorizontalAlignment(JLabel.CENTER);
-        tbDsNCC.getColumnModel().getColumn(0).setCellRenderer(cellRendererCenter);
-        tbDsNCC.getColumnModel().getColumn(1).setCellRenderer(cellRendererCenter);
-        tbDsNCC.getColumnModel().getColumn(2).setCellRenderer(cellRendererCenter);
-        tbDsNCC.getColumnModel().getColumn(3).setCellRenderer(cellRendererCenter);
-        tbDsNCC.getColumnModel().getColumn(4).setCellRenderer(cellRendererCenter);
-        pnCenter.add(scrollDanhSachNV, BorderLayout.CENTER);
-        try {
-            showListSupplier(getAllSuppliers());
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+                scrollDanhSachNV.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(4, 4, 4, 4), BorderFactory.createLineBorder(Color.BLACK)));
+
+                DefaultTableCellRenderer cellRendererCenter = new DefaultTableCellRenderer();
+                cellRendererCenter.setHorizontalAlignment(JLabel.CENTER);
+                tbDsNCC.getColumnModel().getColumn(0).setCellRenderer(cellRendererCenter);
+                tbDsNCC.getColumnModel().getColumn(1).setCellRenderer(cellRendererCenter);
+                tbDsNCC.getColumnModel().getColumn(2).setCellRenderer(cellRendererCenter);
+                tbDsNCC.getColumnModel().getColumn(3).setCellRenderer(cellRendererCenter);
+                tbDsNCC.getColumnModel().getColumn(4).setCellRenderer(cellRendererCenter);
+                pnCenter.add(scrollDanhSachNV, BorderLayout.CENTER);
+                try {
+                    showListSupplier(getAllSuppliers());
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
 
 
         //East panel
@@ -207,18 +277,18 @@ public class SupplierPanel extends JPanel {
         JPanel pnTimKiem = new JPanel();
         pnTimKiem.setLayout(new BoxLayout(pnTimKiem, BoxLayout.Y_AXIS));
         pnTimKiem.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(10,
-                5, 0, 0), BorderFactory.createLineBorder(new Color(78, 138, 201), 1)));
+                5, 5, 5), BorderFactory.createLineBorder(new Color(78, 138, 201), 2)));
 
 
-        JRadioButton rbtnMaNhaCungCap = new JRadioButton("Mã nhà cung cấp");
+        rbtnMaNhaCungCap = new JRadioButton("Mã nhà cung cấp");
         rbtnMaNhaCungCap.setFont(font);
-        JRadioButton rbtnTenNhaCungCap = new JRadioButton("Tên nhà cung cấp");
+        rbtnTenNhaCungCap = new JRadioButton("Tên nhà cung cấp");
         rbtnTenNhaCungCap.setFont(font);
-        JRadioButton rbtnDiaChiNhaCungCap = new JRadioButton("Địa chỉ nhà cung cấp");
+        rbtnDiaChiNhaCungCap = new JRadioButton("Địa chỉ nhà cung cấp");
         rbtnDiaChiNhaCungCap.setFont(font);
-        JRadioButton rbtnDienThoai = new JRadioButton("Điện Thoại");
+        rbtnDienThoai = new JRadioButton("Điện Thoại");
         rbtnDienThoai.setFont(font);
-        JRadioButton rbtnSoTaiKhoan = new JRadioButton("Số tài khoản");
+        rbtnSoTaiKhoan = new JRadioButton("Số tài khoản");
         rbtnSoTaiKhoan.setFont(font);
         ButtonGroup bg = new ButtonGroup();
         bg.add(rbtnMaNhaCungCap);
@@ -240,7 +310,7 @@ public class SupplierPanel extends JPanel {
         JPanel pnLoc = new JPanel();
         pnLoc.setLayout(new BoxLayout(pnLoc, BoxLayout.Y_AXIS));
         pnLoc.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(10,
-                5, 0, 0), BorderFactory.createLineBorder(new Color(78, 138, 201), 3)));
+                5, 5, 5), BorderFactory.createLineBorder(new Color(78, 138, 201), 2)));
         JCheckBox chka = new JCheckBox();
         JCheckBox chkb = new JCheckBox();
         JCheckBox chkc = new JCheckBox();
@@ -265,17 +335,24 @@ public class SupplierPanel extends JPanel {
         btnXuatfile = new JButton("Xuất file");
         btnXuatfile.setFont(font);
         btnXuatfile.setPreferredSize(new Dimension(200, 30));
-        //btnXuatfile.putClientProperty("JButton.buttonType","help");
+        btnXuatfile.setForeground(new Color(245,245,251));
+        btnXuatfile.setBackground(backGroundBlue);
         btnXuatfile.setIcon(UIManager.getIcon("Tree.closedIcon"));
         btnSua = new JButton("Sửa");
         btnSua.setFont(font);
         btnSua.setPreferredSize(new Dimension(200, 30));
-        btnThemMoi = new JButton("Thêm Mới");
+        btnSua.setForeground(new Color(245,245,251));
+        btnSua.setBackground(backGroundBlue);
+        btnThemMoi = new JButton("Thêm mới");
         btnThemMoi.setFont(font);
         btnThemMoi.setPreferredSize(new Dimension(200, 30));
+        btnThemMoi.setForeground(new Color(245,245,251));
+        btnThemMoi.setBackground(backGroundBlue);
         btnXoa = new JButton("Xoá");
         btnXoa.setFont(font);
         btnXoa.setPreferredSize(new Dimension(200, 30));
+        btnXoa.setForeground(new Color(245,245,251));
+        btnXoa.setBackground(backGroundBlue);
         pnSouth.add(Box.createHorizontalGlue());
         pnSouth.add(btnXuatfile);
         pnSouth.add(btnSua);
@@ -289,7 +366,6 @@ public class SupplierPanel extends JPanel {
         pnCenterto.add(pnSouth, BorderLayout.SOUTH);
 
         this.add(pnTop, BorderLayout.NORTH);
-        //this.add(pnSouth, BorderLayout.SOUTH);
         this.add(pnCenterto, BorderLayout.CENTER);
         this.add(pnEast, BorderLayout.EAST);
 

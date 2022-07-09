@@ -18,12 +18,15 @@ import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.List;
 
 public class ProductPanel extends JPanel {
     // attributes
     private Database database;
+    private JRadioButton rbtnMaSanPham,rbtnTenSanPham,rbtnLoai,rbtnDonVi,rbtnHan,rbtnGia,rbtnSoLuong;
     private JButton btnSua, btnThemMoi, btnXoa, btnXuatfile;
     public static DefaultTableModel dtmDanhSachSP;
     private JTable tbDsSP;
@@ -66,8 +69,15 @@ public class ProductPanel extends JPanel {
                     product.setTenSanPham((String) tbDsSP.getValueAt(rowSelected, 1));
                     product.setDonVi((String) tbDsSP.getValueAt(rowSelected, 2));
                     product.setLoai((String) tbDsSP.getValueAt(rowSelected, 3));
-                    product.setGia((String) tbDsSP.getValueAt(rowSelected, 4));
-                    product.setHan((String) tbDsSP.getValueAt(rowSelected, 5));
+                    product.setGia((String) tbDsSP.getValueAt(rowSelected, 5));
+                    Date hsd = null;
+                    try {
+                        hsd = new SimpleDateFormat("dd/MM/yyyy").parse((String) tbDsSP.getValueAt(rowSelected, 4));
+
+                    } catch (ParseException ex) {
+                        ex.printStackTrace();
+                    }
+                    product.setHan(hsd);
                     product.setSoLuong((String) tbDsSP.getValueAt(rowSelected, 6));
                     new AddAndChangeProductDialogEdit(MainUI.frame, "Sửa sản phẩm", product, database);
                 } else {
@@ -111,25 +121,116 @@ public class ProductPanel extends JPanel {
         txtTimKiem.getDocument().addDocumentListener(new DocumentListener() {
             @Override
             public void insertUpdate(DocumentEvent e) {
-
+                showListProduct(listFiltered());
             }
 
             @Override
             public void removeUpdate(DocumentEvent e) {
-
+                showListProduct(listFiltered());
             }
 
             @Override
             public void changedUpdate(DocumentEvent e) {
-                try {
-                    List<ProductModel> dsProductFiltered = getAllProducts();
-                } catch (SQLException ex) {
-                    ex.printStackTrace();
-                }
+                showListProduct(listFiltered());
+
+            }
+        });
+        rbtnMaSanPham.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showListProduct(listFiltered());
+            }
+        });
+        rbtnTenSanPham.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showListProduct(listFiltered());
+            }
+        });
+        rbtnLoai.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showListProduct(listFiltered());
+            }
+        });
+        rbtnDonVi.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showListProduct(listFiltered());
+            }
+        });
+        rbtnHan.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showListProduct(listFiltered());
+            }
+        });
+        rbtnGia.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showListProduct(listFiltered());
+            }
+        });
+
+        rbtnSoLuong.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showListProduct(listFiltered());
             }
         });
     }
 
+
+
+    private List<ProductModel> listFiltered() {
+        List< ProductModel> listLater = new ArrayList<>();
+        String searchText = txtTimKiem.getText().toLowerCase();
+        try {
+            List< ProductModel> list = getAllProducts();
+            for ( ProductModel  Product : list) {
+                if (txtTimKiem.getText().isEmpty()) {
+                    listLater.add( Product);
+                } else {
+                    if (rbtnMaSanPham.isSelected()) {
+                        if ( product.getMaSanPham().toLowerCase().contains(searchText)) {
+                            listLater.add( product);
+                        }
+                    } else if(rbtnTenSanPham.isSelected()){
+                        if ( product.getTenSanPham().toLowerCase().contains(searchText)) {
+                            listLater.add( product);
+                        }
+                    } else if(rbtnLoai.isSelected()){
+                        if ( product.getLoai().toLowerCase().contains(searchText)) {
+                            listLater.add( product);
+                        }
+                    } else if (rbtnDonVi.isSelected()){
+                        if ( product.getDonVi().toLowerCase().contains(searchText)) {
+                            listLater.add( product);
+                        }
+                    } else if(rbtnHan.isSelected()){
+                        String han = new SimpleDateFormat("dd/MM/yyyy").format(product.getHan());
+                        if ( han.contains(searchText)) {
+                            listLater.add( product);
+                        }
+                    } else if(rbtnGia.isSelected()){
+                        if ( product.getGia().toLowerCase().contains(searchText)) {
+                            listLater.add( product);
+                        }
+                    } else if(rbtnSoLuong.isSelected()){
+                        String ngaySinh= new SimpleDateFormat("dd/MM/yyyy").format( product.getSoLuong());
+                        if(ngaySinh.contains(searchText)){
+                            listLater.add( product);
+                        }
+                    }
+                    }
+                }
+
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return listLater;
+    }
 
 
 
@@ -138,7 +239,7 @@ public class ProductPanel extends JPanel {
         JPanel pnTop = new JPanel();
         pnTop.setLayout(new BorderLayout());
         pnTop.setBackground(new Color(245, 245, 251));
-        JLabel lblTitle = new JLabel("QUẢN LÝ Sản Phẩm");
+        JLabel lblTitle = new JLabel("QUẢN LÝ SẢN PHẨM");
         lblTitle.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 26));
         lblTitle.setForeground(new Color(78, 138, 211));
         lblTitle.setHorizontalAlignment(JLabel.CENTER);
@@ -148,11 +249,8 @@ public class ProductPanel extends JPanel {
         //Center panel
         JPanel pnCenter = new JPanel();
         pnCenter.setLayout(new BorderLayout());
-//        pnCenter.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(0,
-//                5, 0, 0), BorderFactory.createLineBorder(new Color(99, 200, 221, 255), 3)));
-
         tbDsSP = new JTable();
-        //tbDsSP.set
+        tbDsSP.setGridColor(Color.BLACK);
         tbDsSP.setBackground(backGroundColor);
         tbDsSP.setForeground(Color.BLACK);
         tbDsSP.setDefaultEditor(Object.class, null);
@@ -214,22 +312,22 @@ public class ProductPanel extends JPanel {
         JPanel pnTimKiem = new JPanel();
         pnTimKiem.setLayout(new BoxLayout(pnTimKiem, BoxLayout.Y_AXIS));
         pnTimKiem.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(10,
-                5, 0, 0), BorderFactory.createLineBorder(new Color(78, 138, 201), 1)));
+                5, 5, 5), BorderFactory.createLineBorder(new Color(78, 138, 201), 2)));
 
 
-        JRadioButton rbtnMaSanPham = new JRadioButton("Mã sản phẩm");
+        rbtnMaSanPham = new JRadioButton("Mã sản phẩm");
         rbtnMaSanPham.setFont(font);
-        JRadioButton rbtnTenSanPham = new JRadioButton("Tên sản phẩm");
+        rbtnTenSanPham = new JRadioButton("Tên sản phẩm");
         rbtnTenSanPham.setFont(font);
-        JRadioButton rbtnDonVi = new JRadioButton("Đơn vị");
+        rbtnDonVi = new JRadioButton("Đơn vị");
         rbtnDonVi.setFont(font);
-        JRadioButton rbtnLoai = new JRadioButton("Loại");
+        rbtnLoai = new JRadioButton("Loại");
         rbtnLoai.setFont(font);
-        JRadioButton rbtnHan = new JRadioButton("Hạn");
+        rbtnHan = new JRadioButton("Hạn");
         rbtnHan.setFont(font);
-        JRadioButton rbtnGia = new JRadioButton("Giá");
+        rbtnGia = new JRadioButton("Giá");
         rbtnGia.setFont(font);
-        JRadioButton rbtnSoLuong = new JRadioButton("Số lượng");
+        rbtnSoLuong = new JRadioButton("Số lượng");
         rbtnSoLuong.setFont(font);
         ButtonGroup bg = new ButtonGroup();
         bg.add(rbtnMaSanPham);
@@ -255,7 +353,7 @@ public class ProductPanel extends JPanel {
         JPanel pnLoc = new JPanel();
         pnLoc.setLayout(new BoxLayout(pnLoc, BoxLayout.Y_AXIS));
         pnLoc.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(10,
-                5, 0, 0), BorderFactory.createLineBorder(new Color(78, 138, 201), 3)));
+                5, 5, 5), BorderFactory.createLineBorder(new Color(78, 138, 201), 2)));
         JCheckBox chka = new JCheckBox();
         JCheckBox chkb = new JCheckBox();
         JCheckBox chkc = new JCheckBox();
@@ -282,15 +380,23 @@ public class ProductPanel extends JPanel {
         btnXuatfile.setPreferredSize(new Dimension(200, 30));
         //btnXuatfile.putClientProperty("JButton.buttonType","help");
         btnXuatfile.setIcon(UIManager.getIcon("Tree.closedIcon"));
+        btnXuatfile.setForeground(new Color(245,245,251));
+        btnXuatfile.setBackground(backGroundBlue);
         btnSua = new JButton("Sửa");
         btnSua.setFont(font);
         btnSua.setPreferredSize(new Dimension(200, 30));
-        btnThemMoi = new JButton("Thêm Mới");
+        btnSua.setForeground(new Color(245,245,251));
+        btnSua.setBackground(backGroundBlue);
+        btnThemMoi = new JButton("Thêm mới");
         btnThemMoi.setFont(font);
         btnThemMoi.setPreferredSize(new Dimension(200, 30));
+        btnThemMoi.setForeground(new Color(245,245,251));
+        btnThemMoi.setBackground(backGroundBlue);
         btnXoa = new JButton("Xoá");
         btnXoa.setFont(font);
         btnXoa.setPreferredSize(new Dimension(200, 30));
+        btnXoa.setForeground(new Color(245,245,251));
+        btnXoa.setBackground(backGroundBlue);
         pnSouth.add(Box.createHorizontalGlue());
         pnSouth.add(btnXuatfile);
         pnSouth.add(btnSua);
@@ -328,7 +434,11 @@ public class ProductPanel extends JPanel {
                 productModel.setTenSanPham(rs.getString("Ten"));
                 productModel.setDonVi(rs.getString("DonVi"));
                 productModel.setLoai(rs.getString("Loai"));
-                productModel.setHan(rs.getString("Han"));
+                try {
+                    productModel.setHan(new SimpleDateFormat("dd/MM/yyyy").parse( rs.getString("Han")));
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
                 productModel.setGia(rs.getString("Gia"));
                 productModel.setSoLuong(rs.getString("SoLuong"));
                 listProduct.add(productModel);
@@ -345,7 +455,7 @@ public class ProductPanel extends JPanel {
             vector.add(ProductModel.getTenSanPham());
             vector.add(ProductModel.getDonVi());
             vector.add(ProductModel.getLoai());
-            vector.add(ProductModel.getHan());
+            vector.add(new SimpleDateFormat("dd/MM/yyyy").format(ProductModel.getHan()));
             vector.add(ProductModel.getGia());
             vector.add(ProductModel.getSoLuong());
             dtmDanhSachSP.addRow(vector);

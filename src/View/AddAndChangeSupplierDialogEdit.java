@@ -23,7 +23,7 @@ public class AddAndChangeSupplierDialogEdit extends JDialog {
     private JTextField txtMaNhaCungCap, txtDiaChi, txtTenNhaCungCap, txtSDT, txtSoTaiKhoan;
     private JButton btnXacNhan, btnThoat;
     private final Dimension dimenLabel = new Dimension(200, 25);
-    private final Dimension dimenTextField = new Dimension(200, 25);
+    private final Dimension dimenTextField = new Dimension(200, 30);
     private final Color backGroundBlue = new Color(78, 138, 201);
     private Database database;
 
@@ -43,7 +43,7 @@ public class AddAndChangeSupplierDialogEdit extends JDialog {
     private void initComponents() {
         //The top panel
         JPanel pnTop = new JPanel();
-        pnTop.setBackground(Color.WHITE);
+        pnTop.setBackground(new Color(245, 245, 251));
         JLabel lblTieuDe = new JLabel("Thông tin nhân viên");
         lblTieuDe.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 26));
         lblTieuDe.setForeground(backGroundBlue);
@@ -53,14 +53,15 @@ public class AddAndChangeSupplierDialogEdit extends JDialog {
         //The right panel
         JPanel pnEast = new JPanel();
         pnEast.setLayout(new BoxLayout(pnEast, BoxLayout.Y_AXIS));
-        pnEast.setBackground(Color.WHITE);
+        pnEast.setBackground(new Color(245, 245, 251));
 
 
         JPanel pnMaNhaCungCap = new JPanel();
-        pnMaNhaCungCap.setBackground(Color.WHITE);
+        pnMaNhaCungCap.setBackground(new Color(245, 245, 251));
         txtMaNhaCungCap = new JTextField();
         txtMaNhaCungCap.setEditable(false);
         txtMaNhaCungCap.setPreferredSize(dimenTextField);
+        txtMaNhaCungCap.setFont(new Font(Font.SANS_SERIF,Font.ITALIC,16));;
         JLabel lblMaNhaCungCap = new JLabel("Mã nhà cung cấp: ");
         lblMaNhaCungCap.setFont(new Font(Font.SANS_SERIF, Font.ITALIC, 20));
         lblMaNhaCungCap.setPreferredSize(dimenLabel);
@@ -68,9 +69,10 @@ public class AddAndChangeSupplierDialogEdit extends JDialog {
         pnMaNhaCungCap.add(txtMaNhaCungCap);
 
         JPanel pnTenNhaCungCap = new JPanel();
-        pnTenNhaCungCap.setBackground(Color.WHITE);
+        pnTenNhaCungCap.setBackground(new Color(245, 245, 251));
         txtTenNhaCungCap = new JTextField();
         txtTenNhaCungCap.setPreferredSize(dimenTextField);
+        txtTenNhaCungCap.setFont(new Font(Font.SANS_SERIF,Font.ITALIC,16));
         JLabel lblTenNhaCungCap = new JLabel("Tên nhà cung cấp: ");
         lblTenNhaCungCap.setFont(new Font(Font.SANS_SERIF, Font.ITALIC, 20));
         lblTenNhaCungCap.setPreferredSize(dimenLabel);
@@ -78,9 +80,10 @@ public class AddAndChangeSupplierDialogEdit extends JDialog {
         pnTenNhaCungCap.add(txtTenNhaCungCap);
 
         JPanel pnDiaChi = new JPanel();
-        pnDiaChi.setBackground(Color.WHITE);
+        pnDiaChi.setBackground(new Color(245, 245, 251));
         txtDiaChi = new JTextField();
         txtDiaChi.setPreferredSize(dimenTextField);
+        txtDiaChi.setFont(new Font(Font.SANS_SERIF,Font.ITALIC,16));
         JLabel lblDiaChi = new JLabel("Địa chỉ: ");
         lblDiaChi.setFont(new Font(Font.SANS_SERIF, Font.ITALIC, 20));
         lblDiaChi.setPreferredSize(dimenLabel);
@@ -88,9 +91,10 @@ public class AddAndChangeSupplierDialogEdit extends JDialog {
         pnDiaChi.add(txtDiaChi);
 
         JPanel pnSDT = new JPanel();
-        pnSDT.setBackground(Color.WHITE);
+        pnSDT.setBackground(new Color(245, 245, 251));
         txtSDT = new JTextField();
         txtSDT.setPreferredSize(dimenTextField);
+        txtSDT.setFont(new Font(Font.SANS_SERIF,Font.ITALIC,16));
         JLabel lblSDT = new JLabel("Số điện thoại: ");
         lblSDT.setFont(new Font(Font.SANS_SERIF, Font.ITALIC, 20));
         lblSDT.setPreferredSize(dimenLabel);
@@ -98,9 +102,10 @@ public class AddAndChangeSupplierDialogEdit extends JDialog {
         pnSDT.add(txtSDT);
 
         JPanel pnSoTaiKhoan = new JPanel();
-        pnSoTaiKhoan.setBackground(Color.WHITE);
+        pnSoTaiKhoan.setBackground(new Color(245, 245, 251));
         txtSoTaiKhoan = new JTextField();
         txtSoTaiKhoan.setPreferredSize(dimenTextField);
+        txtSoTaiKhoan.setFont(new Font(Font.SANS_SERIF,Font.ITALIC,16));
         JLabel lblSoTaiKhoan = new JLabel("Số Tài Khoản: ");
         lblSoTaiKhoan.setFont(new Font(Font.SANS_SERIF, Font.ITALIC, 20));
         lblSoTaiKhoan.setPreferredSize(dimenLabel);
@@ -109,8 +114,9 @@ public class AddAndChangeSupplierDialogEdit extends JDialog {
 
 
         pnEast.add(Box.createVerticalGlue());
-        pnEast.add(pnTenNhaCungCap);
+
         pnEast.add(pnMaNhaCungCap);
+        pnEast.add(pnTenNhaCungCap);
         pnEast.add(pnDiaChi);
         pnEast.add(pnSDT);
         pnEast.add(pnSoTaiKhoan);
@@ -118,26 +124,31 @@ public class AddAndChangeSupplierDialogEdit extends JDialog {
 
         JPanel pnSouth = new JPanel();
         pnSouth.setLayout(new FlowLayout(FlowLayout.CENTER));
-        pnSouth.setBackground(Color.WHITE);
+        pnSouth.setBackground(new Color(245, 245, 251));
 
-        btnXacNhan = new JButton("Xác Nhận");
+        btnXacNhan = new JButton("Xác nhận");
         btnXacNhan.setBackground(backGroundBlue);
-        btnXacNhan.setForeground(Color.WHITE);
+        btnXacNhan.setForeground(new Color(245, 245, 251));
         btnXacNhan.setPreferredSize(new Dimension(200, 30));
+        btnXacNhan.setFont(new Font(Font.SANS_SERIF,Font.PLAIN,19));
         JPanel pnbtnXacNhan = new JPanel();
+        pnbtnXacNhan.setBackground(new Color(245, 245, 251));
         pnbtnXacNhan.add(btnXacNhan);
 
         btnThoat = new JButton("Thoát");
         btnThoat.setBackground(backGroundBlue);
-        btnThoat.setForeground(Color.WHITE);
+        btnThoat.setForeground(new Color(245, 245, 251));
         btnThoat.setPreferredSize(new Dimension(200, 30));
+        btnThoat.setFont(new Font(Font.SANS_SERIF,Font.PLAIN,19));
         JPanel pnbtnThoat = new JPanel();
+        pnbtnThoat.setBackground(new Color(245, 245, 251));
         pnbtnThoat.add(btnThoat);
 
         pnSouth.add(pnbtnXacNhan);
         pnSouth.add(pnbtnThoat);
 
         JPanel pnMain = new JPanel();
+        pnMain.setBackground(new Color(245, 245, 251));
         pnMain.setLayout(new BorderLayout());
         pnMain.add(pnTop, BorderLayout.NORTH);
         pnMain.add(pnEast, BorderLayout.CENTER);
