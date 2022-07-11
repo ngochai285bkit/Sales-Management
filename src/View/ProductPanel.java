@@ -201,10 +201,10 @@ public class ProductPanel extends JPanel {
         btnXoa.setForeground(Color.BLACK);
         btnXoa.setBackground(Color.WHITE);
         pnSouth.add(Box.createHorizontalGlue());
-        pnSouth.add(btnXuatfile);
-        pnSouth.add(btnSua);
         pnSouth.add(btnThemMoi);
+        pnSouth.add(btnSua);
         pnSouth.add(btnXoa);
+        pnSouth.add(btnXuatfile);
         pnSouth.add(Box.createHorizontalGlue());
 
         JPanel pnCenterto = new JPanel();
