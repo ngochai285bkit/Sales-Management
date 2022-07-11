@@ -1,30 +1,20 @@
 package View;
 
 
-import Controller.DatabaseConnection;
 import Controller.ProductController;
 import Model.Database;
 import Model.ProductModel;
-import Model.ProductModel;
-import Model.SupplierModel;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import org.jdatepicker.JDatePicker;
 
 import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.sql.CallableStatement;
-import java.sql.Connection;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.*;
 import java.util.List;
+import java.util.*;
 
 public class AddAndChangeProductDialogAdd extends JDialog {
     private JTextField txtMaSanPham, txtTenSanPham, txtGia, txtDonVi, txtLoai, txtSoLuong;

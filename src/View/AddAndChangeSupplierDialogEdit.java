@@ -52,7 +52,6 @@ public class AddAndChangeSupplierDialogEdit extends JDialog {
         lblTieuDe.setForeground(backGroundBlue);
         pnTop.add(lblTieuDe);
 
-
         //The Center panel
         JPanel pnCenter = new JPanel();
         //pnCenter.setPreferredSize(new Dimension(400,0));
