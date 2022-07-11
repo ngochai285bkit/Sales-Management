@@ -1,6 +1,7 @@
 package View;
 
 import Controller.DatabaseConnection;
+import Controller.ExportExcel;
 import Model.Database;
 import Model.ProductModel;
 import com.formdev.flatlaf.FlatIntelliJLaf;
@@ -14,6 +15,7 @@ import javax.swing.table.JTableHeader;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -26,7 +28,7 @@ import java.util.List;
 public class ProductPanel extends JPanel {
     // attributes
     private Database database;
-    private JRadioButton rbtnMaSanPham,rbtnTenSanPham,rbtnLoai,rbtnDonVi,rbtnHan,rbtnGia,rbtnSoLuong;
+    private JRadioButton rbtnMaSanPham, rbtnTenSanPham, rbtnLoai, rbtnDonVi, rbtnHan, rbtnGia, rbtnSoLuong;
     private JButton btnSua, btnThemMoi, btnXoa, btnXuatfile;
     public static DefaultTableModel dtmDanhSachSP;
     private JTable tbDsSP;
@@ -44,6 +46,7 @@ public class ProductPanel extends JPanel {
         initComponents();
         addEvents();
     }
+
     private void initComponents() {
         // implementation the top panel
         JPanel pnTop = new JPanel();
@@ -190,22 +193,22 @@ public class ProductPanel extends JPanel {
         btnXuatfile.setPreferredSize(new Dimension(200, 30));
         //btnXuatfile.putClientProperty("JButton.buttonType","help");
         btnXuatfile.setIcon(UIManager.getIcon("Tree.closedIcon"));
-        btnXuatfile.setForeground(new Color(245,245,251));
+        btnXuatfile.setForeground(new Color(245, 245, 251));
         btnXuatfile.setBackground(backGroundBlue);
         btnSua = new JButton("Sửa");
         btnSua.setFont(font);
         btnSua.setPreferredSize(new Dimension(200, 30));
-        btnSua.setForeground(new Color(245,245,251));
+        btnSua.setForeground(new Color(245, 245, 251));
         btnSua.setBackground(backGroundBlue);
         btnThemMoi = new JButton("Thêm mới");
         btnThemMoi.setFont(font);
         btnThemMoi.setPreferredSize(new Dimension(200, 30));
-        btnThemMoi.setForeground(new Color(245,245,251));
+        btnThemMoi.setForeground(new Color(245, 245, 251));
         btnThemMoi.setBackground(backGroundBlue);
         btnXoa = new JButton("Xoá");
         btnXoa.setFont(font);
         btnXoa.setPreferredSize(new Dimension(200, 30));
-        btnXoa.setForeground(new Color(245,245,251));
+        btnXoa.setForeground(new Color(245, 245, 251));
         btnXoa.setBackground(backGroundBlue);
         pnSouth.add(Box.createHorizontalGlue());
         pnSouth.add(btnXuatfile);
@@ -225,6 +228,7 @@ public class ProductPanel extends JPanel {
 
 
     }
+
     private void addEvents() {
 
         btnThemMoi.addActionListener(new ActionListener() {
@@ -290,9 +294,8 @@ public class ProductPanel extends JPanel {
                             throwables.printStackTrace();
                         }
                     }
-                }
-                else {
-                    JOptionPane.showMessageDialog(null,"chưa chọn hàng","Lỗi",JOptionPane.ERROR_MESSAGE);
+                } else {
+                    JOptionPane.showMessageDialog(null, "chưa chọn hàng", "Lỗi", JOptionPane.ERROR_MESSAGE);
                 }
 
             }
@@ -358,48 +361,64 @@ public class ProductPanel extends JPanel {
                 showListProduct(listFiltered());
             }
         });
+
+        btnXuatfile.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JFileChooser fileChooser = new JFileChooser();
+                fileChooser.showSaveDialog(MainUI.frame);
+                File fileSave = fileChooser.getSelectedFile();
+                if (fileSave != null) {
+                    String filePath = fileSave.getPath();
+                    if (!filePath.endsWith(".xlsx") && !filePath.endsWith(".xls")) {
+                        filePath = filePath + ".xlsx";
+                    }
+                    ExportExcel.export(tbDsSP, filePath);
+                    JOptionPane.showMessageDialog(MainUI.frame, "Xuất file excel thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                }
+            }
+        });
     }
 
 
-
     private List<ProductModel> listFiltered() {
-        List< ProductModel> listLater = new ArrayList<>();
+        List<ProductModel> listLater = new ArrayList<>();
         String searchText = txtTimKiem.getText().toLowerCase();
         try {
-            List< ProductModel> list = getAllProducts();
-            for ( ProductModel  product : list) {
+            List<ProductModel> list = getAllProducts();
+            for (ProductModel product : list) {
                 if (txtTimKiem.getText().isEmpty()) {
-                    listLater.add( product);
+                    listLater.add(product);
                 } else {
                     if (rbtnMaSanPham.isSelected()) {
-                        if ( product.getMaSanPham().toLowerCase().contains(searchText)) {
-                            listLater.add( product);
+                        if (product.getMaSanPham().toLowerCase().contains(searchText)) {
+                            listLater.add(product);
                         }
-                    } else if(rbtnTenSanPham.isSelected()){
-                        if ( product.getTenSanPham().toLowerCase().contains(searchText)) {
-                            listLater.add( product);
+                    } else if (rbtnTenSanPham.isSelected()) {
+                        if (product.getTenSanPham().toLowerCase().contains(searchText)) {
+                            listLater.add(product);
                         }
-                    } else if(rbtnLoai.isSelected()){
-                        if ( product.getLoai().toLowerCase().contains(searchText)) {
-                            listLater.add( product);
+                    } else if (rbtnLoai.isSelected()) {
+                        if (product.getLoai().toLowerCase().contains(searchText)) {
+                            listLater.add(product);
                         }
-                    } else if (rbtnDonVi.isSelected()){
-                        if ( product.getDonVi().toLowerCase().contains(searchText)) {
-                            listLater.add( product);
+                    } else if (rbtnDonVi.isSelected()) {
+                        if (product.getDonVi().toLowerCase().contains(searchText)) {
+                            listLater.add(product);
                         }
-                    } else if(rbtnHan.isSelected()){
+                    } else if (rbtnHan.isSelected()) {
                         String han = new SimpleDateFormat("dd/MM/yyyy").format(product.getHan());
-                        if ( han.contains(searchText)) {
-                            listLater.add( product);
+                        if (han.contains(searchText)) {
+                            listLater.add(product);
                         }
-                    } else if(rbtnGia.isSelected()){
-                        if ( product.getGia().toLowerCase().contains(searchText)) {
-                            listLater.add( product);
+                    } else if (rbtnGia.isSelected()) {
+                        if (product.getGia().toLowerCase().contains(searchText)) {
+                            listLater.add(product);
                         }
-                    } else if(rbtnSoLuong.isSelected()){
-                        String ngaySinh= new SimpleDateFormat("dd/MM/yyyy").format( product.getSoLuong());
-                        if(ngaySinh.contains(searchText)){
-                            listLater.add( product);
+                    } else if (rbtnSoLuong.isSelected()) {
+
+                        if (product.getSoLuong().contains(searchText)) {
+                            listLater.add(product);
                         }
                     }
                 }
@@ -432,7 +451,7 @@ public class ProductPanel extends JPanel {
                 productModel.setDonVi(rs.getString("DonVi"));
                 productModel.setLoai(rs.getString("Loai"));
                 try {
-                    productModel.setHan(new SimpleDateFormat("dd/MM/yyyy").parse( rs.getString("Han")));
+                    productModel.setHan(new SimpleDateFormat("dd/MM/yyyy").parse(rs.getString("Han")));
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }

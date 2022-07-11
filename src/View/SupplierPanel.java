@@ -1,6 +1,7 @@
 package View;
 
 import Controller.DatabaseConnection;
+import Controller.ExportExcel;
 import Model.Database;
 import Model.ProductModel;
 import Model.SupplierModel;
@@ -14,6 +15,7 @@ import javax.swing.table.JTableHeader;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -324,7 +326,25 @@ public class SupplierPanel extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 showListSupplier(listFiltered());
             }
-        });}
+        });
+        btnXuatfile.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JFileChooser fileChooser = new JFileChooser();
+                fileChooser.showSaveDialog(MainUI.frame);
+                File fileSave = fileChooser.getSelectedFile();
+                if (fileSave != null) {
+                    String filePath = fileSave.getPath();
+                    if (!filePath.endsWith(".xlsx") && !filePath.endsWith(".xls")) {
+                        filePath = filePath + ".xlsx";
+                    }
+                    ExportExcel.export(tbDsNCC, filePath);
+                    JOptionPane.showMessageDialog(MainUI.frame, "Xuất file excel thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                }
+            }
+        });
+
+    }
 
 
 
