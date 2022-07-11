@@ -28,7 +28,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Vector;
 
-public class EmployeePanel extends JPanel {
+public class  EmployeePanel extends JPanel {
     // attributes
     private Database database;
     private final Color backGroundColor = new Color(245, 245, 251);

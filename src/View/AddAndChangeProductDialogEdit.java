@@ -294,6 +294,7 @@ public class AddAndChangeProductDialogEdit extends JDialog {
 
     private void showDialog(Window owner) {
         this.setSize(809, 500);
+        this.setResizable(false);
         this.setLocationRelativeTo(owner);
         this.setDefaultCloseOperation(HIDE_ON_CLOSE);
         this.setVisible(true);

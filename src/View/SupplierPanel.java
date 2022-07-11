@@ -35,7 +35,7 @@ public class SupplierPanel extends JPanel {
     private JTable tbDsNCC;
     private final Color backGroundColor = new Color(245, 245, 251);
     private final Color backGroundBlue = new Color(78, 138, 201);
-    private final Font font = new Font(Font.SANS_SERIF, Font.PLAIN, 18);
+    private final Font font = new Font(Font.SANS_SERIF, Font.PLAIN, 16);
     private SupplierModel supplier;
     private JTextField txtTimKiem;
     private Dimension dimenButton = new Dimension(160,38);
@@ -117,10 +117,11 @@ public class SupplierPanel extends JPanel {
 
         //East panel
         JPanel pnEast = new JPanel();
+        pnEast.setBackground(backGroundColor);
         pnEast.setPreferredSize(new Dimension(240, 0));
         pnEast.setLayout(new BorderLayout());
         pnEast.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(0,
-                5, 5, 5), BorderFactory.createLineBorder(new Color(99, 200, 221, 255), 2)));
+                5, 5, 5), BorderFactory.createLineBorder(Color.BLACK, 2)));
         JPanel pnTimKiem = new JPanel();
         pnTimKiem.setLayout(new BoxLayout(pnTimKiem, BoxLayout.Y_AXIS));
         pnTimKiem.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(10,
@@ -160,8 +161,8 @@ public class SupplierPanel extends JPanel {
         JPanel pnSouth = new JPanel();
         pnSouth.setLayout(new FlowLayout(FlowLayout.CENTER, 20, 20));
         pnSouth.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(0,
-                5, 5, 0), BorderFactory.createLineBorder(new Color(99, 200, 221, 255), 2)));
-
+                5, 5, 3), BorderFactory.createLineBorder(Color.BLACK, 2)));
+        pnSouth.setBackground(backGroundColor);
         btnXuatfile = new JButton("Xuất file");
         btnXuatfile.setIcon(new FlatSVGIcon(Objects.requireNonNull(ProductPanel.class.getResource("/Images/24x24/excel_24x24.svg"))));
         btnXuatfile.setFont(font);

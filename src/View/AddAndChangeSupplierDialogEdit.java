@@ -46,14 +46,15 @@ public class AddAndChangeSupplierDialogEdit extends JDialog {
         //The top panel
         JPanel pnTop = new JPanel();
         pnTop.setBackground(new Color(245, 245, 251));
-        JLabel lblTieuDe = new JLabel("Thông tin nhân viên");
+        JLabel lblTieuDe = new JLabel("Thông tin nhà cung cấp");
         lblTieuDe.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 26));
         lblTieuDe.setForeground(backGroundBlue);
         pnTop.add(lblTieuDe);
 
 
-        //The right panel
+        //The Center panel
         JPanel pnCenter = new JPanel();
+        //pnCenter.setPreferredSize(new Dimension(400,0));
         pnCenter.setLayout(new BoxLayout(pnCenter, BoxLayout.Y_AXIS));
         pnCenter.setBackground(new Color(245, 245, 251));
 
@@ -124,6 +125,7 @@ public class AddAndChangeSupplierDialogEdit extends JDialog {
         pnCenter.add(pnSoTaiKhoan);
         pnCenter.add(Box.createVerticalGlue());
 
+        //South panel
         JPanel pnSouth = new JPanel();
         pnSouth.setLayout(new FlowLayout(FlowLayout.CENTER));
         pnSouth.setBackground(new Color(245, 245, 251));
@@ -151,6 +153,7 @@ public class AddAndChangeSupplierDialogEdit extends JDialog {
         pnSouth.add(pnbtnXacNhan);
         pnSouth.add(pnbtnThoat);
 
+        //Main Panel
         JPanel pnMain = new JPanel();
         pnMain.setBackground(new Color(245, 245, 251));
         pnMain.setLayout(new BorderLayout());
@@ -248,6 +251,7 @@ public class AddAndChangeSupplierDialogEdit extends JDialog {
     private void showDialog(Window owner) {
         this.setSize(809, 500);
         this.setLocationRelativeTo(owner);
+        this.setResizable(false);
         this.setDefaultCloseOperation(HIDE_ON_CLOSE);
         this.setVisible(true);
 

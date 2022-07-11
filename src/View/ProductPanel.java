@@ -35,7 +35,7 @@ public class ProductPanel extends JPanel {
     private JTable tbDsSP;
     private final Color backGroundColor = new Color(245, 245, 251);
     private final Color backGroundBlue = new Color(78, 138, 201);
-    private final Font font = new Font(Font.SANS_SERIF, Font.PLAIN, 18);
+    private final Font font = new Font(Font.SANS_SERIF, Font.PLAIN, 16);
     private  final Dimension dimenButton = new Dimension(160,38);
     private ProductModel product;
     private JTextField txtTimKiem;
@@ -120,6 +120,7 @@ public class ProductPanel extends JPanel {
 
         //East panel
         JPanel pnEast = new JPanel();
+        pnEast.setBackground(backGroundColor);
         pnEast.setPreferredSize(new Dimension(240, 0));
         pnEast.setLayout(new BorderLayout());
         pnEast.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(0,
@@ -172,9 +173,10 @@ public class ProductPanel extends JPanel {
 
         //South panel
         JPanel pnSouth = new JPanel();
+        pnSouth.setBackground(backGroundColor);
         pnSouth.setLayout(new FlowLayout(FlowLayout.CENTER, 20, 20));
         pnSouth.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(0,
-                5, 5, 0), BorderFactory.createLineBorder(new Color(99, 200, 221, 255), 2)));
+                5, 5, 3), BorderFactory.createLineBorder(new Color(99, 200, 221, 255), 2)));
 
         btnXuatfile = new JButton("Xuất file");
         btnXuatfile.setIcon(new FlatSVGIcon(Objects.requireNonNull(ProductPanel.class.getResource("/Images/24x24/excel_24x24.svg"))));
