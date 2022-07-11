@@ -4,6 +4,7 @@ package View;
 import Controller.DatabaseConnection;
 import Model.Database;
 import Model.SupplierModel;
+import com.formdev.flatlaf.extras.FlatSVGIcon;
 
 import javax.swing.*;
 import java.awt.*;
@@ -17,6 +18,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Vector;
 
 public class AddAndChangeSupplierDialogAdd extends JDialog {
@@ -50,9 +52,9 @@ public class AddAndChangeSupplierDialogAdd extends JDialog {
 
 
         //The right panel
-        JPanel pnEast = new JPanel();
-        pnEast.setLayout(new BoxLayout(pnEast, BoxLayout.Y_AXIS));
-        pnEast.setBackground(new Color(245, 245, 251));
+        JPanel pnCenter = new JPanel();
+        pnCenter.setLayout(new BoxLayout(pnCenter, BoxLayout.Y_AXIS));
+        pnCenter.setBackground(new Color(245, 245, 251));
 
 
         JPanel pnMaNhaCungCap = new JPanel();
@@ -60,7 +62,7 @@ public class AddAndChangeSupplierDialogAdd extends JDialog {
         txtMaNhaCungCap = new JTextField();
 
         txtMaNhaCungCap.setPreferredSize(dimenTextField);
-        txtMaNhaCungCap.setFont(new Font(Font.SANS_SERIF,Font.ITALIC,16));;
+        txtMaNhaCungCap.setFont(new Font(Font.SANS_SERIF,Font.ITALIC,16));
         JLabel lblMaNhaCungCap = new JLabel("Mã nhà cung cấp: ");
         lblMaNhaCungCap.setFont(new Font(Font.SANS_SERIF, Font.ITALIC, 20));
         lblMaNhaCungCap.setPreferredSize(dimenLabel);
@@ -112,31 +114,33 @@ public class AddAndChangeSupplierDialogAdd extends JDialog {
         pnSoTaiKhoan.add(txtSoTaiKhoan);
 
 
-        pnEast.add(Box.createVerticalGlue());
-        pnEast.add(pnMaNhaCungCap);
-        pnEast.add(pnTenNhaCungCap);
-        pnEast.add(pnDiaChi);
-        pnEast.add(pnSDT);
-        pnEast.add(pnSoTaiKhoan);
-        pnEast.add(Box.createVerticalGlue());
+        pnCenter.add(Box.createVerticalGlue());
+        pnCenter.add(pnMaNhaCungCap);
+        pnCenter.add(pnTenNhaCungCap);
+        pnCenter.add(pnDiaChi);
+        pnCenter.add(pnSDT);
+        pnCenter.add(pnSoTaiKhoan);
+        pnCenter.add(Box.createVerticalGlue());
 
         JPanel pnSouth = new JPanel();
         pnSouth.setLayout(new FlowLayout(FlowLayout.CENTER));
         pnSouth.setBackground(new Color(245,245,251));
 
-        btnGhiLai = new JButton("Ghi lại");
-        btnGhiLai.setBackground(backGroundBlue);
-        btnGhiLai.setForeground(Color.WHITE);
-        btnGhiLai.setPreferredSize(new Dimension(200, 30));
+        btnGhiLai = new JButton("Xác nhận");
+        btnGhiLai.setIcon(new FlatSVGIcon(Objects.requireNonNull(AddAndChangeProductDialogAdd.class.getResource("/Images/24x24/checked_24x24.svg"))));
+        btnGhiLai.setBackground(Color.WHITE);
+        btnGhiLai.setForeground(Color.BLACK);
+        btnGhiLai.setPreferredSize(new Dimension(160, 38));
         btnGhiLai.setFont(new Font(Font.SANS_SERIF,Font.PLAIN,20));
         JPanel pnbtnGhiLai = new JPanel();
         pnbtnGhiLai.setBackground(new Color(245, 245, 251));
         pnbtnGhiLai.add(btnGhiLai);
 
         btnThoat = new JButton("Thoát");
-        btnThoat.setBackground(backGroundBlue);
-        btnThoat.setForeground(Color.WHITE);
-        btnThoat.setPreferredSize(new Dimension(200, 30));
+        btnThoat.setIcon(new FlatSVGIcon(AddAndChangeSupplierDialogAdd.class.getResource("/Images/24x24/exitDialog_24x24.svg")));
+        btnThoat.setBackground(Color.WHITE);
+        btnThoat.setForeground(Color.BLACK);
+        btnThoat.setPreferredSize(new Dimension(160, 38));
         btnThoat.setFont(new Font(Font.SANS_SERIF,Font.PLAIN,20));
         JPanel pnbtnThoat = new JPanel();
         pnbtnThoat.setBackground(new Color(245, 245, 251));
@@ -148,7 +152,7 @@ public class AddAndChangeSupplierDialogAdd extends JDialog {
         JPanel pnMain = new JPanel();
         pnMain.setLayout(new BorderLayout());
         pnMain.add(pnTop, BorderLayout.NORTH);
-        pnMain.add(pnEast, BorderLayout.CENTER);
+        pnMain.add(pnCenter, BorderLayout.CENTER);
         pnMain.add(pnSouth, BorderLayout.SOUTH);
 
         Container con = this.getContentPane();
@@ -252,7 +256,7 @@ public class AddAndChangeSupplierDialogAdd extends JDialog {
     }
 
     private void showDialog(Window owner) {
-        this.setSize(1000, 600);
+        this.setSize(809, 500);
         this.setLocationRelativeTo(owner);
         this.setDefaultCloseOperation(HIDE_ON_CLOSE);
         this.setVisible(true);

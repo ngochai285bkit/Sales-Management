@@ -5,6 +5,7 @@ import Controller.DatabaseConnection;
 import Model.Database;
 import Model.ProductModel;
 import Model.ProductModel;
+import com.formdev.flatlaf.extras.FlatSVGIcon;
 import org.jdatepicker.JDatePicker;
 
 import javax.swing.*;
@@ -55,9 +56,9 @@ public class AddAndChangeProductDialogAdd extends JDialog {
 
 
         //The right panel
-        JPanel pnEast = new JPanel();
-        pnEast.setBackground(new Color(245, 245, 251));
-        pnEast.setLayout(new BoxLayout(pnEast, BoxLayout.Y_AXIS));
+        JPanel pnCenter = new JPanel();
+        pnCenter.setBackground(new Color(245, 245, 251));
+        pnCenter.setLayout(new BoxLayout(pnCenter, BoxLayout.Y_AXIS));
 
 
 
@@ -144,34 +145,36 @@ public class AddAndChangeProductDialogAdd extends JDialog {
         pnSoLuong.add(txtSoLuong);
 
 
-        pnEast.add(Box.createVerticalGlue());
-        pnEast.add(pnMaSanPham);
-        pnEast.add(pnTenSanPham);
-        pnEast.add(pnDonVi);
-        pnEast.add(pnLoai);
-        pnEast.add(pnHan);
-        pnEast.add(pnGia);
-        pnEast.add(pnSoLuong);
-        pnEast.add(Box.createVerticalGlue());
+        pnCenter.add(Box.createVerticalGlue());
+        pnCenter.add(pnMaSanPham);
+        pnCenter.add(pnTenSanPham);
+        pnCenter.add(pnDonVi);
+        pnCenter.add(pnLoai);
+        pnCenter.add(pnHan);
+        pnCenter.add(pnGia);
+        pnCenter.add(pnSoLuong);
+        pnCenter.add(Box.createVerticalGlue());
 
         JPanel pnSouth = new JPanel();
         pnSouth.setBackground(new Color(245, 245, 251));
         pnSouth.setLayout(new FlowLayout(FlowLayout.CENTER));
 
 
-        btnGhiLai = new JButton("Ghi Lại");
-        btnGhiLai.setBackground(backGroundBlue);
-        btnGhiLai.setForeground(Color.WHITE);
-        btnGhiLai.setPreferredSize(new Dimension(200, 30));
+        btnGhiLai = new JButton("Xác nhận");
+        btnGhiLai.setIcon(new FlatSVGIcon(Objects.requireNonNull(AddAndChangeProductDialogAdd.class.getResource("/Images/24x24/checked_24x24.svg"))));
+        btnGhiLai.setBackground(Color.WHITE);
+        btnGhiLai.setForeground(Color.BLACK);
+        btnGhiLai.setPreferredSize(new Dimension(160, 38));
         btnGhiLai.setFont(new Font(Font.SANS_SERIF,Font.PLAIN,19));
         JPanel pnbtnGhiLai = new JPanel();
         pnbtnGhiLai.setBackground(new Color(245, 245, 251));
         pnbtnGhiLai.add(btnGhiLai);
 
         btnThoat = new JButton("Thoát");
-        btnThoat.setBackground(backGroundBlue);
-        btnThoat.setForeground(Color.WHITE);
-        btnThoat.setPreferredSize(new Dimension(200, 30));
+        btnThoat.setIcon(new FlatSVGIcon(Objects.requireNonNull(AddAndChangeProductDialogAdd.class.getResource("/Images/24x24/exitDialog_24x24.svg"))));
+        btnThoat.setBackground(Color.WHITE);
+        btnThoat.setForeground(Color.BLACK);
+        btnThoat.setPreferredSize(new Dimension(160, 38));
         btnThoat.setFont(new Font(Font.SANS_SERIF,Font.PLAIN,19));
         JPanel pnbtnThoat = new JPanel();
         pnbtnThoat.setBackground(new Color(245, 245, 251));
@@ -183,7 +186,7 @@ public class AddAndChangeProductDialogAdd extends JDialog {
         JPanel pnMain = new JPanel();
         pnMain.setLayout(new BorderLayout());
         pnMain.add(pnTop, BorderLayout.NORTH);
-        pnMain.add(pnEast, BorderLayout.CENTER);
+        pnMain.add(pnCenter, BorderLayout.CENTER);
         pnMain.add(pnSouth, BorderLayout.SOUTH);
 
         Container con = this.getContentPane();
@@ -309,7 +312,7 @@ public class AddAndChangeProductDialogAdd extends JDialog {
     }
 
     private void showDialog(Window owner) {
-        this.setSize(1000, 600);
+        this.setSize(809, 500);
         this.setLocationRelativeTo(owner);
         this.setDefaultCloseOperation(HIDE_ON_CLOSE);
         this.setVisible(true);

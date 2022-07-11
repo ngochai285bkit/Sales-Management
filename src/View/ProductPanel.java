@@ -5,6 +5,7 @@ import Controller.ExportExcel;
 import Model.Database;
 import Model.ProductModel;
 import com.formdev.flatlaf.FlatIntelliJLaf;
+import com.formdev.flatlaf.extras.FlatSVGIcon;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
@@ -35,6 +36,7 @@ public class ProductPanel extends JPanel {
     private final Color backGroundColor = new Color(245, 245, 251);
     private final Color backGroundBlue = new Color(78, 138, 201);
     private final Font font = new Font(Font.SANS_SERIF, Font.PLAIN, 18);
+    private  final Dimension dimenButton = new Dimension(160,38);
     private ProductModel product;
     private JTextField txtTimKiem;
 
@@ -85,8 +87,8 @@ public class ProductPanel extends JPanel {
         ((DefaultTableCellRenderer) tableHeader.getDefaultRenderer()).setHorizontalAlignment(JLabel.CENTER);
 
         dtmDanhSachSP = new DefaultTableModel();
-        dtmDanhSachSP.addColumn("Mã sản phẩm");
-        dtmDanhSachSP.addColumn("Tên sản phẩm");
+        dtmDanhSachSP.addColumn("Mã");
+        dtmDanhSachSP.addColumn("Tên");
         dtmDanhSachSP.addColumn("Đơn vị");
         dtmDanhSachSP.addColumn("Loại");
         dtmDanhSachSP.addColumn("Hạn");
@@ -121,11 +123,11 @@ public class ProductPanel extends JPanel {
         pnEast.setPreferredSize(new Dimension(240, 0));
         pnEast.setLayout(new BorderLayout());
         pnEast.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(0,
-                5, 0, 0), BorderFactory.createLineBorder(new Color(99, 200, 221, 255), 2)));
+                5, 5, 5), BorderFactory.createLineBorder(new Color(99, 200, 221, 255), 2)));
         JPanel pnTimKiem = new JPanel();
         pnTimKiem.setLayout(new BoxLayout(pnTimKiem, BoxLayout.Y_AXIS));
         pnTimKiem.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(10,
-                5, 5, 5), BorderFactory.createLineBorder(new Color(78, 138, 201), 2)));
+                5, 5, 5), BorderFactory.createLineBorder(new Color(78, 138, 201), 1)));
 
 
         rbtnMaSanPham = new JRadioButton("Mã sản phẩm");
@@ -163,53 +165,41 @@ public class ProductPanel extends JPanel {
         pnTimKiem.add(rbtnGia);
         pnTimKiem.add(rbtnSoLuong);
 
-        JPanel pnLoc = new JPanel();
-        pnLoc.setLayout(new BoxLayout(pnLoc, BoxLayout.Y_AXIS));
-        pnLoc.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(10,
-                5, 5, 5), BorderFactory.createLineBorder(new Color(78, 138, 201), 2)));
-        JCheckBox chka = new JCheckBox();
-        JCheckBox chkb = new JCheckBox();
-        JCheckBox chkc = new JCheckBox();
-        JButton btnLoc = new JButton("Lọc");
-        btnLoc.setFont(font);
-
-        pnLoc.add(chka);
-        pnLoc.add(chkb);
-        pnLoc.add(chkc);
-        pnLoc.add(btnLoc);
 
 
         pnEast.add(pnTimKiem, BorderLayout.NORTH);
-        pnEast.add(pnLoc, BorderLayout.CENTER);
+        //pnEast.add(pnLoc, BorderLayout.CENTER);
 
         //South panel
         JPanel pnSouth = new JPanel();
         pnSouth.setLayout(new FlowLayout(FlowLayout.CENTER, 20, 20));
         pnSouth.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(0,
-                5, 0, 0), BorderFactory.createLineBorder(new Color(99, 200, 221, 255), 3)));
-        //pnSouth.setBackground(backGroundColor);
+                5, 5, 0), BorderFactory.createLineBorder(new Color(99, 200, 221, 255), 2)));
+
         btnXuatfile = new JButton("Xuất file");
+        btnXuatfile.setIcon(new FlatSVGIcon(Objects.requireNonNull(ProductPanel.class.getResource("/Images/24x24/excel_24x24.svg"))));
         btnXuatfile.setFont(font);
-        btnXuatfile.setPreferredSize(new Dimension(200, 30));
-        //btnXuatfile.putClientProperty("JButton.buttonType","help");
-        btnXuatfile.setIcon(UIManager.getIcon("Tree.closedIcon"));
-        btnXuatfile.setForeground(new Color(245, 245, 251));
-        btnXuatfile.setBackground(backGroundBlue);
+        btnXuatfile.setPreferredSize(dimenButton);
+        btnXuatfile.setForeground(Color.BLACK);
+        btnXuatfile.setBackground(Color.WHITE);
         btnSua = new JButton("Sửa");
+        btnSua.setIcon(new FlatSVGIcon(Objects.requireNonNull(ProductPanel.class.getResource("/Images/24x24/edit_24x24.svg"))));
         btnSua.setFont(font);
-        btnSua.setPreferredSize(new Dimension(200, 30));
-        btnSua.setForeground(new Color(245, 245, 251));
-        btnSua.setBackground(backGroundBlue);
+        btnSua.setPreferredSize(dimenButton);
+        btnSua.setForeground(Color.BLACK);
+        btnSua.setBackground(Color.WHITE);
         btnThemMoi = new JButton("Thêm mới");
+        btnThemMoi.setIcon(new FlatSVGIcon(Objects.requireNonNull(ProductPanel.class.getResource("/Images/24x24/plus_24x24.svg"))));
         btnThemMoi.setFont(font);
-        btnThemMoi.setPreferredSize(new Dimension(200, 30));
-        btnThemMoi.setForeground(new Color(245, 245, 251));
-        btnThemMoi.setBackground(backGroundBlue);
+        btnThemMoi.setPreferredSize(dimenButton);
+        btnThemMoi.setForeground(Color.BLACK);
+        btnThemMoi.setBackground(Color.WHITE);
         btnXoa = new JButton("Xoá");
+        btnXoa.setIcon(new FlatSVGIcon(Objects.requireNonNull(ProductPanel.class.getResource("/Images/24x24/delete_24x24.svg"))));
         btnXoa.setFont(font);
-        btnXoa.setPreferredSize(new Dimension(200, 30));
-        btnXoa.setForeground(new Color(245, 245, 251));
-        btnXoa.setBackground(backGroundBlue);
+        btnXoa.setPreferredSize(dimenButton);
+        btnXoa.setForeground(Color.BLACK);
+        btnXoa.setBackground(Color.WHITE);
         pnSouth.add(Box.createHorizontalGlue());
         pnSouth.add(btnXuatfile);
         pnSouth.add(btnSua);

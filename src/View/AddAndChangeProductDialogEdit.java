@@ -4,6 +4,7 @@ package View;
 import Controller.DatabaseConnection;
 import Model.Database;
 import Model.ProductModel;
+import com.formdev.flatlaf.extras.FlatSVGIcon;
 import org.jdatepicker.JDatePicker;
 
 import javax.swing.*;
@@ -16,10 +17,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
+import java.util.*;
 import java.util.List;
-import java.util.Vector;
 
 public class AddAndChangeProductDialogEdit extends JDialog {
     private JTextField txtMaSanPham, txtTenSanPham, txtGia, txtDonVi, txtLoai,txtSoLuong;
@@ -57,9 +56,9 @@ public class AddAndChangeProductDialogEdit extends JDialog {
 
 
         //The right panel
-        JPanel pnEast = new JPanel();
-        pnEast.setBackground(new Color(245, 245, 251));
-        pnEast.setLayout(new BoxLayout(pnEast, BoxLayout.Y_AXIS));
+        JPanel pnCenter = new JPanel();
+        pnCenter.setBackground(new Color(245, 245, 251));
+        pnCenter.setLayout(new BoxLayout(pnCenter, BoxLayout.Y_AXIS));
         
         
 
@@ -145,15 +144,15 @@ public class AddAndChangeProductDialogEdit extends JDialog {
         pnSoLuong.add(txtSoLuong);
 
 
-        pnEast.add(Box.createVerticalGlue());
-        pnEast.add(pnMaSanPham);
-        pnEast.add(pnTenSanPham);
-        pnEast.add(pnDonVi);
-        pnEast.add(pnLoai);
-        pnEast.add(pnHan);
-        pnEast.add(pnGia);
-        pnEast.add(pnSoLuong);
-        pnEast.add(Box.createVerticalGlue());
+        pnCenter.add(Box.createVerticalGlue());
+        pnCenter.add(pnMaSanPham);
+        pnCenter.add(pnTenSanPham);
+        pnCenter.add(pnDonVi);
+        pnCenter.add(pnLoai);
+        pnCenter.add(pnHan);
+        pnCenter.add(pnGia);
+        pnCenter.add(pnSoLuong);
+        pnCenter.add(Box.createVerticalGlue());
 
         JPanel pnSouth = new JPanel();
         pnSouth.setBackground(new Color(245, 245, 251));
@@ -161,18 +160,20 @@ public class AddAndChangeProductDialogEdit extends JDialog {
 
 
         btnXacNhan = new JButton("Xác nhận");
-        btnXacNhan.setBackground(backGroundBlue);
-        btnXacNhan.setForeground(new Color(245, 245, 251));
-        btnXacNhan.setPreferredSize(new Dimension(200, 30));
+        btnXacNhan.setIcon(new FlatSVGIcon(Objects.requireNonNull(AddAndChangeProductDialogEdit.class.getResource("/Images/24x24/checked_24x24.svg"))));
+        btnXacNhan.setBackground(Color.WHITE);
+        btnXacNhan.setForeground(Color.BLACK);
+        btnXacNhan.setPreferredSize(new Dimension(160, 38));
         btnXacNhan.setFont(new Font(Font.SANS_SERIF,Font.PLAIN,19));
         JPanel pnbtnXacNhan = new JPanel();
         pnbtnXacNhan.setBackground(new Color(245, 245, 251));
         pnbtnXacNhan.add(btnXacNhan);
 
         btnThoat = new JButton("Thoát");
-        btnThoat.setBackground(backGroundBlue);
-        btnThoat.setForeground(new Color(245, 245, 251));
-        btnThoat.setPreferredSize(new Dimension(200, 30));
+        btnThoat.setIcon(new FlatSVGIcon(Objects.requireNonNull(AddAndChangeProductDialogEdit.class.getResource("/Images/24x24/exitDialog_24x24.svg"))));
+        btnThoat.setBackground(Color.WHITE);
+        btnThoat.setForeground(Color.BLACK);
+        btnThoat.setPreferredSize(new Dimension(160, 38));
         btnThoat.setFont(new Font(Font.SANS_SERIF,Font.PLAIN,19));
         JPanel pnbtnThoat = new JPanel();
         pnbtnThoat.setBackground(new Color(245, 245, 251));
@@ -184,7 +185,7 @@ public class AddAndChangeProductDialogEdit extends JDialog {
         JPanel pnMain = new JPanel();
         pnMain.setLayout(new BorderLayout());
         pnMain.add(pnTop, BorderLayout.NORTH);
-        pnMain.add(pnEast, BorderLayout.CENTER);
+        pnMain.add(pnCenter, BorderLayout.CENTER);
         pnMain.add(pnSouth, BorderLayout.SOUTH);
 
         Container con = this.getContentPane();
@@ -292,7 +293,7 @@ public class AddAndChangeProductDialogEdit extends JDialog {
     }
 
     private void showDialog(Window owner) {
-        this.setSize(1000, 600);
+        this.setSize(809, 500);
         this.setLocationRelativeTo(owner);
         this.setDefaultCloseOperation(HIDE_ON_CLOSE);
         this.setVisible(true);
