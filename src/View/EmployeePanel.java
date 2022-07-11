@@ -4,6 +4,7 @@ import Controller.DatabaseConnection;
 import Model.Database;
 import Model.EmployeeModel;
 import com.formdev.flatlaf.FlatIntelliJLaf;
+import com.formdev.flatlaf.extras.FlatSVGIcon;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
@@ -22,6 +23,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Vector;
 
 public class EmployeePanel extends JPanel {
@@ -32,10 +34,11 @@ public class EmployeePanel extends JPanel {
     private final Font font = new Font(Font.SANS_SERIF, Font.PLAIN, 18);
     private JButton btnSua, btnThemMoi, btnXoa;
     public static DefaultTableModel dtmDsNhanVien;
-
+    private final Dimension dimenButton = new Dimension(160, 38);
     private JRadioButton rbtnMaNhanVien, rbtnTenNhanVien, rbtnDiaChi, rbtnDienThoai, rbtnChucVu, rbtnNgaySinh, rbtnNgayBatDauLam, rbtnGioiTinh;
     private JTable tbDsNhanVien;
     private JTextField txtTimKiem;
+
 
     public EmployeePanel() {
 
@@ -85,10 +88,10 @@ public class EmployeePanel extends JPanel {
         ((DefaultTableCellRenderer) tableHeader.getDefaultRenderer()).setHorizontalAlignment(JLabel.CENTER);
 
         dtmDsNhanVien = new DefaultTableModel();
-        dtmDsNhanVien.addColumn("Mã nhân viên");
-        dtmDsNhanVien.addColumn("Tên nhân viên");
+        dtmDsNhanVien.addColumn("Mã");
+        dtmDsNhanVien.addColumn("Họ và tên");
         dtmDsNhanVien.addColumn("Địa chỉ");
-        dtmDsNhanVien.addColumn("Điện thoại");
+        dtmDsNhanVien.addColumn("Số điện thoại");
         dtmDsNhanVien.addColumn("Chức vụ");
         dtmDsNhanVien.addColumn("Ngày sinh");
         dtmDsNhanVien.addColumn("Ngày bắt đầu làm");
@@ -121,23 +124,28 @@ public class EmployeePanel extends JPanel {
         pnSouth.setLayout(new FlowLayout(FlowLayout.CENTER, 20, 20));
         pnSouth.setBackground(backGroundColor);
         btnSua = new JButton("Sửa");
-        btnSua.setPreferredSize(new Dimension(200, 30));
-        btnSua.setBackground(backGroundBlue);
-        btnSua.setForeground(Color.WHITE);
+        btnSua.setPreferredSize(dimenButton);
+        btnSua.setIcon(new FlatSVGIcon(Objects.requireNonNull(CustomerPanel.class.getResource("/Images/24x24/edit_24x24.svg"))));
+        btnSua.setBackground(Color.WHITE);
+        btnSua.setForeground(Color.BLACK);
         btnSua.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 16));
         btnThemMoi = new JButton("Thêm mới");
-        btnThemMoi.setPreferredSize(new Dimension(200, 30));
-        btnThemMoi.setBackground(backGroundBlue);
-        btnThemMoi.setForeground(Color.WHITE);
+        btnThemMoi.setPreferredSize(dimenButton);
+        btnThemMoi.setIcon(new FlatSVGIcon(Objects.requireNonNull(CustomerPanel.class.getResource("/Images/24x24" +
+                "/plus_24x24.svg"))));
+        btnThemMoi.setBackground(Color.WHITE);
+        btnThemMoi.setForeground(Color.BLACK);
         btnThemMoi.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 16));
         btnXoa = new JButton("Xoá");
-        btnXoa.setPreferredSize(new Dimension(200, 30));
-        btnXoa.setBackground(backGroundBlue);
-        btnXoa.setForeground(Color.WHITE);
+        btnXoa.setPreferredSize(dimenButton);
+        btnXoa.setIcon(new FlatSVGIcon(Objects.requireNonNull(CustomerPanel.class.getResource("/Images/24x24" +
+                "/delete_24x24.svg"))));
+        btnXoa.setBackground(Color.WHITE);
+        btnXoa.setForeground(Color.BLACK);
         btnXoa.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 16));
         pnSouth.add(Box.createHorizontalGlue());
-        pnSouth.add(btnSua);
         pnSouth.add(btnThemMoi);
+        pnSouth.add(btnSua);
         pnSouth.add(btnXoa);
         pnSouth.add(Box.createHorizontalGlue());
         pnSouth.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(0, 5, 0, 0), BorderFactory.createLineBorder(backGroundBlue, 3)));
@@ -153,13 +161,13 @@ public class EmployeePanel extends JPanel {
         pnTimKiem.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(10, 5, 0, 0), BorderFactory.createLineBorder(new Color(78, 138, 201), 1)));
 
 
-        rbtnMaNhanVien = new JRadioButton("Mã nhân viên");
+        rbtnMaNhanVien = new JRadioButton("Mã");
         rbtnMaNhanVien.setFont(font);
-        rbtnTenNhanVien = new JRadioButton("Tên nhân viên");
+        rbtnTenNhanVien = new JRadioButton("Họ và tên");
         rbtnTenNhanVien.setFont(font);
         rbtnDiaChi = new JRadioButton("Địa chỉ");
         rbtnDiaChi.setFont(font);
-        rbtnDienThoai = new JRadioButton("Điện Thoại");
+        rbtnDienThoai = new JRadioButton("Số điện thoại");
         rbtnDienThoai.setFont(font);
         rbtnChucVu = new JRadioButton("Chức vụ");
         rbtnChucVu.setFont(font);

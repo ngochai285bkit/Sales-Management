@@ -4,8 +4,11 @@ import Controller.DatabaseConnection;
 import Model.CustomerModel;
 import Model.Database;
 import com.formdev.flatlaf.FlatIntelliJLaf;
+import com.formdev.flatlaf.extras.FlatSVGIcon;
 
 import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
@@ -16,8 +19,10 @@ import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Vector;
 
 public class CustomerPanel extends JPanel {
@@ -30,6 +35,10 @@ public class CustomerPanel extends JPanel {
     public static DefaultTableModel dtmDsKhachHang;
     private JTable tbDsKhachHang;
     private CustomerModel custom;
+    private JTextField txtTimKiem;
+    private JRadioButton rbtnMaKhachHang, rbtnTenKhachHang, rbtnDiaChiKhachHang, rbtnDienThoaiKhachHang;
+    private final Dimension dimenButton = new Dimension(160, 38);
+
 
     // constructor
     public CustomerPanel(Database database) {
@@ -77,10 +86,10 @@ public class CustomerPanel extends JPanel {
         ((DefaultTableCellRenderer) tableHeader.getDefaultRenderer()).setHorizontalAlignment(JLabel.CENTER);
 
         dtmDsKhachHang = new DefaultTableModel();
-        dtmDsKhachHang.addColumn("Mã khách hàng");
-        dtmDsKhachHang.addColumn("Tên khách hàng");
+        dtmDsKhachHang.addColumn("Mã");
+        dtmDsKhachHang.addColumn("Họ và tên");
         dtmDsKhachHang.addColumn("Địa chỉ");
-        dtmDsKhachHang.addColumn("Điện thoại");
+        dtmDsKhachHang.addColumn("Số điện thoại");
         tbDsKhachHang.setModel(dtmDsKhachHang);
         JScrollPane scrollDanhSachKH = new JScrollPane(tbDsKhachHang, JScrollPane.VERTICAL_SCROLLBAR_NEVER, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         //scrollDanhSachNV.setBorder(BorderFactory.createEmptyBorder(4 , 10,4 ,10));
@@ -107,25 +116,31 @@ public class CustomerPanel extends JPanel {
         pnSouth.setLayout(new FlowLayout(FlowLayout.CENTER, 20, 20));
         pnSouth.setBackground(backGroundColor);
         btnSua = new JButton("Sửa");
-        btnSua.setPreferredSize(new Dimension(200, 30));
-        btnSua.setBackground(backGroundBlue);
-        btnSua.setForeground(Color.WHITE);
+        btnSua.setPreferredSize(dimenButton);
+        btnSua.setIcon(new FlatSVGIcon(Objects.requireNonNull(CustomerPanel.class.getResource("/Images/24x24/edit_24x24.svg"))));
+        btnSua.setBackground(Color.WHITE);
+        btnSua.setForeground(Color.BLACK);
         btnSua.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 16));
         btnThemMoi = new JButton("Thêm mới");
-        btnThemMoi.setPreferredSize(new Dimension(200, 30));
-        btnThemMoi.setBackground(backGroundBlue);
-        btnThemMoi.setForeground(Color.WHITE);
+        btnThemMoi.setPreferredSize(dimenButton);
+        btnThemMoi.setIcon(new FlatSVGIcon(Objects.requireNonNull(CustomerPanel.class.getResource("/Images/24x24" +
+                "/plus_24x24.svg"))));
+        btnThemMoi.setBackground(Color.WHITE);
+        btnThemMoi.setForeground(Color.BLACK);
         btnThemMoi.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 16));
         btnXoa = new JButton("Xoá");
-        btnXoa.setPreferredSize(new Dimension(200, 30));
-        btnXoa.setBackground(backGroundBlue);
-        btnXoa.setForeground(Color.WHITE);
+        btnXoa.setPreferredSize(dimenButton);
+        btnXoa.setIcon(new FlatSVGIcon(Objects.requireNonNull(CustomerPanel.class.getResource("/Images/24x24" +
+                "/delete_24x24.svg"))));
+        btnXoa.setBackground(Color.WHITE);
+        btnXoa.setForeground(Color.BLACK);
         btnXoa.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 16));
 
         pnSouth.add(Box.createHorizontalGlue());
-        pnSouth.add(btnSua);
         pnSouth.add(btnThemMoi);
+        pnSouth.add(btnSua);
         pnSouth.add(btnXoa);
+
         pnSouth.add(Box.createHorizontalGlue());
         pnSouth.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(0, 5, 0, 0), BorderFactory.createLineBorder(backGroundBlue, 3)));
 
@@ -141,28 +156,28 @@ public class CustomerPanel extends JPanel {
                 5, 0, 0), BorderFactory.createLineBorder(new Color(78, 138, 201), 1)));
 
 
-        JRadioButton rbtnMaNhaNhanVien = new JRadioButton("Mã khách hàng");
-        rbtnMaNhaNhanVien.setFont(font);
-        JRadioButton rbtnTenNhaNhanVien = new JRadioButton("Tên khách hàng");
-        rbtnTenNhaNhanVien.setFont(font);
-        JRadioButton rbtnDiaChiNhaNhanVien = new JRadioButton("Địa chỉ khách hàng");
-        rbtnDiaChiNhaNhanVien.setFont(font);
-        JRadioButton rbtnDienThoai = new JRadioButton("Điện Thoại");
-        rbtnDienThoai.setFont(font);
+        rbtnMaKhachHang = new JRadioButton("Mã");
+        rbtnMaKhachHang.setFont(font);
+        rbtnTenKhachHang = new JRadioButton("Họ và tên");
+        rbtnTenKhachHang.setFont(font);
+        rbtnDiaChiKhachHang = new JRadioButton("Địa chỉ");
+        rbtnDiaChiKhachHang.setFont(font);
+        rbtnDienThoaiKhachHang = new JRadioButton("Số điện Thoại");
+        rbtnDienThoaiKhachHang.setFont(font);
         ButtonGroup buttonGroup = new ButtonGroup();
-        buttonGroup.add(rbtnMaNhaNhanVien);
-        buttonGroup.add(rbtnTenNhaNhanVien);
-        buttonGroup.add(rbtnDiaChiNhaNhanVien);
-        buttonGroup.add(rbtnDienThoai);
+        buttonGroup.add(rbtnMaKhachHang);
+        buttonGroup.add(rbtnTenKhachHang);
+        buttonGroup.add(rbtnDiaChiKhachHang);
+        buttonGroup.add(rbtnDienThoaiKhachHang);
 
-        JTextField txtTimKiem = new JTextField(20);
+        txtTimKiem = new JTextField(20);
         txtTimKiem.putClientProperty("JTextField.placeholderText", "Tìm kiếm");
 
         pnTimKiem.add(txtTimKiem);
-        pnTimKiem.add(rbtnDiaChiNhaNhanVien);
-        pnTimKiem.add(rbtnMaNhaNhanVien);
-        pnTimKiem.add(rbtnTenNhaNhanVien);
-        pnTimKiem.add(rbtnDienThoai);
+        pnTimKiem.add(rbtnDiaChiKhachHang);
+        pnTimKiem.add(rbtnMaKhachHang);
+        pnTimKiem.add(rbtnTenKhachHang);
+        pnTimKiem.add(rbtnDienThoaiKhachHang);
 
         JPanel pnLoc = new JPanel();
         pnLoc.setLayout(new BoxLayout(pnLoc, BoxLayout.Y_AXIS));
@@ -212,7 +227,7 @@ public class CustomerPanel extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 int rowSelected = tbDsKhachHang.getSelectedRow();
-                if(rowSelected!=-1){
+                if (rowSelected != -1) {
                     CustomerModel customerModel = new CustomerModel();
                     customerModel.setMaKhachHang((String) tbDsKhachHang.getValueAt(rowSelected, 0));
                     customerModel.setTenKhachHang((String) tbDsKhachHang.getValueAt(rowSelected, 1));
@@ -229,13 +244,13 @@ public class CustomerPanel extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 int rowSelected = tbDsKhachHang.getSelectedRow();
-                if(rowSelected!=-1){
+                if (rowSelected != -1) {
                     Connection conn = DatabaseConnection.getConnection(database);
                     try {
                         CallableStatement statement = conn.prepareCall("{ CALL sp_Customer_Delete(?) }");
                         statement.setString(1, (String) tbDsKhachHang.getValueAt(rowSelected, 0));
                         int result = statement.executeUpdate();
-                        if(result!= 0){
+                        if (result != 0) {
                             showListCustomer(getAllCustomer());
                             JOptionPane.showMessageDialog(MainUI.frame, "Xoá thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
                         }
@@ -248,6 +263,85 @@ public class CustomerPanel extends JPanel {
                 }
             }
         });
+        txtTimKiem.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                showListCustomer(listFiltered());
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                showListCustomer(listFiltered());
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                showListCustomer(listFiltered());
+            }
+        });
+
+        rbtnMaKhachHang.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showListCustomer(listFiltered());
+            }
+        });
+
+        rbtnTenKhachHang.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showListCustomer(listFiltered());
+            }
+        });
+
+        rbtnDiaChiKhachHang.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showListCustomer(listFiltered());
+            }
+        });
+
+        rbtnDienThoaiKhachHang.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showListCustomer(listFiltered());
+            }
+        });
+    }
+
+    private List<CustomerModel> listFiltered() {
+        List<CustomerModel> listLater = new ArrayList<>();
+        String searchText = txtTimKiem.getText().toLowerCase();
+        try {
+            List<CustomerModel> list = getAllCustomer();
+            for (CustomerModel customer : list) {
+                if (txtTimKiem.getText().isEmpty()) {
+                    listLater.add(customer);
+                } else {
+                    if (rbtnMaKhachHang.isSelected()) {
+                        if (customer.getMaKhachHang().toLowerCase().contains(searchText)) {
+                            listLater.add(customer);
+                        }
+                    } else if (rbtnTenKhachHang.isSelected()) {
+                        if (customer.getTenKhachHang().toLowerCase().contains(searchText)) {
+                            listLater.add(customer);
+                        }
+                    } else if (rbtnDiaChiKhachHang.isSelected()) {
+                        if (customer.getDiaChi().toLowerCase().contains(searchText)) {
+                            listLater.add(customer);
+                        }
+                    } else if (rbtnDienThoaiKhachHang.isSelected()) {
+                        if (customer.getSoDienThoai().toLowerCase().contains(searchText)) {
+                            listLater.add(customer);
+                        }
+                    }
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return listLater;
     }
 
     private List<CustomerModel> getAllCustomer() throws SQLException {
