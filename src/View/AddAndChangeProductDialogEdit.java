@@ -13,10 +13,15 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
+<<<<<<< HEAD
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.Vector;
+=======
+import java.util.*;
+import java.util.List;
+>>>>>>> 8031b50 (update giao diện)
 
 public class AddAndChangeProductDialogEdit extends JDialog {
     private JTextField txtMaSanPham, txtTenSanPham, txtGia, txtDonVi, txtLoai, txtSoLuong;
@@ -57,7 +62,12 @@ public class AddAndChangeProductDialogEdit extends JDialog {
         JPanel pnCenter = new JPanel();
         pnCenter.setBackground(new Color(245, 245, 251));
         pnCenter.setLayout(new BoxLayout(pnCenter, BoxLayout.Y_AXIS));
+<<<<<<< HEAD
 
+=======
+        
+        
+>>>>>>> 8031b50 (update giao diện)
 
         JPanel pnMaSanPham = new JPanel();
         pnMaSanPham.setBackground(new Color(245, 245, 251));
@@ -161,7 +171,11 @@ public class AddAndChangeProductDialogEdit extends JDialog {
         btnXacNhan.setBackground(Color.WHITE);
         btnXacNhan.setForeground(Color.BLACK);
         btnXacNhan.setPreferredSize(new Dimension(160, 38));
+<<<<<<< HEAD
         btnXacNhan.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 19));
+=======
+        btnXacNhan.setFont(new Font(Font.SANS_SERIF,Font.PLAIN,19));
+>>>>>>> 8031b50 (update giao diện)
         JPanel pnbtnXacNhan = new JPanel();
         pnbtnXacNhan.setBackground(new Color(245, 245, 251));
         pnbtnXacNhan.add(btnXacNhan);
@@ -171,7 +185,11 @@ public class AddAndChangeProductDialogEdit extends JDialog {
         btnThoat.setBackground(Color.WHITE);
         btnThoat.setForeground(Color.BLACK);
         btnThoat.setPreferredSize(new Dimension(160, 38));
+<<<<<<< HEAD
         btnThoat.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 19));
+=======
+        btnThoat.setFont(new Font(Font.SANS_SERIF,Font.PLAIN,19));
+>>>>>>> 8031b50 (update giao diện)
         JPanel pnbtnThoat = new JPanel();
         pnbtnThoat.setBackground(new Color(245, 245, 251));
         pnbtnThoat.add(btnThoat);
@@ -257,7 +275,10 @@ public class AddAndChangeProductDialogEdit extends JDialog {
 
     private void showDialog(Window owner) {
         this.setSize(809, 500);
+<<<<<<< HEAD
         this.setResizable(false);
+=======
+>>>>>>> 8031b50 (update giao diện)
         this.setLocationRelativeTo(owner);
         this.setDefaultCloseOperation(HIDE_ON_CLOSE);
         this.setVisible(true);
