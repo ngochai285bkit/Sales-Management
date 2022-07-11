@@ -1,7 +1,6 @@
 package View;
 
 
-import Controller.DatabaseConnection;
 import Controller.SupplierController;
 import Model.Database;
 import Model.SupplierModel;
@@ -11,13 +10,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.sql.CallableStatement;
-import java.sql.Connection;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Vector;

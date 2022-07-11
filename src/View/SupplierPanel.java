@@ -123,7 +123,7 @@ public class SupplierPanel extends JPanel {
         pnEast.setPreferredSize(new Dimension(240, 0));
         pnEast.setLayout(new BorderLayout());
         pnEast.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(0,
-                5, 5, 5), BorderFactory.createLineBorder(new Color(99, 200, 221, 255), 2)));
+                5, 5, 5), BorderFactory.createLineBorder(Color.BLACK, 2)));
         JPanel pnTimKiem = new JPanel();
         pnTimKiem.setLayout(new BoxLayout(pnTimKiem, BoxLayout.Y_AXIS));
         pnTimKiem.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(10,
