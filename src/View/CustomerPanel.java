@@ -72,8 +72,9 @@ public class CustomerPanel extends JPanel {
         tbDsKhachHang.setForeground(Color.BLACK);
         tbDsKhachHang.setDefaultEditor(Object.class, null);
         tbDsKhachHang.setRowHeight(25);
-        tbDsKhachHang.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 15));
+        tbDsKhachHang.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 15));
         tbDsKhachHang.setShowGrid(true);
+        tbDsKhachHang.setGridColor(Color.BLACK);
 
         JTableHeader tableHeader = tbDsKhachHang.getTableHeader();
         tableHeader.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 16));

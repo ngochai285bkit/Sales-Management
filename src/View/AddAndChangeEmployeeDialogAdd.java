@@ -3,6 +3,7 @@ package View;
 import Controller.DatabaseConnection;
 import Model.Database;
 import Model.EmployeeModel;
+import com.formdev.flatlaf.extras.FlatSVGIcon;
 import org.jdatepicker.JDatePicker;
 
 import javax.swing.*;
@@ -22,12 +23,14 @@ import java.util.List;
 public class AddAndChangeEmployeeDialogAdd extends JDialog {
     private JTextField txtMaNhanVien, txtDiaChi, txtChucVu, txtTenNhanVien, txtSDT;
     private JDatePicker txtNgaySinh, txtNgayBatDauLam;
-    private final Dimension dimenLabel = new Dimension(150, 25);
-    private final Dimension dimenTextField=  new Dimension(220, 25);
+    private final Dimension dimenLabel = new Dimension(150, 30);
+    private final Dimension dimenTextField=  new Dimension(200, 30);
     private final Color backGroundBlue= new Color(78 , 138 , 201);
     private JButton btnXacNhan, btnThoat;
     private final Database database;
     private JComboBox chonGioiTinh;
+    private final Dimension dimenButton = new Dimension(160, 38);
+    private final Font fontTextField= new Font(Font.SANS_SERIF, Font.PLAIN , 16);
 
     // constructor
     public AddAndChangeEmployeeDialogAdd(Frame parent, String title, Database database){
@@ -61,14 +64,18 @@ public class AddAndChangeEmployeeDialogAdd extends JDialog {
         pnBottom.setBackground(Color.WHITE);
         pnBottom.setLayout(new FlowLayout(FlowLayout.CENTER));
         btnXacNhan = new JButton("Lưu thay đổi");
-        btnXacNhan.setPreferredSize(new Dimension(150, 30));
-        btnXacNhan.setBackground(backGroundBlue);
-        btnXacNhan.setForeground(Color.WHITE);
+        btnXacNhan.setPreferredSize(dimenButton);
+        btnXacNhan.setIcon(new FlatSVGIcon(Objects.requireNonNull(CustomerPanel.class.getResource("/Images/24x24" +
+                "/checked_24x24.svg"))));
+        btnXacNhan.setBackground(Color.WHITE);
+        btnXacNhan.setForeground(Color.BLACK);
         btnXacNhan.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 16));
         btnThoat = new JButton("Thoát");
-        btnThoat.setPreferredSize(new Dimension(150, 30));
-        btnThoat.setBackground(backGroundBlue);
-        btnThoat.setForeground(Color.WHITE);
+        btnThoat.setPreferredSize(dimenButton);
+        btnThoat.setIcon(new FlatSVGIcon(Objects.requireNonNull(CustomerPanel.class.getResource("/Images/24x24" +
+                "/exitDialog_24x24.svg"))));
+        btnThoat.setBackground(Color.WHITE);
+        btnThoat.setForeground(Color.BLACK);
         btnThoat.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 16));
         pnBottom.add(btnXacNhan);
         pnBottom.add(btnThoat);
@@ -84,6 +91,7 @@ public class AddAndChangeEmployeeDialogAdd extends JDialog {
         pnMaNhanVien.setBackground(Color.WHITE);
         txtMaNhanVien = new JTextField();
         txtMaNhanVien.setPreferredSize(dimenTextField);
+        txtMaNhanVien.setFont(fontTextField);
         JLabel lblMaNhanVien = new JLabel("Mã nhân viên: ");
         lblMaNhanVien.setFont(new Font(Font.SANS_SERIF, Font.ITALIC, 20));
         lblMaNhanVien.setPreferredSize(dimenLabel);
@@ -94,6 +102,7 @@ public class AddAndChangeEmployeeDialogAdd extends JDialog {
         pnTenNhanVien.setBackground(Color.WHITE);
         txtTenNhanVien = new JTextField();
         txtTenNhanVien.setPreferredSize(dimenTextField);
+        txtTenNhanVien.setFont(fontTextField);
         JLabel lblTenNhanVien = new JLabel("Tên nhân viên: ");
         lblTenNhanVien.setFont(new Font(Font.SANS_SERIF, Font.ITALIC, 20));
         lblTenNhanVien.setPreferredSize(dimenLabel);
@@ -104,6 +113,7 @@ public class AddAndChangeEmployeeDialogAdd extends JDialog {
         pnDiaChi.setBackground(Color.WHITE);
         txtDiaChi = new JTextField();
         txtDiaChi.setPreferredSize(dimenTextField);
+        txtDiaChi.setFont(fontTextField);
         JLabel lblDiaChi = new JLabel("Địa chỉ: ");
         lblDiaChi.setFont(new Font(Font.SANS_SERIF, Font.ITALIC, 20));
         lblDiaChi.setPreferredSize(dimenLabel);
@@ -114,6 +124,7 @@ public class AddAndChangeEmployeeDialogAdd extends JDialog {
         pnSDT.setBackground(Color.WHITE);
         txtSDT = new JTextField();
         txtSDT.setPreferredSize(dimenTextField);
+        txtSDT.setFont(fontTextField);
         JLabel lblSDT = new JLabel("Số điện thoại: ");
         lblSDT.setFont(new Font(Font.SANS_SERIF, Font.ITALIC, 20));
         lblSDT.setPreferredSize(dimenLabel);
@@ -124,6 +135,7 @@ public class AddAndChangeEmployeeDialogAdd extends JDialog {
         pnChucVu.setBackground(Color.WHITE);
         txtChucVu = new JTextField();
         txtChucVu.setPreferredSize(dimenTextField);
+        txtChucVu.setFont(fontTextField);
         JLabel lblChucVu = new JLabel("Chức vụ: ");
         lblChucVu.setFont(new Font(Font.SANS_SERIF, Font.ITALIC, 20));
         lblChucVu.setPreferredSize(dimenLabel);
@@ -136,6 +148,9 @@ public class AddAndChangeEmployeeDialogAdd extends JDialog {
         Date now = cal.getTime();
         txtNgaySinh = new JDatePicker(now);
         txtNgaySinh.setPreferredSize(dimenTextField);
+        txtNgaySinh.getComponent(0).setPreferredSize(new Dimension(160, 30));
+        txtNgaySinh.getComponent(1).setPreferredSize(new Dimension(30, 30));
+        txtNgaySinh.setFont(fontTextField);
         JLabel lblNgaySinh = new JLabel("Ngày sinh: ");
         lblNgaySinh.setFont(new Font(Font.SANS_SERIF, Font.ITALIC, 20));
         lblNgaySinh.setPreferredSize(dimenLabel);
@@ -146,6 +161,9 @@ public class AddAndChangeEmployeeDialogAdd extends JDialog {
         pnNgayBatDauLam.setBackground(Color.WHITE);
         txtNgayBatDauLam = new JDatePicker(now);
         txtNgayBatDauLam.setPreferredSize(dimenTextField);
+        txtNgayBatDauLam.getComponent(0).setPreferredSize(new Dimension(160, 30));
+        txtNgayBatDauLam.getComponent(1).setPreferredSize(new Dimension(30, 30));
+        txtNgayBatDauLam.setFont(fontTextField);
         JLabel lblNgayBatDauLam = new JLabel("Ngày làm việc: ");
         lblNgayBatDauLam.setFont(new Font(Font.SANS_SERIF, Font.ITALIC, 20));
         lblNgayBatDauLam.setPreferredSize(dimenLabel);
@@ -305,7 +323,7 @@ public class AddAndChangeEmployeeDialogAdd extends JDialog {
     }
 
     private void showDialog(Frame parent){
-        this.setSize(1000,600);
+        this.setSize(500,600);
         this.setLocationRelativeTo(parent);
         this.setVisible(true);
 

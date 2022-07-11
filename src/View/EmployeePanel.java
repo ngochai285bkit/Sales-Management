@@ -75,8 +75,9 @@ public class EmployeePanel extends JPanel {
         tbDsNhanVien.setForeground(Color.BLACK);
         tbDsNhanVien.setDefaultEditor(Object.class, null);
         tbDsNhanVien.setRowHeight(25);
-        tbDsNhanVien.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 15));
+        tbDsNhanVien.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 15));
         tbDsNhanVien.setShowGrid(true);
+        tbDsNhanVien.setGridColor(Color.BLACK);
 
         JTableHeader tableHeader = tbDsNhanVien.getTableHeader();
         tableHeader.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 16));

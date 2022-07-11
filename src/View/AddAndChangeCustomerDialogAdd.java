@@ -5,6 +5,7 @@ package View;
 import Controller.DatabaseConnection;
 import Model.CustomerModel;
 import Model.Database;
+import com.formdev.flatlaf.extras.FlatSVGIcon;
 
 import javax.swing.*;
 import java.awt.*;
@@ -16,15 +17,18 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Vector;
 
 public class AddAndChangeCustomerDialogAdd extends JDialog {
     private JTextField txtMaKhachHang, txtTenKhachHang, txtDiaChi, txtSDT;
     private final Dimension dimenLabel = new Dimension(190, 25);
-    private final Dimension dimenTextField=  new Dimension(220, 25);
     private final Color backGroundBlue= new Color(78 , 138 , 201);
     private JButton btnXacNhan, btnThoat;
     private final Database database;
+    private final Dimension dimenButton = new Dimension(160, 38);
+    private final Font fontTextField= new Font(Font.SANS_SERIF, Font.PLAIN , 16);
+    private final Dimension dimenTextField=  new Dimension(200, 30);
 
     // constructor
     public AddAndChangeCustomerDialogAdd(Frame parent, String title, Database database){
@@ -51,14 +55,18 @@ public class AddAndChangeCustomerDialogAdd extends JDialog {
         pnBottom.setBackground(Color.WHITE);
         pnBottom.setLayout(new FlowLayout(FlowLayout.CENTER));
         btnXacNhan = new JButton("Lưu thay đổi");
-        btnXacNhan.setPreferredSize(new Dimension(150, 30));
-        btnXacNhan.setBackground(backGroundBlue);
-        btnXacNhan.setForeground(Color.WHITE);
+        btnXacNhan.setPreferredSize(dimenButton);
+        btnXacNhan.setIcon(new FlatSVGIcon(Objects.requireNonNull(CustomerPanel.class.getResource("/Images/24x24" +
+                "/checked_24x24.svg"))));
+        btnXacNhan.setBackground(Color.WHITE);
+        btnXacNhan.setForeground(Color.BLACK);
         btnXacNhan.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 16));
         btnThoat = new JButton("Thoát");
-        btnThoat.setPreferredSize(new Dimension(150, 30));
-        btnThoat.setBackground(backGroundBlue);
-        btnThoat.setForeground(Color.WHITE);
+        btnThoat.setPreferredSize(dimenButton);
+        btnThoat.setIcon(new FlatSVGIcon(Objects.requireNonNull(CustomerPanel.class.getResource("/Images/24x24" +
+                "/exitDialog_24x24.svg"))));
+        btnThoat.setBackground(Color.WHITE);
+        btnThoat.setForeground(Color.BLACK);
         btnThoat.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 16));
         pnBottom.add(btnXacNhan);
         pnBottom.add(btnThoat);
@@ -74,6 +82,7 @@ public class AddAndChangeCustomerDialogAdd extends JDialog {
         pnMaKhachHang.setBackground(Color.WHITE);
         txtMaKhachHang = new JTextField();
         txtMaKhachHang.setPreferredSize(dimenTextField);
+        txtMaKhachHang.setFont(fontTextField);
         JLabel lblMaKhachHang = new JLabel("Mã khách hàng: ");
         lblMaKhachHang.setFont(new Font(Font.SANS_SERIF, Font.ITALIC, 20));
         lblMaKhachHang.setPreferredSize(dimenLabel);
@@ -84,6 +93,7 @@ public class AddAndChangeCustomerDialogAdd extends JDialog {
         pnTenKhachHang.setBackground(Color.WHITE);
         txtTenKhachHang = new JTextField();
         txtTenKhachHang.setPreferredSize(dimenTextField);
+        txtTenKhachHang.setFont(fontTextField);
         JLabel lblTenKH = new JLabel("Tên khách hàng: ");
         lblTenKH.setFont(new Font(Font.SANS_SERIF, Font.ITALIC, 20));
         lblTenKH.setPreferredSize(dimenLabel);
@@ -94,6 +104,7 @@ public class AddAndChangeCustomerDialogAdd extends JDialog {
         pnDiaChi.setBackground(Color.WHITE);
         txtDiaChi = new JTextField();
         txtDiaChi.setPreferredSize(dimenTextField);
+        txtDiaChi.setFont(fontTextField);
         JLabel lblDiaChi = new JLabel("Địa chỉ: ");
         lblDiaChi.setFont(new Font(Font.SANS_SERIF, Font.ITALIC, 20));
         lblDiaChi.setPreferredSize(dimenLabel);
@@ -104,6 +115,7 @@ public class AddAndChangeCustomerDialogAdd extends JDialog {
         pnSDT.setBackground(Color.WHITE);
         txtSDT = new JTextField();
         txtSDT.setPreferredSize(dimenTextField);
+        txtSDT.setFont(fontTextField);
         JLabel lblSDT = new JLabel("Số điện thoại: ");
         lblSDT.setFont(new Font(Font.SANS_SERIF, Font.ITALIC, 20));
         lblSDT.setPreferredSize(dimenLabel);
