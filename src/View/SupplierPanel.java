@@ -137,10 +137,14 @@ public class SupplierPanel extends JPanel {
         pnEast.setLayout(new BorderLayout());
         pnEast.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(0,
 <<<<<<< HEAD
+<<<<<<< HEAD
                 5, 5, 5), BorderFactory.createLineBorder(Color.BLACK, 2)));
 =======
                 5, 5, 5), BorderFactory.createLineBorder(new Color(99, 200, 221, 255), 2)));
 >>>>>>> 8031b50 (update giao diện)
+=======
+                5, 5, 5), BorderFactory.createLineBorder(Color.BLACK, 2)));
+>>>>>>> 6966e9f (chỉnh cho đẹp)
         JPanel pnTimKiem = new JPanel();
         pnTimKiem.setLayout(new BoxLayout(pnTimKiem, BoxLayout.Y_AXIS));
         pnTimKiem.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(10,
@@ -181,12 +185,17 @@ public class SupplierPanel extends JPanel {
         pnSouth.setLayout(new FlowLayout(FlowLayout.CENTER, 20, 20));
         pnSouth.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(0,
 <<<<<<< HEAD
+<<<<<<< HEAD
                 5, 5, 3), BorderFactory.createLineBorder(new Color(99, 200, 221, 255), 2)));
         pnSouth.setBackground(backGroundColor);
 =======
                 5, 5, 0), BorderFactory.createLineBorder(new Color(99, 200, 221, 255), 2)));
 
 >>>>>>> 8031b50 (update giao diện)
+=======
+                5, 5, 3), BorderFactory.createLineBorder(Color.BLACK, 2)));
+        pnSouth.setBackground(backGroundColor);
+>>>>>>> 6966e9f (chỉnh cho đẹp)
         btnXuatfile = new JButton("Xuất file");
         btnXuatfile.setIcon(new FlatSVGIcon(Objects.requireNonNull(ProductPanel.class.getResource("/Images/24x24/excel_24x24.svg"))));
         btnXuatfile.setFont(font);

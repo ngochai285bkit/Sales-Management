@@ -51,9 +51,13 @@ public class AddAndChangeSupplierDialogEdit extends JDialog {
         //pnCenter.setPreferredSize(new Dimension(400,0));
 =======
 
-        //The right panel
+        //The Center panel
         JPanel pnCenter = new JPanel();
+<<<<<<< HEAD
 >>>>>>> 8031b50 (update giao diện)
+=======
+        //pnCenter.setPreferredSize(new Dimension(400,0));
+>>>>>>> 6966e9f (chỉnh cho đẹp)
         pnCenter.setLayout(new BoxLayout(pnCenter, BoxLayout.Y_AXIS));
         pnCenter.setBackground(new Color(245, 245, 251));
 

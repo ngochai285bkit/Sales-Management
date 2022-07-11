@@ -37,10 +37,14 @@ public class ProductPanel extends JPanel {
     private final Color backGroundColor = new Color(245, 245, 251);
     private final Color backGroundBlue = new Color(78, 138, 201);
 <<<<<<< HEAD
+<<<<<<< HEAD
     private final Font font = new Font(Font.SANS_SERIF, Font.PLAIN, 16);
 =======
     private final Font font = new Font(Font.SANS_SERIF, Font.PLAIN, 18);
 >>>>>>> 8031b50 (update giao diện)
+=======
+    private final Font font = new Font(Font.SANS_SERIF, Font.PLAIN, 16);
+>>>>>>> 6966e9f (chỉnh cho đẹp)
     private  final Dimension dimenButton = new Dimension(160,38);
     private ProductModel product;
     private JTextField txtTimKiem;
@@ -192,10 +196,14 @@ public class ProductPanel extends JPanel {
         pnSouth.setLayout(new FlowLayout(FlowLayout.CENTER, 20, 20));
         pnSouth.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(0,
 <<<<<<< HEAD
+<<<<<<< HEAD
                 5, 5, 3), BorderFactory.createLineBorder(new Color(99, 200, 221, 255), 2)));
 =======
                 5, 5, 0), BorderFactory.createLineBorder(new Color(99, 200, 221, 255), 2)));
 >>>>>>> 8031b50 (update giao diện)
+=======
+                5, 5, 3), BorderFactory.createLineBorder(new Color(99, 200, 221, 255), 2)));
+>>>>>>> 6966e9f (chỉnh cho đẹp)
 
         btnXuatfile = new JButton("Xuất file");
         btnXuatfile.setIcon(new FlatSVGIcon(Objects.requireNonNull(ProductPanel.class.getResource("/Images/24x24/excel_24x24.svg"))));
