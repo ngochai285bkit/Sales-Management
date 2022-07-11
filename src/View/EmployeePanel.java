@@ -40,6 +40,8 @@ public class EmployeePanel extends JPanel {
     private JRadioButton rbtnMaNhanVien, rbtnTenNhanVien, rbtnDiaChi, rbtnDienThoai, rbtnChucVu, rbtnNgaySinh, rbtnNgayBatDauLam, rbtnGioiTinh;
     private JTable tbDsNhanVien;
     private JTextField txtTimKiem;
+    private final Dimension dimenTextField=  new Dimension(200, 30);
+    private final Font fontTextField= new Font(Font.SANS_SERIF, Font.PLAIN , 16);
 
 
     public EmployeePanel() {
@@ -94,10 +96,10 @@ public class EmployeePanel extends JPanel {
         dtmDsNhanVien.addColumn("Mã");
         dtmDsNhanVien.addColumn("Họ và tên");
         dtmDsNhanVien.addColumn("Địa chỉ");
-        dtmDsNhanVien.addColumn("Số điện thoại");
+        dtmDsNhanVien.addColumn("SĐT");
         dtmDsNhanVien.addColumn("Chức vụ");
         dtmDsNhanVien.addColumn("Ngày sinh");
-        dtmDsNhanVien.addColumn("Ngày bắt đầu làm");
+        dtmDsNhanVien.addColumn("Ngày vào làm");
         dtmDsNhanVien.addColumn("Giới tính");
         tbDsNhanVien.setModel(dtmDsNhanVien);
         JScrollPane scrollDanhSachKH = new JScrollPane(tbDsNhanVien, JScrollPane.VERTICAL_SCROLLBAR_NEVER, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
@@ -159,17 +161,19 @@ public class EmployeePanel extends JPanel {
         pnSouth.add(btnXoa);
         pnSouth.add(btnXuatFile);
         pnSouth.add(Box.createHorizontalGlue());
-        pnSouth.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(0, 5, 0, 0), BorderFactory.createLineBorder(backGroundBlue, 3)));
+        pnSouth.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(0, 5, 5, 5),
+                BorderFactory.createLineBorder(Color.BLACK, 1)));
 
         // East panel
         JPanel pnEast = new JPanel();
         pnEast.setPreferredSize(new Dimension(240, 0));
         pnEast.setLayout(new BorderLayout());
         pnEast.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(0,
-                5, 0, 0), BorderFactory.createLineBorder(new Color(78, 138, 201), 1)));
+                5, 5, 5), BorderFactory.createLineBorder(new Color(78, 138, 201), 1)));
         JPanel pnTimKiem = new JPanel();
         pnTimKiem.setLayout(new BoxLayout(pnTimKiem, BoxLayout.Y_AXIS));
-        pnTimKiem.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(10, 5, 0, 0), BorderFactory.createLineBorder(new Color(78, 138, 201), 1)));
+        pnTimKiem.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(10, 5, 0, 5),
+                BorderFactory.createLineBorder(new Color(78, 138, 201), 1)));
 
 
         rbtnMaNhanVien = new JRadioButton("Mã");
@@ -199,7 +203,10 @@ public class EmployeePanel extends JPanel {
         buttonGroup.add(rbtnGioiTinh);
 
         txtTimKiem = new JTextField(20);
+        txtTimKiem.setPreferredSize(dimenTextField);
+        txtTimKiem.setFont(fontTextField);
         txtTimKiem.putClientProperty("JTextField.placeholderText", "Tìm kiếm");
+
 
         pnTimKiem.add(txtTimKiem);
         pnTimKiem.add(rbtnMaNhanVien);
@@ -211,23 +218,23 @@ public class EmployeePanel extends JPanel {
         pnTimKiem.add(rbtnNgayBatDauLam);
         pnTimKiem.add(rbtnGioiTinh);
 
-        JPanel pnLoc = new JPanel();
-        pnLoc.setLayout(new BoxLayout(pnLoc, BoxLayout.Y_AXIS));
-        pnLoc.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(10,
-                5, 0, 0), BorderFactory.createLineBorder(new Color(78, 138, 201), 1)));
-        JCheckBox chka = new JCheckBox();
-        JCheckBox chkb = new JCheckBox();
-        JCheckBox chkc = new JCheckBox();
-        JButton btnLoc = new JButton("Lọc");
-        btnLoc.setFont(font);
-
-        pnLoc.add(chka);
-        pnLoc.add(chkb);
-        pnLoc.add(chkc);
-        pnLoc.add(btnLoc);
+//        JPanel pnLoc = new JPanel();
+//        pnLoc.setLayout(new BoxLayout(pnLoc, BoxLayout.Y_AXIS));
+//        pnLoc.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(10,
+//                5, 0, 0), BorderFactory.createLineBorder(new Color(78, 138, 201), 1)));
+////        JCheckBox chka = new JCheckBox();
+////        JCheckBox chkb = new JCheckBox();
+////        JCheckBox chkc = new JCheckBox();
+////        JButton btnLoc = new JButton("Lọc");
+////        btnLoc.setFont(font);
+////
+////        pnLoc.add(chka);
+////        pnLoc.add(chkb);
+//        pnLoc.add(chkc);
+//        pnLoc.add(btnLoc);
 
         pnEast.add(pnTimKiem, BorderLayout.NORTH);
-        pnEast.add(pnLoc, BorderLayout.CENTER);
+//        pnEast.add(pnLoc, BorderLayout.CENTER);
 
         JPanel pnCenterMain = new JPanel();
         pnCenterMain.setLayout(new BorderLayout());

@@ -40,6 +40,9 @@ public class CustomerPanel extends JPanel {
     private JTextField txtTimKiem;
     private JRadioButton rbtnMaKhachHang, rbtnTenKhachHang, rbtnDiaChiKhachHang, rbtnDienThoaiKhachHang;
     private final Dimension dimenButton = new Dimension(160, 38);
+    private final Dimension dimenTextField=  new Dimension(200, 30);
+    private final Font fontTextField= new Font(Font.SANS_SERIF, Font.PLAIN , 16);
+
 
 
     // constructor
@@ -152,18 +155,19 @@ public class CustomerPanel extends JPanel {
         pnSouth.add(btnXoa);
         pnSouth.add(btnXuatFile);
         pnSouth.add(Box.createHorizontalGlue());
-        pnSouth.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(0, 5, 0, 0), BorderFactory.createLineBorder(backGroundBlue, 3)));
+        pnSouth.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(0, 5, 5, 5),
+                BorderFactory.createLineBorder(Color.BLACK, 1)));
 
         // East panel
         JPanel pnEast = new JPanel();
         pnEast.setPreferredSize(new Dimension(240, 0));
         pnEast.setLayout(new BorderLayout());
         pnEast.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(0,
-                5, 0, 0), BorderFactory.createLineBorder(new Color(78, 138, 201), 1)));
+                5, 5, 5), BorderFactory.createLineBorder(new Color(78, 138, 201), 1)));
         JPanel pnTimKiem = new JPanel();
         pnTimKiem.setLayout(new BoxLayout(pnTimKiem, BoxLayout.Y_AXIS));
         pnTimKiem.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(10,
-                5, 0, 0), BorderFactory.createLineBorder(new Color(78, 138, 201), 1)));
+                5, 0, 5), BorderFactory.createLineBorder(new Color(78, 138, 201), 1)));
 
 
         rbtnMaKhachHang = new JRadioButton("Mã");
@@ -181,6 +185,8 @@ public class CustomerPanel extends JPanel {
         buttonGroup.add(rbtnDienThoaiKhachHang);
 
         txtTimKiem = new JTextField(20);
+        txtTimKiem.setPreferredSize(dimenTextField);
+        txtTimKiem.setFont(fontTextField);
         txtTimKiem.putClientProperty("JTextField.placeholderText", "Tìm kiếm");
 
         pnTimKiem.add(txtTimKiem);
@@ -205,7 +211,7 @@ public class CustomerPanel extends JPanel {
         pnLoc.add(btnLoc);
 
         pnEast.add(pnTimKiem, BorderLayout.NORTH);
-        pnEast.add(pnLoc, BorderLayout.CENTER);
+//        pnEast.add(pnLoc, BorderLayout.CENTER);
 
         JPanel pnCenterMain = new JPanel();
         pnCenterMain.setLayout(new BorderLayout());
