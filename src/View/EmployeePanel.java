@@ -1,6 +1,7 @@
 package View;
 
 import Controller.DatabaseConnection;
+import Controller.ExportExcel;
 import Model.Database;
 import Model.EmployeeModel;
 import com.formdev.flatlaf.FlatIntelliJLaf;
@@ -15,6 +16,7 @@ import javax.swing.table.JTableHeader;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -32,7 +34,7 @@ public class EmployeePanel extends JPanel {
     private final Color backGroundColor = new Color(245, 245, 251);
     private final Color backGroundBlue = new Color(78, 138, 201);
     private final Font font = new Font(Font.SANS_SERIF, Font.PLAIN, 18);
-    private JButton btnSua, btnThemMoi, btnXoa;
+    private JButton btnSua, btnThemMoi, btnXoa,btnXuatFile;
     public static DefaultTableModel dtmDsNhanVien;
     private final Dimension dimenButton = new Dimension(160, 38);
     private JRadioButton rbtnMaNhanVien, rbtnTenNhanVien, rbtnDiaChi, rbtnDienThoai, rbtnChucVu, rbtnNgaySinh, rbtnNgayBatDauLam, rbtnGioiTinh;
@@ -144,10 +146,18 @@ public class EmployeePanel extends JPanel {
         btnXoa.setBackground(Color.WHITE);
         btnXoa.setForeground(Color.BLACK);
         btnXoa.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 16));
+        btnXuatFile = new JButton("Xuất file");
+        btnXuatFile.setPreferredSize(dimenButton);
+        btnXuatFile.setIcon(new FlatSVGIcon(Objects.requireNonNull(CustomerPanel.class.getResource("/Images/24x24" +
+                "/excel_24x24.svg"))));
+        btnXuatFile.setBackground(Color.WHITE);
+        btnXuatFile.setForeground(Color.BLACK);
+        btnXuatFile.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 16));
         pnSouth.add(Box.createHorizontalGlue());
         pnSouth.add(btnThemMoi);
         pnSouth.add(btnSua);
         pnSouth.add(btnXoa);
+        pnSouth.add(btnXuatFile);
         pnSouth.add(Box.createHorizontalGlue());
         pnSouth.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(0, 5, 0, 0), BorderFactory.createLineBorder(backGroundBlue, 3)));
 
@@ -271,6 +281,25 @@ public class EmployeePanel extends JPanel {
                 new AddAndChangeEmployeeDialogAdd(MainUI.frame, "Thêm nhân viên", database);
             }
         });
+
+        btnXuatFile.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JFileChooser fileChooser = new JFileChooser();
+                fileChooser.showSaveDialog(MainUI.frame);
+                File fileSaveEmployee = fileChooser.getSelectedFile();
+                if (fileSaveEmployee!= null){
+                    String filePath = fileSaveEmployee.getPath();
+                    if(!filePath.endsWith(".xlsx") || !filePath.endsWith(".xls")){
+                        filePath = filePath + ".xlsx";
+                    }
+                    ExportExcel.export(tbDsNhanVien, filePath);
+                    JOptionPane.showMessageDialog(MainUI.frame, "Xuất file excel thành công", "Thông báo",
+                            JOptionPane.INFORMATION_MESSAGE);
+                }
+            }
+        });
+
         btnXoa.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
