@@ -27,17 +27,6 @@ public class Launch {
             System.setProperty("apple.awt.application.appearance", "system");
         }
 
-        // Linux
-        if (SystemInfo.isLinux) {
-            // enable custom window decorations
-            JFrame.setDefaultLookAndFeelDecorated(false);
-            JDialog.setDefaultLookAndFeelDecorated(false);
-
-            // fix scaling app with fullHD Screen HiDPI
-            System.setProperty("sun.java2d.uiScale.enabled", "true");
-            System.setProperty("sun.java2d.uiScale", "2.0");
-        }
-
         SwingUtilities.invokeLater(() -> {
             try {
                 UIManager.setLookAndFeel(new FlatIntelliJLaf());
