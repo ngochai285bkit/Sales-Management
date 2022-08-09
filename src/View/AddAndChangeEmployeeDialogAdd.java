@@ -216,37 +216,47 @@ public class AddAndChangeEmployeeDialogAdd extends JDialog {
         btnXacNhan.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                EmployeeModel employee = new EmployeeModel();
-                employee.setMaNhanVien(txtMaNhanVien.getText());
-                employee.setHoTenNhanVien(txtTenNhanVien.getText());
-                employee.setChucVuNhanVien(txtChucVu.getText());
-                employee.setDiaChiNhanVien(txtDiaChi.getText());
-                employee.setSdtNhanVien(txtSDT.getText());
-                employee.setGioiTinh((String) chonGioiTinh.getSelectedItem());
-                Date ngaySinhNV = (Date) txtNgaySinh.getModel().getValue();
-                Date ngayBatDauLam = (Date) txtNgayBatDauLam.getModel().getValue();
-                if (ngaySinhNV != null) {
-                    employee.setNgaySinhNhanVien(ngaySinhNV);
-                    if (ngayBatDauLam != null) {
-                        employee.setNgayBatDauLam(ngayBatDauLam);
-                        try {
-                            if (EmployeeController.addEmployee(database, employee)) {
-                                showListEmployee(EmployeeController.getAllEmployee(database));
-                                dispose();
-                                JOptionPane.showMessageDialog(MainUI.frame, "Thêm thành công!", "Thông báo",
-                                        JOptionPane.INFORMATION_MESSAGE);
+                String maNhanVien = txtMaNhanVien.getText();
+                try {
+                    if(EmployeeController.checkEmployee(database, maNhanVien)){
+                        JOptionPane.showMessageDialog(MainUI.frame, "Mã nhân viên đã tồn tại!", "Cảnh báo",
+                                JOptionPane.WARNING_MESSAGE);
+                    } else {EmployeeModel employee = new EmployeeModel();
+                        employee.setMaNhanVien(txtMaNhanVien.getText());
+                        employee.setHoTenNhanVien(txtTenNhanVien.getText());
+                        employee.setChucVuNhanVien(txtChucVu.getText());
+                        employee.setDiaChiNhanVien(txtDiaChi.getText());
+                        employee.setSdtNhanVien(txtSDT.getText());
+                        employee.setGioiTinh((String) chonGioiTinh.getSelectedItem());
+                        Date ngaySinhNV = (Date) txtNgaySinh.getModel().getValue();
+                        Date ngayBatDauLam = (Date) txtNgayBatDauLam.getModel().getValue();
+                        if (ngaySinhNV != null) {
+                            employee.setNgaySinhNhanVien(ngaySinhNV);
+                            if (ngayBatDauLam != null) {
+                                employee.setNgayBatDauLam(ngayBatDauLam);
+                                try {
+                                    if (EmployeeController.addEmployee(database, employee)) {
+                                        showListEmployee(EmployeeController.getAllEmployee(database));
+                                        dispose();
+                                        JOptionPane.showMessageDialog(MainUI.frame, "Thêm thành công!", "Thông báo",
+                                                JOptionPane.INFORMATION_MESSAGE);
+                                    } else {
+                                        JOptionPane.showMessageDialog(MainUI.frame, "Thêm thất bại!", "Thông báo",
+                                                JOptionPane.WARNING_MESSAGE);
+                                    }
+                                } catch (SQLException ex) {
+                                    ex.printStackTrace();
+                                }
                             } else {
-                                JOptionPane.showMessageDialog(MainUI.frame, "Thêm thất bại!", "Thông báo",
-                                        JOptionPane.WARNING_MESSAGE);
+                                JOptionPane.showMessageDialog(MainUI.frame, "Bạn chưa chọn ngày vào làm!");
                             }
-                        } catch (SQLException ex) {
-                            ex.printStackTrace();
+                        } else {
+                            JOptionPane.showMessageDialog(MainUI.frame, "Bạn chưa chọn ngày sinh!");
                         }
-                    } else {
-                        JOptionPane.showMessageDialog(MainUI.frame, "Bạn chưa chọn ngày vào làm!");
+
                     }
-                } else {
-                    JOptionPane.showMessageDialog(MainUI.frame, "Bạn chưa chọn ngày sinh!");
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
                 }
 
             }

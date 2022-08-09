@@ -35,14 +35,14 @@ public class  EmployeePanel extends JPanel {
     private final Color backGroundColor = new Color(245, 245, 251);
     private final Color backGroundBlue = new Color(78, 138, 201);
     private final Font font = new Font(Font.SANS_SERIF, Font.PLAIN, 18);
-    private JButton btnSua, btnThemMoi, btnXoa,btnXuatFile;
+    private JButton btnSua, btnThemMoi, btnXoa, btnXuatFile;
     public static DefaultTableModel dtmDsNhanVien;
     private final Dimension dimenButton = new Dimension(160, 38);
     private JRadioButton rbtnMaNhanVien, rbtnTenNhanVien, rbtnDiaChi, rbtnDienThoai, rbtnChucVu, rbtnNgaySinh, rbtnNgayBatDauLam, rbtnGioiTinh;
     private JTable tbDsNhanVien;
     private JTextField txtTimKiem;
-    private final Dimension dimenTextField=  new Dimension(200, 30);
-    private final Font fontTextField= new Font(Font.SANS_SERIF, Font.PLAIN , 16);
+    private final Dimension dimenTextField = new Dimension(200, 30);
+    private final Font fontTextField = new Font(Font.SANS_SERIF, Font.PLAIN, 16);
 
 
     public EmployeePanel() {
@@ -296,9 +296,9 @@ public class  EmployeePanel extends JPanel {
                 JFileChooser fileChooser = new JFileChooser();
                 fileChooser.showSaveDialog(MainUI.frame);
                 File fileSaveEmployee = fileChooser.getSelectedFile();
-                if (fileSaveEmployee!= null){
+                if (fileSaveEmployee != null) {
                     String filePath = fileSaveEmployee.getPath();
-                    if(!filePath.endsWith(".xlsx") || !filePath.endsWith(".xls")){
+                    if (!filePath.endsWith(".xlsx") || !filePath.endsWith(".xls")) {
                         filePath = filePath + ".xlsx";
                     }
                     ExportExcel.export(tbDsNhanVien, filePath);
@@ -313,12 +313,12 @@ public class  EmployeePanel extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 int rowSelected = tbDsNhanVien.getSelectedRow();
                 if (rowSelected != -1) {
-                    String maNhanVien= (String) tbDsNhanVien.getValueAt(rowSelected, 0);
+                    String maNhanVien = (String) tbDsNhanVien.getValueAt(rowSelected, 0);
                     try {
-                        if (EmployeeController.deleteEmployee(database,maNhanVien )){
+                        if (EmployeeController.deleteEmployee(database, maNhanVien)) {
                             showListEmployee(EmployeeController.getAllEmployee(database));
                             JOptionPane.showMessageDialog(MainUI.frame, "Xoá thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-                        }else {
+                        } else {
                             JOptionPane.showMessageDialog(MainUI.frame, "Xóa thất bại!", "Cảnh báo", JOptionPane.WARNING_MESSAGE);
                         }
                     } catch (SQLException ex) {
@@ -412,34 +412,34 @@ public class  EmployeePanel extends JPanel {
                         if (employee.getMaNhanVien().toLowerCase().contains(searchText)) {
                             listLater.add(employee);
                         }
-                    } else if(rbtnTenNhanVien.isSelected()){
+                    } else if (rbtnTenNhanVien.isSelected()) {
                         if (employee.getHoTenNhanVien().toLowerCase().contains(searchText)) {
                             listLater.add(employee);
                         }
-                    } else if(rbtnDiaChi.isSelected()){
+                    } else if (rbtnDiaChi.isSelected()) {
                         if (employee.getDiaChiNhanVien().toLowerCase().contains(searchText)) {
                             listLater.add(employee);
                         }
-                    } else if (rbtnDienThoai.isSelected()){
+                    } else if (rbtnDienThoai.isSelected()) {
                         if (employee.getSdtNhanVien().toLowerCase().contains(searchText)) {
                             listLater.add(employee);
                         }
-                    } else if(rbtnChucVu.isSelected()){
+                    } else if (rbtnChucVu.isSelected()) {
                         if (employee.getChucVuNhanVien().toLowerCase().contains(searchText)) {
                             listLater.add(employee);
                         }
-                    } else if(rbtnGioiTinh.isSelected()){
+                    } else if (rbtnGioiTinh.isSelected()) {
                         if (employee.getGioiTinh().toLowerCase().contains(searchText)) {
                             listLater.add(employee);
                         }
-                    } else if(rbtnNgaySinh.isSelected()){
-                        String ngaySinh= new SimpleDateFormat("dd/MM/yyyy").format(employee.getNgaySinhNhanVien());
-                        if(ngaySinh.contains(searchText)){
+                    } else if (rbtnNgaySinh.isSelected()) {
+                        String ngaySinh = new SimpleDateFormat("dd/MM/yyyy").format(employee.getNgaySinhNhanVien());
+                        if (ngaySinh.contains(searchText)) {
                             listLater.add(employee);
                         }
-                    } else if (rbtnNgayBatDauLam.isSelected()){
+                    } else if (rbtnNgayBatDauLam.isSelected()) {
                         String ngayBatDauLam = new SimpleDateFormat("dd/MM/yyyy").format(employee.getNgayBatDauLam());
-                        if(ngayBatDauLam.contains(searchText)){
+                        if (ngayBatDauLam.contains(searchText)) {
                             listLater.add(employee);
                         }
 
@@ -454,7 +454,7 @@ public class  EmployeePanel extends JPanel {
     }
 
 
-    private void showListEmployee(java.util.List<EmployeeModel> listEmployee) {
+    private void showListEmployee(List<EmployeeModel> listEmployee) {
         dtmDsNhanVien.setRowCount(0);
         for (EmployeeModel employeeModel : listEmployee) {
             Vector<String> vector = new Vector<>();

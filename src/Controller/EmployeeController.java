@@ -31,10 +31,6 @@ public class EmployeeController {
                 employeeModel.setChucVuNhanVien(rs.getString("ChucVu"));
                 try {
                     employeeModel.setNgaySinhNhanVien(new SimpleDateFormat("dd/MM/yyyy").parse(rs.getString("NgaySinh")));
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-                try {
                     employeeModel.setNgayBatDauLam(new SimpleDateFormat("dd/MM/yyyy").parse(rs.getString("NgayLamViec")));
                 } catch (ParseException e) {
                     e.printStackTrace();
@@ -93,7 +89,6 @@ public class EmployeeController {
     public static boolean editEmployee(Database database, EmployeeModel employee) throws SQLException {
         Connection conn = DatabaseConnection.getConnection(database);
         if (conn != null) {
-
             CallableStatement statement = conn.prepareCall("{CALL sp_Employee_Update(?,?,?,?,?,?,?,?)}");
             statement.setString(1, employee.getMaNhanVien());
             statement.setString(2, employee.getHoTenNhanVien());
@@ -102,16 +97,14 @@ public class EmployeeController {
             statement.setString(5, employee.getChucVuNhanVien());
             Date ngaySinhNV = employee.getNgaySinhNhanVien();
             Date ngayBatDauLam = employee.getNgayBatDauLam();
-
             statement.setString(6,
                     new SimpleDateFormat("dd/MM/yyyy").format(ngaySinhNV));
-
             statement.setString(7,
                     new SimpleDateFormat("dd/MM/yyyy").format(ngayBatDauLam));
             statement.setString(8, employee.getGioiTinh());
-
             int result = statement.executeUpdate();
             return result != 0;
-        } return false;
+        }
+        return false;
     }
 }

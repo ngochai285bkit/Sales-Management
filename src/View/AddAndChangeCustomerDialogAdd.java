@@ -2,6 +2,7 @@ package View;
 
 //import Controller.CustomerController;
 
+import Controller.CustomerController;
 import Controller.DatabaseConnection;
 import Model.CustomerModel;
 import Model.Database;
@@ -151,11 +152,20 @@ public class AddAndChangeCustomerDialogAdd extends JDialog {
         btnXacNhan.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Connection conn = DatabaseConnection.getConnection(database);
-                if (conn != null) {
-                    try {
-                        CallableStatement statement = conn.prepareCall("{ CALL sp_Customer_Check(?)}");
-                        statement.setString(1, txtMaKhachHang.getText());
+                String maKhachHang = txtMaKhachHang.getText();
+
+                    if (CustomerController.checkCustomer(database, maKhachHang)){
+                        JOptionPane.showMessageDialog(MainUI.frame, "Mã khách hàng đã tồn tại!", "Cảnh báo",
+                                JOptionPane.WARNING_MESSAGE);
+                    } else {
+                        CustomerModel customer = new CustomerModel();
+                        customer.setMaKhachHang(txtMaKhachHang.getText());
+                        customer.setTenKhachHang(txtTenKhachHang.getText());
+                        customer.setDiaChi(txtDiaChi.getText());
+                        customer.setSoDienThoai(txtSDT.getText());
+                        if (addCustomer)
+                    }
+                statement.setString(1, txtMaKhachHang.getText());
                         ResultSet resultSet = statement.executeQuery();
                         if (!resultSet.next()) {
                             int select = JOptionPane.showConfirmDialog(MainUI.frame, "Mã khách hàng đã tồn tại \n Bạn có muốn tiếp tục?", "Thông báo", JOptionPane.OK_CANCEL_OPTION);
@@ -176,10 +186,7 @@ public class AddAndChangeCustomerDialogAdd extends JDialog {
                             JOptionPane.showMessageDialog(MainUI.frame, "Mã khách hàng đã trùng\nVui lòng thực hiện " +
                                     "lại!");
                         }
-                    } catch (SQLException ex) {
-                        ex.printStackTrace();
-                    }
-                }
+
             }
         });
     }
