@@ -21,7 +21,6 @@ import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -235,7 +234,7 @@ public class CustomerPanel extends JPanel {
         btnThemMoi.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new AddAndChangeCustomerDialogAdd(MainUI.frame, "Thêm khách hàng", database);
+                new AddCustomerDialog(MainUI.frame, "Thêm khách hàng", database);
             }
         });
 
@@ -249,7 +248,7 @@ public class CustomerPanel extends JPanel {
                     customerModel.setTenKhachHang((String) tbDsKhachHang.getValueAt(rowSelected, 1));
                     customerModel.setDiaChi((String) tbDsKhachHang.getValueAt(rowSelected, 2));
                     customerModel.setSoDienThoai((String) tbDsKhachHang.getValueAt(rowSelected, 3));
-                    new AddAndChangeCustomerDialogEdit(MainUI.frame, "Chỉnh sửa thông tin khách hàng", customerModel, database);
+                    new EditCustomerDialog(MainUI.frame, "Chỉnh sửa thông tin khách hàng", customerModel, database);
                 } else {
                     JOptionPane.showMessageDialog(MainUI.frame, "Bạn chưa chọn đối tượng cần sửa!", "Lỗi", JOptionPane.ERROR_MESSAGE);
                 }

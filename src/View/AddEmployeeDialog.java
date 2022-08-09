@@ -5,7 +5,7 @@ import Controller.EmployeeController;
 import Model.Database;
 import Model.EmployeeModel;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
-import org.jdatepicker.JDatePanel;
+import com.sun.tools.javac.Main;
 import org.jdatepicker.JDatePicker;
 
 import javax.swing.*;
@@ -21,27 +21,35 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.List;
 
-public class AddAndChangeEmployeeDialogEdit extends JDialog {
+
+public class AddEmployeeDialog extends JDialog {
     private JTextField txtMaNhanVien, txtDiaChi, txtChucVu, txtTenNhanVien, txtSDT;
     private JDatePicker txtNgaySinh, txtNgayBatDauLam;
-    private final Dimension dimenLabel = new Dimension(150, 25);
+    private final Dimension dimenLabel = new Dimension(150, 30);
     private final Dimension dimenTextField = new Dimension(200, 30);
     private final Color backGroundBlue = new Color(78, 138, 201);
     private JButton btnXacNhan, btnThoat;
     private final Database database;
     private JComboBox chonGioiTinh;
-    private EmployeeModel employee;
     private final Dimension dimenButton = new Dimension(160, 38);
     private final Font fontTextField = new Font(Font.SANS_SERIF, Font.PLAIN, 16);
 
-    public AddAndChangeEmployeeDialogEdit(Frame parent, String title, EmployeeModel employee, Database database) {
+    // constructor
+    public AddEmployeeDialog(Frame parent, String title, Database database) {
         super(parent, title, true);
         this.database = database;
-        this.employee = employee;
         initComponents();
         addEvents();
         showDialog(parent);
     }
+
+//    public AddEmployeeDialog(Frame parent, String title, EmployeeModel employee, Database database){
+//        super(parent, title , true);
+//        this.database= database;
+//        initComponents();
+//        setInforEmployee(employee);
+//        showDialog(parent);
+//    }
 
     private void initComponents() {
         //The top panel
@@ -84,7 +92,6 @@ public class AddAndChangeEmployeeDialogEdit extends JDialog {
         JPanel pnMaNhanVien = new JPanel();
         pnMaNhanVien.setBackground(Color.WHITE);
         txtMaNhanVien = new JTextField();
-        txtMaNhanVien.setEditable(false);
         txtMaNhanVien.setPreferredSize(dimenTextField);
         txtMaNhanVien.setFont(fontTextField);
         JLabel lblMaNhanVien = new JLabel("Mã nhân viên: ");
@@ -139,7 +146,9 @@ public class AddAndChangeEmployeeDialogEdit extends JDialog {
 
         JPanel pnNgaySinh = new JPanel();
         pnNgaySinh.setBackground(Color.WHITE);
-        txtNgaySinh = new JDatePicker(employee.getNgaySinhNhanVien());
+        Calendar cal = Calendar.getInstance();
+        Date now = cal.getTime();
+        txtNgaySinh = new JDatePicker(now);
         txtNgaySinh.setPreferredSize(dimenTextField);
         txtNgaySinh.getComponent(0).setPreferredSize(new Dimension(160, 30));
         txtNgaySinh.getComponent(1).setPreferredSize(new Dimension(30, 30));
@@ -152,7 +161,7 @@ public class AddAndChangeEmployeeDialogEdit extends JDialog {
 
         JPanel pnNgayBatDauLam = new JPanel();
         pnNgayBatDauLam.setBackground(Color.WHITE);
-        txtNgayBatDauLam = new JDatePicker(employee.getNgayBatDauLam());
+        txtNgayBatDauLam = new JDatePicker(now);
         txtNgayBatDauLam.setPreferredSize(dimenTextField);
         txtNgayBatDauLam.getComponent(0).setPreferredSize(new Dimension(160, 30));
         txtNgayBatDauLam.getComponent(1).setPreferredSize(new Dimension(30, 30));
@@ -174,16 +183,6 @@ public class AddAndChangeEmployeeDialogEdit extends JDialog {
         pnGioiTinh.add(lblGioiTinh);
         pnGioiTinh.add(chonGioiTinh);
 
-        txtMaNhanVien.setText(employee.getMaNhanVien());
-        txtTenNhanVien.setText(employee.getHoTenNhanVien());
-        txtDiaChi.setText(employee.getDiaChiNhanVien());
-        txtSDT.setText(employee.getSdtNhanVien());
-        txtChucVu.setText(employee.getChucVuNhanVien());
-        if (employee.getGioiTinh().equals("Nam")) {
-            chonGioiTinh.setSelectedIndex(0);
-        } else {
-            chonGioiTinh.setSelectedIndex(1);
-        }
 
         pnEast.add(Box.createVerticalGlue());
         pnEast.add(pnMaNhanVien);
@@ -213,48 +212,60 @@ public class AddAndChangeEmployeeDialogEdit extends JDialog {
                 setVisible(false);
             }
         });
+
         btnXacNhan.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                EmployeeModel employee = new EmployeeModel();
-                employee.setMaNhanVien(txtMaNhanVien.getText());
-                employee.setHoTenNhanVien(txtTenNhanVien.getText());
-                employee.setDiaChiNhanVien(txtDiaChi.getText());
-                employee.setSdtNhanVien(txtSDT.getText());
-                employee.setChucVuNhanVien(txtChucVu.getText());
-                employee.setGioiTinh((String) chonGioiTinh.getSelectedItem());
-                Date ngaySinhNV = (Date) txtNgaySinh.getModel().getValue();
-                Date ngayBatDauLam = (Date) txtNgayBatDauLam.getModel().getValue();
-                if (ngaySinhNV != null) {
-                    employee.setNgaySinhNhanVien(ngaySinhNV);
-                    if (ngayBatDauLam != null) {
-                        employee.setNgayBatDauLam(ngayBatDauLam);
-                        try {
-                            if (EmployeeController.editEmployee(database, employee)) {
-                                showListEmployee(EmployeeController.getAllEmployee(database));
-                                dispose();
-                                JOptionPane.showMessageDialog(MainUI.frame, "Chỉnh sửa thành công", "Thông báo",
-                                        JOptionPane.INFORMATION_MESSAGE);
-
-                            }else {
-                                JOptionPane.showMessageDialog(MainUI.frame, "Chỉnh sửa thất bại", "Thông báo",
-                                        JOptionPane.WARNING_MESSAGE);
+                String maNhanVien = txtMaNhanVien.getText();
+                try {
+                    if(EmployeeController.checkEmployee(database, maNhanVien)){
+                        JOptionPane.showMessageDialog(MainUI.frame, "Mã nhân viên đã tồn tại!", "Cảnh báo",
+                                JOptionPane.WARNING_MESSAGE);
+                    } else {EmployeeModel employee = new EmployeeModel();
+                        employee.setMaNhanVien(txtMaNhanVien.getText());
+                        employee.setHoTenNhanVien(txtTenNhanVien.getText());
+                        employee.setChucVuNhanVien(txtChucVu.getText());
+                        employee.setDiaChiNhanVien(txtDiaChi.getText());
+                        employee.setSdtNhanVien(txtSDT.getText());
+                        employee.setGioiTinh((String) chonGioiTinh.getSelectedItem());
+                        Date ngaySinhNV = (Date) txtNgaySinh.getModel().getValue();
+                        Date ngayBatDauLam = (Date) txtNgayBatDauLam.getModel().getValue();
+                        if (ngaySinhNV != null) {
+                            employee.setNgaySinhNhanVien(ngaySinhNV);
+                            if (ngayBatDauLam != null) {
+                                employee.setNgayBatDauLam(ngayBatDauLam);
+                                try {
+                                    if (EmployeeController.addEmployee(database, employee)) {
+                                        showListEmployee(EmployeeController.getAllEmployee(database));
+                                        dispose();
+                                        JOptionPane.showMessageDialog(MainUI.frame, "Thêm thành công!", "Thông báo",
+                                                JOptionPane.INFORMATION_MESSAGE);
+                                    } else {
+                                        JOptionPane.showMessageDialog(MainUI.frame, "Thêm thất bại!", "Thông báo",
+                                                JOptionPane.WARNING_MESSAGE);
+                                    }
+                                } catch (SQLException ex) {
+                                    ex.printStackTrace();
+                                }
+                            } else {
+                                JOptionPane.showMessageDialog(MainUI.frame, "Bạn chưa chọn ngày vào làm!");
                             }
-                        } catch (SQLException ex) {
-                            ex.printStackTrace();
+                        } else {
+                            JOptionPane.showMessageDialog(MainUI.frame, "Bạn chưa chọn ngày sinh!");
                         }
-                    } else {
-                        JOptionPane.showMessageDialog(MainUI.frame, "Chưa có ngày bắt đầu làm!");
-                    }
 
-                } else {
-                    JOptionPane.showMessageDialog(MainUI.frame, "Chưa có ngày sinh nhân viên!");
+                    }
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
                 }
+
             }
         });
+
     }
 
-    private void showListEmployee(java.util.List<EmployeeModel> listEmployee) {
+
+    private void showListEmployee(List<EmployeeModel> listEmployee) {
         EmployeePanel.dtmDsNhanVien.setRowCount(0);
         for (EmployeeModel employeeModel : listEmployee) {
             Vector<String> vector = new Vector<>();
@@ -270,6 +281,10 @@ public class AddAndChangeEmployeeDialogEdit extends JDialog {
         }
     }
 
+
+    private void setInforEmployee(EmployeeModel employee) {
+        txtMaNhanVien.setText(employee.getMaNhanVien());
+    }
 
     private void showDialog(Frame parent) {
         this.setSize(500, 600);

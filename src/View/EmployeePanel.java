@@ -1,6 +1,5 @@
 package View;
 
-import Controller.DatabaseConnection;
 import Controller.EmployeeController;
 import Controller.ExportExcel;
 import Model.Database;
@@ -18,9 +17,6 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.sql.CallableStatement;
-import java.sql.Connection;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -278,7 +274,7 @@ public class  EmployeePanel extends JPanel {
                     }
                     employeeModel.setGioiTinh((String) tbDsNhanVien.getValueAt(rowSelected, 7));
 
-                    new AddAndChangeEmployeeDialogEdit(MainUI.frame, "Chỉnh sửa thông tin nhân viên", employeeModel,
+                    new EditEmployeeDialog(MainUI.frame, "Chỉnh sửa thông tin nhân viên", employeeModel,
                             database);
                 } else {
                     JOptionPane.showMessageDialog(MainUI.frame, "Bạn chưa chọn đối tượng cần sửa!", "Lỗi", JOptionPane.ERROR_MESSAGE);
@@ -288,7 +284,7 @@ public class  EmployeePanel extends JPanel {
         btnThemMoi.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new AddAndChangeEmployeeDialogAdd(MainUI.frame, "Thêm nhân viên", database);
+                new AddEmployeeDialog(MainUI.frame, "Thêm nhân viên", database);
             }
         });
 

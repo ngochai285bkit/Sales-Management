@@ -21,25 +21,24 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Vector;
 
-public class AddAndChangeCustomerDialogEdit extends JDialog {
+public class AddCustomerDialog extends JDialog {
     private JTextField txtMaKhachHang, txtTenKhachHang, txtDiaChi, txtSDT;
     private final Dimension dimenLabel = new Dimension(190, 25);
-    private final Dimension dimenTextField = new Dimension(200, 30);
     private final Color backGroundBlue = new Color(78, 138, 201);
     private JButton btnXacNhan, btnThoat;
     private final Database database;
     private final Dimension dimenButton = new Dimension(160, 38);
-    private final Font fontTextField= new Font(Font.SANS_SERIF, Font.PLAIN , 16);
+    private final Font fontTextField = new Font(Font.SANS_SERIF, Font.PLAIN, 16);
+    private final Dimension dimenTextField = new Dimension(200, 30);
 
     // constructor
-
-    public AddAndChangeCustomerDialogEdit(Frame parent, String title, CustomerModel customer, Database database) {
+    public AddCustomerDialog(Frame parent, String title, Database database) {
         super(parent, title, true);
         this.database = database;
         initComponents();
-        setInforCustomer(customer);
         addEvents();
         showDialog(parent);
+
     }
 
     public void initComponents() {
@@ -53,7 +52,7 @@ public class AddAndChangeCustomerDialogEdit extends JDialog {
 
         //The bottom panel
         JPanel pnBottom = new JPanel();
-        pnBottom.setBorder(BorderFactory.createEmptyBorder(0 ,0, 30,0));
+        pnBottom.setBorder(BorderFactory.createEmptyBorder(0, 0, 30, 0));
         pnBottom.setBackground(Color.WHITE);
         pnBottom.setLayout(new FlowLayout(FlowLayout.CENTER));
         btnXacNhan = new JButton("Lưu thay đổi");
@@ -84,7 +83,6 @@ public class AddAndChangeCustomerDialogEdit extends JDialog {
         pnMaKhachHang.setBackground(Color.WHITE);
         txtMaKhachHang = new JTextField();
         txtMaKhachHang.setPreferredSize(dimenTextField);
-        txtMaKhachHang.setEditable(false);
         txtMaKhachHang.setFont(fontTextField);
         JLabel lblMaKhachHang = new JLabel("Mã khách hàng: ");
         lblMaKhachHang.setFont(new Font(Font.SANS_SERIF, Font.ITALIC, 20));
@@ -138,16 +136,10 @@ public class AddAndChangeCustomerDialogEdit extends JDialog {
         pnMain.add(pnCenter, BorderLayout.CENTER);
         pnMain.add(pnBottom, BorderLayout.SOUTH);
 
+
         Container con = this.getContentPane();
         con.add(pnMain);
 
-    }
-
-    private void setInforCustomer(CustomerModel customer) {
-        txtMaKhachHang.setText(customer.getMaKhachHang());
-        txtTenKhachHang.setText(customer.getTenKhachHang());
-        txtDiaChi.setText(customer.getDiaChi());
-        txtSDT.setText(customer.getSoDienThoai());
     }
 
     private void addEvents() {
@@ -160,30 +152,34 @@ public class AddAndChangeCustomerDialogEdit extends JDialog {
         btnXacNhan.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                CustomerModel customer = new CustomerModel();
+                String maKhachHang = txtMaKhachHang.getText();
+                try {
+                    if (CustomerController.checkCustomer(database, maKhachHang)) {
+                        JOptionPane.showMessageDialog(MainUI.frame, "Mã khách hàng đã tồn tại!", "Cảnh báo",
+                                JOptionPane.WARNING_MESSAGE);
+                    } else {
+                        CustomerModel customer = new CustomerModel();
                         customer.setMaKhachHang(txtMaKhachHang.getText());
                         customer.setTenKhachHang(txtTenKhachHang.getText());
                         customer.setDiaChi(txtDiaChi.getText());
                         customer.setSoDienThoai(txtSDT.getText());
-                try {
-                    if (CustomerController.editCustomer(database, customer)) {
                         try {
-                            showListCustomer(getAllCustomer());
+                            if (CustomerController.addCustomer(database, customer)) {
+                                showListCustomer(CustomerController.getAllCustomer(database));
+                                dispose();
+                                JOptionPane.showMessageDialog(MainUI.frame, "Thêm thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                            }
+                            else {
+                                JOptionPane.showMessageDialog(MainUI.frame, "Thêm thất bại!", "Thông báo",
+                                        JOptionPane.WARNING_MESSAGE);
+                            }
                         } catch (SQLException ex) {
                             ex.printStackTrace();
                         }
-                        dispose();
-                        JOptionPane.showMessageDialog(MainUI.frame, "Chỉnh sửa thành công", "Thông báo",
-                                JOptionPane.INFORMATION_MESSAGE);
-
-                    } else {
-                        JOptionPane.showMessageDialog(MainUI.frame, "Chỉnh sửa thất bại", "Thông báo",
-                                JOptionPane.WARNING_MESSAGE);
                     }
                 } catch (SQLException ex) {
                     ex.printStackTrace();
                 }
-
             }
         });
     }
