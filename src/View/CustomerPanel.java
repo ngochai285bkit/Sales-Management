@@ -196,22 +196,20 @@ public class CustomerPanel extends JPanel {
         pnTimKiem.add(rbtnDienThoaiKhachHang);
 
         JPanel pnLoc = new JPanel();
-        pnLoc.setLayout(new BoxLayout(pnLoc, BoxLayout.Y_AXIS));
+        pnLoc.setLayout(new BorderLayout());
         pnLoc.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(10,
                 5, 0, 0), BorderFactory.createLineBorder(new Color(78, 138, 201), 1)));
-        JCheckBox chka = new JCheckBox();
-        JCheckBox chkb = new JCheckBox();
-        JCheckBox chkc = new JCheckBox();
-        JButton btnLoc = new JButton("Lọc");
-        btnLoc.setFont(font);
+        JLabel lblImageCustomer1 = new JLabel();
+        lblImageCustomer1.setIcon(new FlatSVGIcon(Objects.requireNonNull(this.getClass().getResource("/Images" +
+                "/customerSVG.svg"))));
+        JLabel lblImageCustomer2 = new JLabel();
+        lblImageCustomer2.setFont();
+        pnLoc.add(lblImageCustomer1, BorderLayout.CENTER);
 
-        pnLoc.add(chka);
-        pnLoc.add(chkb);
-        pnLoc.add(chkc);
-        pnLoc.add(btnLoc);
+
 
         pnEast.add(pnTimKiem, BorderLayout.NORTH);
-//        pnEast.add(pnLoc, BorderLayout.CENTER);
+        pnEast.add(pnLoc, BorderLayout.CENTER);
 
         JPanel pnCenterMain = new JPanel();
         pnCenterMain.setLayout(new BorderLayout());
