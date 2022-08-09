@@ -101,7 +101,7 @@ public class CustomerPanel extends JPanel {
         JScrollPane scrollDanhSachKH = new JScrollPane(tbDsKhachHang, JScrollPane.VERTICAL_SCROLLBAR_NEVER, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         //scrollDanhSachNV.setBorder(BorderFactory.createEmptyBorder(4 , 10,4 ,10));
         scrollDanhSachKH.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(4, 4, 4, 4),
-                BorderFactory.createLineBorder(lineBorder)));
+                BorderFactory.createLineBorder(lineBorder, 2)));
 
         DefaultTableCellRenderer cellRendererCenter = new DefaultTableCellRenderer();
         cellRendererCenter.setHorizontalAlignment(JLabel.CENTER);
