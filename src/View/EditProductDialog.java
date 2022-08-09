@@ -25,8 +25,8 @@ public class EditProductDialog extends JDialog {
     private final Dimension dimenLabel = new Dimension(200, 25);
     private final Dimension dimenTextField = new Dimension(200, 30);
     private final Color backGroundBlue = new Color(78, 138, 201);
-    private Database database;
-    private ProductModel product;
+    private final Database database;
+    private final ProductModel product;
 
 
     public EditProductDialog(Window owner, String title, ProductModel product, Database database) {
@@ -243,13 +243,10 @@ public class EditProductDialog extends JDialog {
 
 
     private void setInforProduct(ProductModel Product) {
-
         txtMaSanPham.setText(Product.getMaSanPham());
         txtTenSanPham.setText(Product.getTenSanPham());
         txtDonVi.setText(Product.getDonVi());
         txtLoai.setText(Product.getLoai());
-        //txtHan.setText(new SimpleDateFormat("dd/MM/yyyy").format(Product.getHan()));
-        //txtHan.getModel().setDate();
         txtGia.setText(Product.getGia());
         txtSoLuong.setText(Product.getSoLuong());
     }
@@ -260,7 +257,5 @@ public class EditProductDialog extends JDialog {
         this.setLocationRelativeTo(owner);
         this.setDefaultCloseOperation(HIDE_ON_CLOSE);
         this.setVisible(true);
-
-
     }
 }

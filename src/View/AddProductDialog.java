@@ -1,6 +1,5 @@
 package View;
 
-
 import Controller.ProductController;
 import Model.Database;
 import Model.ProductModel;
@@ -12,9 +11,9 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
-import java.util.List;
-import java.util.*;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Objects;
 
 public class AddProductDialog extends JDialog {
     private JTextField txtMaSanPham, txtTenSanPham, txtGia, txtDonVi, txtLoai, txtSoLuong;
@@ -23,7 +22,7 @@ public class AddProductDialog extends JDialog {
     private final Dimension dimenLabel = new Dimension(200, 25);
     private final Dimension dimenTextField = new Dimension(200, 30);
     private final Color backGroundBlue = new Color(78, 138, 201);
-    private Database database;
+    private final Database database;
 
     // constructor
     public AddProductDialog(Window owner, String title, Database database) {
@@ -134,7 +133,6 @@ public class AddProductDialog extends JDialog {
         pnSoLuong.add(lblSoLuong);
         pnSoLuong.add(txtSoLuong);
 
-
         pnCenter.add(Box.createVerticalGlue());
         pnCenter.add(pnMaSanPham);
         pnCenter.add(pnTenSanPham);
@@ -181,8 +179,6 @@ public class AddProductDialog extends JDialog {
 
         Container con = this.getContentPane();
         con.add(pnMain);
-
-
     }
 
     private void addEvents() {
@@ -211,7 +207,7 @@ public class AddProductDialog extends JDialog {
                         if (han != null) {
                             product.setHan(han);
                             if (ProductController.AddProduct(database, product)) {
-                                showListProduct(ProductController.getAllProducts(database));
+                                ProductPanel.showListProduct(ProductController.getAllProducts(database));
                                 dispose();
                                 JOptionPane.showMessageDialog(MainUI.frame, "Thêm thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
                             }
@@ -225,27 +221,6 @@ public class AddProductDialog extends JDialog {
             }
         });
     }
-    private ProductModel getProduct() {
-        ProductModel Product = new ProductModel();
-
-        return Product;
-    }
-
-    private void showListProduct(List<ProductModel> listProduct) {
-
-        ProductPanel.dtmDanhSachSP.setRowCount(0);
-        for (ProductModel ProductModel : listProduct) {
-            Vector<String> vector = new Vector<>();
-            vector.add(ProductModel.getMaSanPham());
-            vector.add(ProductModel.getTenSanPham());
-            vector.add(ProductModel.getDonVi());
-            vector.add(ProductModel.getLoai());
-            vector.add(new SimpleDateFormat("dd/MM/yyyy").format(ProductModel.getHan()));
-            vector.add(ProductModel.getGia());
-            vector.add(ProductModel.getSoLuong());
-            ProductPanel.dtmDanhSachSP.addRow(vector);
-        }
-    }
 
     private void showDialog(Window owner) {
         this.setSize(809, 500);
@@ -253,7 +228,5 @@ public class AddProductDialog extends JDialog {
         this.setResizable(false);
         this.setDefaultCloseOperation(HIDE_ON_CLOSE);
         this.setVisible(true);
-
-
     }
 }

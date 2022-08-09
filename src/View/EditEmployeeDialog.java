@@ -29,7 +29,7 @@ public class EditEmployeeDialog extends JDialog {
     private final Color backGroundBlue = new Color(78, 138, 201);
     private JButton btnXacNhan, btnThoat;
     private final Database database;
-    private JComboBox chonGioiTinh;
+    private JComboBox<String> chonGioiTinh;
     private EmployeeModel employee;
     private final Dimension dimenButton = new Dimension(160, 38);
     private final Font fontTextField = new Font(Font.SANS_SERIF, Font.PLAIN, 16);
@@ -168,8 +168,8 @@ public class EditEmployeeDialog extends JDialog {
         lblGioiTinh.setFont(new Font(Font.SANS_SERIF, Font.ITALIC, 20));
         lblGioiTinh.setPreferredSize(dimenLabel);
         pnGioiTinh.setBackground(Color.WHITE);
-        String gioiTinh[] = {"Nam", "Nữ"};
-        chonGioiTinh = new JComboBox(gioiTinh);
+        String[] gioiTinh = {"Nam", "Nữ"};
+        chonGioiTinh = new JComboBox<>(gioiTinh);
         chonGioiTinh.setPreferredSize(dimenTextField);
         pnGioiTinh.add(lblGioiTinh);
         pnGioiTinh.add(chonGioiTinh);
@@ -231,7 +231,7 @@ public class EditEmployeeDialog extends JDialog {
                         employee.setNgayBatDauLam(ngayBatDauLam);
                         try {
                             if (EmployeeController.editEmployee(database, employee)) {
-                                showListEmployee(EmployeeController.getAllEmployee(database));
+                                EmployeePanel.showListEmployee(EmployeeController.getAllEmployee(database));
                                 dispose();
                                 JOptionPane.showMessageDialog(MainUI.frame, "Chỉnh sửa thành công", "Thông báo",
                                         JOptionPane.INFORMATION_MESSAGE);
@@ -254,27 +254,9 @@ public class EditEmployeeDialog extends JDialog {
         });
     }
 
-    private void showListEmployee(java.util.List<EmployeeModel> listEmployee) {
-        EmployeePanel.dtmDsNhanVien.setRowCount(0);
-        for (EmployeeModel employeeModel : listEmployee) {
-            Vector<String> vector = new Vector<>();
-            vector.add(employeeModel.getMaNhanVien());
-            vector.add(employeeModel.getHoTenNhanVien());
-            vector.add(employeeModel.getDiaChiNhanVien());
-            vector.add(employeeModel.getSdtNhanVien());
-            vector.add(employeeModel.getChucVuNhanVien());
-            vector.add(new SimpleDateFormat("dd/MM/yyyy").format(employeeModel.getNgaySinhNhanVien()));
-            vector.add(new SimpleDateFormat("dd/MM/yyyy").format(employeeModel.getNgayBatDauLam()));
-            vector.add(employeeModel.getGioiTinh());
-            EmployeePanel.dtmDsNhanVien.addRow(vector);
-        }
-    }
-
-
     private void showDialog(Frame parent) {
         this.setSize(500, 600);
         this.setLocationRelativeTo(parent);
         this.setVisible(true);
-
     }
 }

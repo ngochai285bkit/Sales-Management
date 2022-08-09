@@ -25,7 +25,7 @@ import java.util.List;
 
 public class ProductPanel extends JPanel {
     // attributes
-    private Database database;
+    private final Database database;
     private JRadioButton rbtnMaSanPham, rbtnTenSanPham, rbtnLoai, rbtnDonVi, rbtnHan, rbtnGia, rbtnSoLuong;
     private JButton btnSua, btnThemMoi, btnXoa, btnXuatfile;
     public static DefaultTableModel dtmDanhSachSP;
@@ -225,7 +225,6 @@ public class ProductPanel extends JPanel {
     }
 
     private void addEvents() {
-
         btnThemMoi.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -422,14 +421,7 @@ public class ProductPanel extends JPanel {
         return listLater;
     }
 
-
-    private ProductModel getProduct() {
-        ProductModel Product = new ProductModel();
-
-        return Product;
-    }
-
-    private void showListProduct(List<ProductModel> listProduct) {
+    public static void showListProduct(List<ProductModel> listProduct) {
         dtmDanhSachSP.setRowCount(0);
         for (ProductModel ProductModel : listProduct) {
             Vector<String> vector = new Vector<>();

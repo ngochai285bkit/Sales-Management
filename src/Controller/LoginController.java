@@ -7,7 +7,6 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 
 public class LoginController {
-
     public static boolean checkData(Connection conn, LoginModel login) {
         try {
             CallableStatement statement = conn.prepareCall("{ CALL sp_Accounts_Check(?,?) }");

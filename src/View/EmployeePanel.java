@@ -452,7 +452,7 @@ public class  EmployeePanel extends JPanel {
     }
 
 
-    private void showListEmployee(List<EmployeeModel> listEmployee) {
+    public static void showListEmployee(List<EmployeeModel> listEmployee) {
         dtmDsNhanVien.setRowCount(0);
         for (EmployeeModel employeeModel : listEmployee) {
             Vector<String> vector = new Vector<>();

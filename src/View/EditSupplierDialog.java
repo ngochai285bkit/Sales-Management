@@ -11,9 +11,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
-import java.util.List;
 import java.util.Objects;
-import java.util.Vector;
 
 public class EditSupplierDialog extends JDialog {
     private JTextField txtMaNhaCungCap, txtDiaChi, txtTenNhaCungCap, txtSDT, txtSoTaiKhoan;
@@ -21,7 +19,7 @@ public class EditSupplierDialog extends JDialog {
     private final Dimension dimenLabel = new Dimension(200, 25);
     private final Dimension dimenTextField = new Dimension(200, 30);
     private final Color backGroundBlue = new Color(78, 138, 201);
-    private Database database;
+    private final Database database;
 
     public EditSupplierDialog(Window owner, String title, SupplierModel supplier, Database database) {
         super(owner);
@@ -159,8 +157,6 @@ public class EditSupplierDialog extends JDialog {
 
         Container con = this.getContentPane();
         con.add(pnMain);
-
-
     }
 
     private void addEvents() {
@@ -181,7 +177,7 @@ public class EditSupplierDialog extends JDialog {
                 supplier.setTenNhaCungCap(txtTenNhaCungCap.getText());
                 try {
                     if(SupplierController.updateSupplier(database,supplier)){
-                        showListSupplier(SupplierController.getAllSuppliers(database));
+                        SupplierPanel.showListSupplier(SupplierController.getAllSuppliers(database));
                         dispose();
                         JOptionPane.showMessageDialog(EditSupplierDialog.this, "Sửa thành công!", "Thông báo",JOptionPane.INFORMATION_MESSAGE);
                     }
@@ -194,22 +190,7 @@ public class EditSupplierDialog extends JDialog {
 
     }
 
-    private void showListSupplier(List<SupplierModel> listSuppliers) {
-        SupplierPanel.dtmDanhSachNCC.setRowCount(0);
-        for (SupplierModel supplierModel : listSuppliers) {
-            Vector<String> vector = new Vector<>();
-            vector.add(supplierModel.getMaNhaCungCap());
-            vector.add(supplierModel.getTenNhaCungCap());
-            vector.add(supplierModel.getDiaChi());
-            vector.add(supplierModel.getSoDienThoai());
-            vector.add(supplierModel.getSoTaiKhoan());
-            SupplierPanel.dtmDanhSachNCC.addRow(vector);
-        }
-    }
-
-
     private void setInforSupplier(SupplierModel supplier) {
-
         txtMaNhaCungCap.setText(supplier.getMaNhaCungCap());
         txtTenNhaCungCap.setText(supplier.getTenNhaCungCap());
         txtDiaChi.setText(supplier.getDiaChi());
@@ -223,7 +204,5 @@ public class EditSupplierDialog extends JDialog {
         this.setResizable(false);
         this.setDefaultCloseOperation(HIDE_ON_CLOSE);
         this.setVisible(true);
-
-
     }
 }

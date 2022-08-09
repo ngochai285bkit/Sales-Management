@@ -1,5 +1,6 @@
 package View;
 
+import Controller.CustomerController;
 import Controller.DatabaseConnection;
 import Controller.ExportExcel;
 import Model.CustomerModel;
@@ -19,7 +20,6 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.sql.CallableStatement;
 import java.sql.Connection;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,13 +30,11 @@ public class CustomerPanel extends JPanel {
     // attributes
     private final Database database;
     private final Color backGroundColor = new Color(245, 245, 251);
-    private final Color backGroundBlue = new Color(78, 138, 201);
     private final Color lineBorder = new Color(99, 200, 221);
     private final Font font = new Font(Font.SANS_SERIF, Font.PLAIN, 18);
     private JButton btnSua, btnThemMoi, btnXoa, btnXuatFile;
     public static DefaultTableModel dtmDsKhachHang;
     private JTable tbDsKhachHang;
-    private CustomerModel custom;
     private JTextField txtTimKiem;
     private JRadioButton rbtnMaKhachHang, rbtnTenKhachHang, rbtnDiaChiKhachHang, rbtnDienThoaiKhachHang;
     private final Dimension dimenButton = new Dimension(160, 38);
@@ -87,7 +85,6 @@ public class CustomerPanel extends JPanel {
         tableHeader.setForeground(Color.WHITE);
         tableHeader.setOpaque(true);
         tableHeader.setReorderingAllowed(true);
-        //tableHeader.setMaximumSize(t);
         tableHeader.setBorder(BorderFactory.createLineBorder(lineBorder));
         ((DefaultTableCellRenderer) tableHeader.getDefaultRenderer()).setHorizontalAlignment(JLabel.CENTER);
 
@@ -111,7 +108,7 @@ public class CustomerPanel extends JPanel {
         pnCenter.add(scrollDanhSachKH, BorderLayout.CENTER);
 
         try {
-            showListCustomer(getAllCustomer());
+            showListCustomer(CustomerController.getAllCustomer(database));
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -196,38 +193,16 @@ public class CustomerPanel extends JPanel {
         pnTimKiem.add(rbtnTenKhachHang);
         pnTimKiem.add(rbtnDienThoaiKhachHang);
 
-//        JPanel pnLoc = new JPanel();
-//        pnLoc.setLayout(new BorderLayout());
-//        pnLoc.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(10,
-//                5, 0, 0), BorderFactory.createLineBorder(new Color(78, 138, 201), 1)));
-//        JLabel lblImageCustomer1 = new JLabel();
-//        lblImageCustomer1.setIcon(new FlatSVGIcon(Objects.requireNonNull(this.getClass().getResource("/Images" +
-//                "/customerSVG.svg"))));
-//        JLabel lblImageCustomer2 = new JLabel();
-//        lblImageCustomer2.setFont();
-//        pnLoc.add(lblImageCustomer1, BorderLayout.CENTER);
-
-
-
         pnEast.add(pnTimKiem, BorderLayout.NORTH);
-//        pnEast.add(pnLoc, BorderLayout.CENTER);
 
         JPanel pnCenterMain = new JPanel();
         pnCenterMain.setLayout(new BorderLayout());
         pnCenterMain.add(pnCenter, BorderLayout.CENTER);
         pnCenterMain.add(pnSouth, BorderLayout.SOUTH);
 
-
         this.add(pnEast, BorderLayout.EAST);
         this.add(pnTop, BorderLayout.NORTH);
         this.add(pnCenterMain, BorderLayout.CENTER);
-
-
-    }
-
-    private CustomerModel getCustomer() {
-        CustomerModel customer = new CustomerModel();
-        return customer;
     }
 
     private void addEvents() {
@@ -284,7 +259,7 @@ public class CustomerPanel extends JPanel {
                         statement.setString(1, (String) tbDsKhachHang.getValueAt(rowSelected, 0));
                         int result = statement.executeUpdate();
                         if (result != 0) {
-                            showListCustomer(getAllCustomer());
+                            showListCustomer(CustomerController.getAllCustomer(database));
                             JOptionPane.showMessageDialog(MainUI.frame, "Xoá thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
                         }
                     } catch (SQLException ex) {
@@ -346,7 +321,7 @@ public class CustomerPanel extends JPanel {
         List<CustomerModel> listLater = new ArrayList<>();
         String searchText = txtTimKiem.getText().toLowerCase();
         try {
-            List<CustomerModel> list = getAllCustomer();
+            List<CustomerModel> list = CustomerController.getAllCustomer(database);
             for (CustomerModel customer : list) {
                 if (txtTimKiem.getText().isEmpty()) {
                     listLater.add(customer);
@@ -370,32 +345,13 @@ public class CustomerPanel extends JPanel {
                     }
                 }
             }
-
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return listLater;
     }
 
-    private List<CustomerModel> getAllCustomer() throws SQLException {
-        List<CustomerModel> listCustomer = new ArrayList<>();
-        Connection conn = DatabaseConnection.getConnection(database);
-        if (conn != null) {
-            CallableStatement statement = ((Connection) conn).prepareCall("{ CALL sp_Customer_GetAll() }");
-            ResultSet rs = statement.executeQuery();
-            while (rs != null && rs.next()) {
-                CustomerModel customerModel = new CustomerModel();
-                customerModel.setMaKhachHang(rs.getString("Ma"));
-                customerModel.setTenKhachHang(rs.getString("Ten"));
-                customerModel.setDiaChi(rs.getString("DiaChi"));
-                customerModel.setSoDienThoai(rs.getString("SDT"));
-                listCustomer.add(customerModel);
-            }
-        }
-        return listCustomer;
-    }
-
-    private void showListCustomer(List<CustomerModel> listCustomer) {
+    public static void showListCustomer(List<CustomerModel> listCustomer) {
         dtmDsKhachHang.setRowCount(0);
         for (CustomerModel customerModel : listCustomer) {
             Vector<String> vector = new Vector<>();

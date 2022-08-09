@@ -35,7 +35,6 @@ public class SupplierPanel extends JPanel {
     private JTextField txtTimKiem;
     private final Dimension dimenButton = new Dimension(160, 38);
 
-
     // constructor
     public SupplierPanel(Database database) {
         this.database = database;
@@ -79,7 +78,6 @@ public class SupplierPanel extends JPanel {
         tableHeader.setForeground(Color.WHITE);
         tableHeader.setOpaque(true);
         tableHeader.setReorderingAllowed(true);
-        //tableHeader.setMaximumSize(t);
         tableHeader.setBorder(BorderFactory.createLineBorder(new Color(99, 200, 221, 255), 1));
         ((DefaultTableCellRenderer) tableHeader.getDefaultRenderer()).setHorizontalAlignment(JLabel.CENTER);
 
@@ -110,21 +108,18 @@ public class SupplierPanel extends JPanel {
             e.printStackTrace();
         }
 
-
         //East panel
         JPanel pnEast = new JPanel();
         pnEast.setBackground(backGroundColor);
         pnEast.setPreferredSize(new Dimension(240, 0));
         pnEast.setLayout(new BorderLayout());
         pnEast.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(0,
-
                 5, 5, 5), BorderFactory.createLineBorder(new Color(99, 200, 221, 255), 2)));
 
         JPanel pnTimKiem = new JPanel();
         pnTimKiem.setLayout(new BoxLayout(pnTimKiem, BoxLayout.Y_AXIS));
         pnTimKiem.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(10,
                 5, 5, 5), BorderFactory.createLineBorder(new Color(78, 138, 201), 1)));
-
 
         rbtnMaNhaCungCap = new JRadioButton("Mã nhà cung cấp");
         rbtnMaNhaCungCap.setFont(font);
@@ -153,7 +148,6 @@ public class SupplierPanel extends JPanel {
         pnTimKiem.add(rbtnDienThoai);
         pnTimKiem.add(rbtnSoTaiKhoan);
         pnEast.add(pnTimKiem, BorderLayout.NORTH);
-        //pnEast.add(pnLoc, BorderLayout.CENTER);
 
         //South panel
         JPanel pnSouth = new JPanel();
@@ -191,7 +185,6 @@ public class SupplierPanel extends JPanel {
         pnSouth.add(btnXoa);
         pnSouth.add(btnXuatfile);
 
-
         pnSouth.add(Box.createHorizontalGlue());
 
         JPanel pnCenterto = new JPanel();
@@ -202,8 +195,6 @@ public class SupplierPanel extends JPanel {
         this.add(pnTop, BorderLayout.NORTH);
         this.add(pnCenterto, BorderLayout.CENTER);
         this.add(pnEast, BorderLayout.EAST);
-
-
     }
 
     private void addEvents() {
@@ -261,7 +252,6 @@ public class SupplierPanel extends JPanel {
                 } else {
                     JOptionPane.showMessageDialog(null, "bạn chưa chọn đối tượng cần xóa", "Thông báo", JOptionPane.ERROR_MESSAGE);
                 }
-
             }
         });
 
@@ -331,7 +321,6 @@ public class SupplierPanel extends JPanel {
 
     }
 
-
     private List<SupplierModel> listFiltered() {
         List<SupplierModel> listLater = new ArrayList<>();
         String searchText = txtTimKiem.getText().toLowerCase();
@@ -371,13 +360,7 @@ public class SupplierPanel extends JPanel {
         return listLater;
     }
 
-    private SupplierModel getSupplier() {
-        SupplierModel supplier = new SupplierModel();
-
-        return supplier;
-    }
-
-    private void showListSupplier(List<SupplierModel> listSuppliers) {
+    public static void showListSupplier(List<SupplierModel> listSuppliers) {
         dtmDanhSachNCC.setRowCount(0);
         for (SupplierModel supplierModel : listSuppliers) {
             Vector<String> vector = new Vector<>();

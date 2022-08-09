@@ -1,7 +1,5 @@
 package View;
 
-//import Controller.CustomerController;
-
 import Controller.CustomerController;
 import Controller.DatabaseConnection;
 import Model.CustomerModel;
@@ -29,11 +27,12 @@ public class EditCustomerDialog extends JDialog {
     private JButton btnXacNhan, btnThoat;
     private final Database database;
     private final Dimension dimenButton = new Dimension(160, 38);
-    private final Font fontTextField= new Font(Font.SANS_SERIF, Font.PLAIN , 16);
+    private final Font fontTextField = new Font(Font.SANS_SERIF, Font.PLAIN, 16);
 
     // constructor
 
-    public EditCustomerDialog(Frame parent, String title, CustomerModel customer, Database database) {
+    public EditCustomerDialog(Frame parent, String title, CustomerModel customer,
+                              Database database) {
         super(parent, title, true);
         this.database = database;
         initComponents();
@@ -53,7 +52,7 @@ public class EditCustomerDialog extends JDialog {
 
         //The bottom panel
         JPanel pnBottom = new JPanel();
-        pnBottom.setBorder(BorderFactory.createEmptyBorder(0 ,0, 30,0));
+        pnBottom.setBorder(BorderFactory.createEmptyBorder(0, 0, 30, 0));
         pnBottom.setBackground(Color.WHITE);
         pnBottom.setLayout(new FlowLayout(FlowLayout.CENTER));
         btnXacNhan = new JButton("Lưu thay đổi");
@@ -65,7 +64,8 @@ public class EditCustomerDialog extends JDialog {
         btnXacNhan.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 16));
         btnThoat = new JButton("Thoát");
         btnThoat.setPreferredSize(dimenButton);
-        btnThoat.setIcon(new FlatSVGIcon(Objects.requireNonNull(CustomerPanel.class.getResource("/Images/24x24" +
+        btnThoat.setIcon(new FlatSVGIcon(Objects.requireNonNull(CustomerPanel.class.getResource(
+                "/Images/24x24" +
                 "/exitDialog_24x24.svg"))));
         btnThoat.setBackground(Color.WHITE);
         btnThoat.setForeground(Color.BLACK);
@@ -161,23 +161,25 @@ public class EditCustomerDialog extends JDialog {
             @Override
             public void actionPerformed(ActionEvent e) {
                 CustomerModel customer = new CustomerModel();
-                        customer.setMaKhachHang(txtMaKhachHang.getText());
-                        customer.setTenKhachHang(txtTenKhachHang.getText());
-                        customer.setDiaChi(txtDiaChi.getText());
-                        customer.setSoDienThoai(txtSDT.getText());
+                customer.setMaKhachHang(txtMaKhachHang.getText());
+                customer.setTenKhachHang(txtTenKhachHang.getText());
+                customer.setDiaChi(txtDiaChi.getText());
+                customer.setSoDienThoai(txtSDT.getText());
                 try {
                     if (CustomerController.editCustomer(database, customer)) {
                         try {
-                            showListCustomer(getAllCustomer());
+                            CustomerPanel.showListCustomer(getAllCustomer());
                         } catch (SQLException ex) {
                             ex.printStackTrace();
                         }
                         dispose();
-                        JOptionPane.showMessageDialog(MainUI.frame, "Chỉnh sửa thành công", "Thông báo",
+                        JOptionPane.showMessageDialog(MainUI.frame, "Chỉnh sửa thành công", "Th" +
+                                        "ông báo",
                                 JOptionPane.INFORMATION_MESSAGE);
 
                     } else {
-                        JOptionPane.showMessageDialog(MainUI.frame, "Chỉnh sửa thất bại", "Thông báo",
+                        JOptionPane.showMessageDialog(MainUI.frame, "Chỉnh sửa thất bại", "Thông " +
+                                        "báo",
                                 JOptionPane.WARNING_MESSAGE);
                     }
                 } catch (SQLException ex) {
@@ -206,25 +208,10 @@ public class EditCustomerDialog extends JDialog {
         return listCustomer;
     }
 
-    private void showListCustomer(List<CustomerModel> listCustomer) {
-        CustomerPanel.dtmDsKhachHang.setRowCount(0);
-        for (CustomerModel customerModel : listCustomer) {
-            Vector<String> vector = new Vector<>();
-            vector.add(customerModel.getMaKhachHang());
-            vector.add(customerModel.getTenKhachHang());
-            vector.add(customerModel.getDiaChi());
-            vector.add(customerModel.getSoDienThoai());
-            CustomerPanel.dtmDsKhachHang.addRow(vector);
-        }
-    }
-
-
     private void showDialog(Frame parent) {
         this.setSize(600, 450);
         this.setLocationRelativeTo(parent);
         this.setResizable(false);
         this.setVisible(true);
     }
-
-
 }

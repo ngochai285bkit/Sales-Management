@@ -9,10 +9,6 @@ import java.awt.event.MouseEvent;
 import java.util.Objects;
 
 public class ButtonTool extends JLabel {
-    public ButtonTool() {
-        this.setBackground(Color.WHITE);
-    }
-
     public ButtonTool(String pathImage) {
         this.setBackground(Color.WHITE);
         this.setIcon(new FlatSVGIcon(Objects.requireNonNull(this.getClass().getResource(pathImage))));

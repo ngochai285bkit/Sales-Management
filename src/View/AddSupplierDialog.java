@@ -1,6 +1,5 @@
 package View;
 
-
 import Controller.SupplierController;
 import Model.Database;
 import Model.SupplierModel;
@@ -11,9 +10,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
-import java.util.List;
 import java.util.Objects;
-import java.util.Vector;
 
 public class AddSupplierDialog extends JDialog {
     private JTextField txtMaNhaCungCap, txtDiaChi, txtTenNhaCungCap, txtSDT, txtSoTaiKhoan;
@@ -44,12 +41,10 @@ public class AddSupplierDialog extends JDialog {
         lblTieuDe.setForeground(backGroundBlue);
         pnTop.add(lblTieuDe);
 
-
         //The right panel
         JPanel pnCenter = new JPanel();
         pnCenter.setLayout(new BoxLayout(pnCenter, BoxLayout.Y_AXIS));
         pnCenter.setBackground(new Color(245, 245, 251));
-
 
         JPanel pnMaNhaCungCap = new JPanel();
         pnMaNhaCungCap.setBackground(new Color(245, 245, 251));
@@ -108,7 +103,6 @@ public class AddSupplierDialog extends JDialog {
         pnSoTaiKhoan.add(lblSoTaiKhoan);
         pnSoTaiKhoan.add(txtSoTaiKhoan);
 
-
         pnCenter.add(Box.createVerticalGlue());
         pnCenter.add(pnMaNhaCungCap);
         pnCenter.add(pnTenNhaCungCap);
@@ -133,8 +127,8 @@ public class AddSupplierDialog extends JDialog {
         pnbtnGhiLai.add(btnGhiLai);
 
         btnThoat = new JButton("Thoát");
-        btnThoat.setIcon(new FlatSVGIcon(Objects.requireNonNull(AddSupplierDialog.class.getResource("/Images" +
-                "/24x24/exitDialog_24x24.svg"))));
+        btnThoat.setIcon(new FlatSVGIcon(Objects.requireNonNull(AddSupplierDialog.class.getResource(
+                "/Images/24x24/exitDialog_24x24.svg"))));
 
         btnThoat.setBackground(Color.WHITE);
         btnThoat.setForeground(Color.BLACK);
@@ -155,8 +149,6 @@ public class AddSupplierDialog extends JDialog {
 
         Container con = this.getContentPane();
         con.add(pnMain);
-
-
     }
 
     private void addEvents() {
@@ -180,7 +172,7 @@ public class AddSupplierDialog extends JDialog {
                         supplier.setSoDienThoai(txtSDT.getText());
                         supplier.setTenNhaCungCap(txtTenNhaCungCap.getText());
                         if(SupplierController.addSupplier(database, supplier)){
-                            showListSupplier(SupplierController.getAllSuppliers(database));
+                            SupplierPanel.showListSupplier(SupplierController.getAllSuppliers(database));
                             dispose();
                             JOptionPane.showMessageDialog(MainUI.frame, "Thêm thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
                         } else {
@@ -194,20 +186,6 @@ public class AddSupplierDialog extends JDialog {
 
             }
         });
-
-    }
-
-    private void showListSupplier(List<SupplierModel> listSuppliers) {
-        SupplierPanel.dtmDanhSachNCC.setRowCount(0);
-        for (SupplierModel supplierModel : listSuppliers) {
-            Vector<String> vector = new Vector<>();
-            vector.add(supplierModel.getMaNhaCungCap());
-            vector.add(supplierModel.getTenNhaCungCap());
-            vector.add(supplierModel.getDiaChi());
-            vector.add(supplierModel.getSoDienThoai());
-            vector.add(supplierModel.getSoTaiKhoan());
-            SupplierPanel.dtmDanhSachNCC.addRow(vector);
-        }
     }
 
     private void showDialog(Window owner) {
@@ -216,7 +194,5 @@ public class AddSupplierDialog extends JDialog {
         this.setResizable(false);
         this.setDefaultCloseOperation(HIDE_ON_CLOSE);
         this.setVisible(true);
-
-
     }
 }

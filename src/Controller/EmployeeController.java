@@ -2,9 +2,7 @@ package Controller;
 
 import Model.Database;
 import Model.EmployeeModel;
-import View.MainUI;
 
-import javax.swing.*;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
