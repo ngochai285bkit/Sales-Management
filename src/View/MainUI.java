@@ -23,6 +23,8 @@ public class MainUI extends JFrame {
     private JMenuItem menuItemGithub, menuItemInformation, menuItemExit;
     private JPanel pnCenter;
 
+    private ButtonTool lblBtnHome, lblBtnProduct, lblBtnEmployee, lblBtnSupplier, lblBtnCustomer;
+
     public static Frame frame;
 
     // constructor
@@ -40,8 +42,9 @@ public class MainUI extends JFrame {
         JMenu menuFile = new JMenu("File");
         menuFile.setMnemonic('F');
         menuItemExit = new JMenuItem("Exit");
-        menuItemExit.setIcon(new FlatSVGIcon(Objects.requireNonNull(this.getClass().getResource("/Images" +
-                "/24x24/ic_close_24px.svg"))));
+        menuItemExit.setIcon(new FlatSVGIcon(Objects.requireNonNull(this.getClass().getResource(
+                "/Images" +
+                        "/24x24/ic_close_24px.svg"))));
         menuItemExit.setAccelerator(KeyStroke.getKeyStroke('Q',
                 Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
         menuFile.add(menuItemExit);
@@ -138,17 +141,37 @@ public class MainUI extends JFrame {
         lblBtnLogout.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 14));
         lblBtnLogout.setIcon(new FlatSVGIcon(Objects.requireNonNull(this.getClass().getResource(
                 "/Images/32x32/logout_32px.svg"))));
+        lblBtnLogout.setBackground(new Color(78, 138, 201));
         lblBtnLogout.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createRaisedBevelBorder(),
                 BorderFactory.createEmptyBorder(1, 2, 1, 10)));
-        lblBtnLogout.setBackground(new Color(78, 138, 201));
-        lblBtnLogout.setVerticalAlignment(JLabel.CENTER);
         lblBtnLogout.setOpaque(true);
+        JPanel pnBtnLogout = new JPanel();
+        pnBtnLogout.setLayout(new BorderLayout());
+        pnBtnLogout.add(lblBtnLogout, BorderLayout.CENTER);
+        pnBtnLogout.setBorder(BorderFactory.createEmptyBorder(4, 5, 4, 3));
+        pnBtnLogout.setBackground(Color.WHITE);
+
+        lblBtnHome = new ButtonTool("/Images/32x32/home_32px.svg");
+        lblBtnSupplier = new ButtonTool("/Images/32x32/supplier_32px.svg");
+        lblBtnEmployee = new ButtonTool("/Images/32x32/employee_32px.svg");
+        lblBtnCustomer = new ButtonTool("/Images/32x32/customer_32px.svg");
+        lblBtnProduct = new ButtonTool("/Images/32x32/product_32px.svg");
+
+        JPanel pnTool = new JPanel();
+        pnTool.setLayout(new FlowLayout(FlowLayout.LEFT));
+        pnTool.setBackground(Color.WHITE);
+        pnTool.add(lblBtnHome);
+        pnTool.add(lblBtnSupplier);
+        pnTool.add(lblBtnEmployee);
+        pnTool.add(lblBtnCustomer);
+        pnTool.add(lblBtnProduct);
 
         JPanel pnTop = new JPanel();
-        pnTop.setLayout(new FlowLayout(FlowLayout.RIGHT));
+        pnTop.setLayout(new BorderLayout());
         pnTop.setBackground(Color.WHITE);
         pnTop.setPreferredSize(new Dimension(0, 45));
-        pnTop.add(lblBtnLogout);
+        pnTop.add(pnBtnLogout, BorderLayout.EAST);
+        pnTop.add(pnTool, BorderLayout.CENTER);
 
         // ==================== Center Panel ====================
         pnCenter = new JPanel();
