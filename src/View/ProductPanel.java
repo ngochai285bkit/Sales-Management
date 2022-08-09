@@ -83,8 +83,7 @@ public class ProductPanel extends JPanel {
         tableHeader.setForeground(Color.WHITE);
         tableHeader.setOpaque(true);
         tableHeader.setReorderingAllowed(true);
-        //tableHeader.setMaximumSize(t);
-        tableHeader.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        tableHeader.setBorder(BorderFactory.createLineBorder(new Color(99, 200, 221, 255), 1));
         ((DefaultTableCellRenderer) tableHeader.getDefaultRenderer()).setHorizontalAlignment(JLabel.CENTER);
 
         dtmDanhSachSP = new DefaultTableModel();
@@ -99,8 +98,8 @@ public class ProductPanel extends JPanel {
         tbDsSP.setModel(dtmDanhSachSP);
         tbDsSP.getColumnModel().getColumn(1).setPreferredWidth(100);
         JScrollPane scrollDanhSachNV = new JScrollPane(tbDsSP, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-        //scrollDanhSachNV.setBorder(BorderFactory.createEmptyBorder(4 , 10,4 ,10));
-        scrollDanhSachNV.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(4, 4, 4, 4), BorderFactory.createLineBorder(Color.BLACK)));
+
+        scrollDanhSachNV.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(4, 4, 4, 4), BorderFactory.createLineBorder(new Color(99, 200, 221, 255), 2)));
 
         DefaultTableCellRenderer cellRendererCenter = new DefaultTableCellRenderer();
         cellRendererCenter.setHorizontalAlignment(JLabel.CENTER);
