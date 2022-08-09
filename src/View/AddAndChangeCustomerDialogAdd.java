@@ -23,15 +23,15 @@ import java.util.Vector;
 public class AddAndChangeCustomerDialogAdd extends JDialog {
     private JTextField txtMaKhachHang, txtTenKhachHang, txtDiaChi, txtSDT;
     private final Dimension dimenLabel = new Dimension(190, 25);
-    private final Color backGroundBlue= new Color(78 , 138 , 201);
+    private final Color backGroundBlue = new Color(78, 138, 201);
     private JButton btnXacNhan, btnThoat;
     private final Database database;
     private final Dimension dimenButton = new Dimension(160, 38);
-    private final Font fontTextField= new Font(Font.SANS_SERIF, Font.PLAIN , 16);
-    private final Dimension dimenTextField=  new Dimension(200, 30);
+    private final Font fontTextField = new Font(Font.SANS_SERIF, Font.PLAIN, 16);
+    private final Dimension dimenTextField = new Dimension(200, 30);
 
     // constructor
-    public AddAndChangeCustomerDialogAdd(Frame parent, String title, Database database){
+    public AddAndChangeCustomerDialogAdd(Frame parent, String title, Database database) {
         super(parent, title, true);
         this.database = database;
         initComponents();
@@ -40,18 +40,18 @@ public class AddAndChangeCustomerDialogAdd extends JDialog {
 
     }
 
-    public void initComponents(){
+    public void initComponents() {
         // The top panel
         JPanel pnTop = new JPanel();
         pnTop.setBackground(Color.WHITE);
-        JLabel lblTieuDe= new JLabel("Thông tin khách hàng");
+        JLabel lblTieuDe = new JLabel("Thông tin khách hàng");
         lblTieuDe.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 26));
         lblTieuDe.setForeground(backGroundBlue);
         pnTop.add(lblTieuDe);
 
         //The bottom panel
         JPanel pnBottom = new JPanel();
-        pnBottom.setBorder(BorderFactory.createEmptyBorder(0 ,0, 30,0));
+        pnBottom.setBorder(BorderFactory.createEmptyBorder(0, 0, 30, 0));
         pnBottom.setBackground(Color.WHITE);
         pnBottom.setLayout(new FlowLayout(FlowLayout.CENTER));
         btnXacNhan = new JButton("Lưu thay đổi");
@@ -74,11 +74,11 @@ public class AddAndChangeCustomerDialogAdd extends JDialog {
 
         // The Center panel
         JPanel pnCenter = new JPanel();
-        pnCenter.setLayout( new BoxLayout (pnCenter, BoxLayout.Y_AXIS));
+        pnCenter.setLayout(new BoxLayout(pnCenter, BoxLayout.Y_AXIS));
         pnCenter.setBackground(Color.WHITE);
         pnCenter.setPreferredSize(new Dimension(400, 0));
 
-        JPanel pnMaKhachHang= new JPanel();
+        JPanel pnMaKhachHang = new JPanel();
         pnMaKhachHang.setBackground(Color.WHITE);
         txtMaKhachHang = new JTextField();
         txtMaKhachHang.setPreferredSize(dimenTextField);
@@ -89,7 +89,7 @@ public class AddAndChangeCustomerDialogAdd extends JDialog {
         pnMaKhachHang.add(lblMaKhachHang);
         pnMaKhachHang.add(txtMaKhachHang);
 
-        JPanel pnTenKhachHang= new JPanel();
+        JPanel pnTenKhachHang = new JPanel();
         pnTenKhachHang.setBackground(Color.WHITE);
         txtTenKhachHang = new JTextField();
         txtTenKhachHang.setPreferredSize(dimenTextField);
@@ -100,7 +100,7 @@ public class AddAndChangeCustomerDialogAdd extends JDialog {
         pnTenKhachHang.add(lblTenKH);
         pnTenKhachHang.add(txtTenKhachHang);
 
-        JPanel pnDiaChi= new JPanel();
+        JPanel pnDiaChi = new JPanel();
         pnDiaChi.setBackground(Color.WHITE);
         txtDiaChi = new JTextField();
         txtDiaChi.setPreferredSize(dimenTextField);
@@ -111,7 +111,7 @@ public class AddAndChangeCustomerDialogAdd extends JDialog {
         pnDiaChi.add(lblDiaChi);
         pnDiaChi.add(txtDiaChi);
 
-        JPanel pnSDT= new JPanel();
+        JPanel pnSDT = new JPanel();
         pnSDT.setBackground(Color.WHITE);
         txtSDT = new JTextField();
         txtSDT.setPreferredSize(dimenTextField);
@@ -141,7 +141,7 @@ public class AddAndChangeCustomerDialogAdd extends JDialog {
 
     }
 
-    private void addEvents(){
+    private void addEvents() {
         btnThoat.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -152,38 +152,29 @@ public class AddAndChangeCustomerDialogAdd extends JDialog {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Connection conn = DatabaseConnection.getConnection(database);
-                if (conn!= null){
+                if (conn != null) {
                     try {
                         CallableStatement statement = conn.prepareCall("{ CALL sp_Customer_Check(?)}");
                         statement.setString(1, txtMaKhachHang.getText());
                         ResultSet resultSet = statement.executeQuery();
-                        if(resultSet.next()){
+                        if (!resultSet.next()) {
                             int select = JOptionPane.showConfirmDialog(MainUI.frame, "Mã khách hàng đã tồn tại \n Bạn có muốn tiếp tục?", "Thông báo", JOptionPane.OK_CANCEL_OPTION);
-                            if(select== JOptionPane.OK_OPTION){
-                                statement = conn.prepareCall("{CALL sp_Customer_Update(?,?,?,?)}");
+                            if (select == JOptionPane.OK_OPTION) {
+                                statement = conn.prepareCall("{CALL sp_Customer_Add(?,?,?,?)}");
                                 statement.setString(1, txtMaKhachHang.getText());
                                 statement.setString(2, txtTenKhachHang.getText());
                                 statement.setString(3, txtDiaChi.getText());
                                 statement.setString(4, txtSDT.getText());
                                 int result = statement.executeUpdate();
-                                if(result!= 0 ){
+                                if (result != 0) {
                                     showListCustomer(getAllCustomer());
                                     dispose();
-                                    JOptionPane.showMessageDialog(MainUI.frame, "Cập nhật thành công","Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                                    JOptionPane.showMessageDialog(MainUI.frame, "Thêm thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
                                 }
                             }
                         } else {
-                            statement = conn.prepareCall("{CALL sp_Customer_Add(?,?,?,?)}");
-                            statement.setString(1, txtMaKhachHang.getText());
-                            statement.setString(2, txtTenKhachHang.getText());
-                            statement.setString(3, txtDiaChi.getText());
-                            statement.setString(4, txtSDT.getText());
-                            int result = statement.executeUpdate();
-                            if(result!= 0 ){
-                                showListCustomer(getAllCustomer());
-                                dispose();
-                                JOptionPane.showMessageDialog(MainUI.frame, "Thêm thành công","Thông báo", JOptionPane.INFORMATION_MESSAGE);
-                            }
+                            JOptionPane.showMessageDialog(MainUI.frame, "Mã khách hàng đã trùng\nVui lòng thực hiện " +
+                                    "lại!");
                         }
                     } catch (SQLException ex) {
                         ex.printStackTrace();
@@ -192,6 +183,7 @@ public class AddAndChangeCustomerDialogAdd extends JDialog {
             }
         });
     }
+
     private List<CustomerModel> getAllCustomer() throws SQLException {
         List<CustomerModel> listCustomer = new ArrayList<>();
         Connection conn = DatabaseConnection.getConnection(database);
@@ -223,8 +215,8 @@ public class AddAndChangeCustomerDialogAdd extends JDialog {
     }
 
 
-    private void showDialog(Frame parent){
-        this.setSize(600,450);
+    private void showDialog(Frame parent) {
+        this.setSize(600, 450);
         this.setLocationRelativeTo(parent);
         this.setResizable(false);
         this.setVisible(true);

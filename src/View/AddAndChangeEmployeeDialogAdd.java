@@ -4,6 +4,7 @@ import Controller.DatabaseConnection;
 import Model.Database;
 import Model.EmployeeModel;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
+import com.sun.tools.javac.Main;
 import org.jdatepicker.JDatePicker;
 
 import javax.swing.*;
@@ -24,18 +25,18 @@ public class AddAndChangeEmployeeDialogAdd extends JDialog {
     private JTextField txtMaNhanVien, txtDiaChi, txtChucVu, txtTenNhanVien, txtSDT;
     private JDatePicker txtNgaySinh, txtNgayBatDauLam;
     private final Dimension dimenLabel = new Dimension(150, 30);
-    private final Dimension dimenTextField=  new Dimension(200, 30);
-    private final Color backGroundBlue= new Color(78 , 138 , 201);
+    private final Dimension dimenTextField = new Dimension(200, 30);
+    private final Color backGroundBlue = new Color(78, 138, 201);
     private JButton btnXacNhan, btnThoat;
     private final Database database;
     private JComboBox chonGioiTinh;
     private final Dimension dimenButton = new Dimension(160, 38);
-    private final Font fontTextField= new Font(Font.SANS_SERIF, Font.PLAIN , 16);
+    private final Font fontTextField = new Font(Font.SANS_SERIF, Font.PLAIN, 16);
 
     // constructor
-    public AddAndChangeEmployeeDialogAdd(Frame parent, String title, Database database){
+    public AddAndChangeEmployeeDialogAdd(Frame parent, String title, Database database) {
         super(parent, title, true);
-        this.database=database;
+        this.database = database;
         initComponents();
         addEvents();
         showDialog(parent);
@@ -49,18 +50,18 @@ public class AddAndChangeEmployeeDialogAdd extends JDialog {
 //        showDialog(parent);
 //    }
 
-    private void initComponents(){
+    private void initComponents() {
         //The top panel
         JPanel pnTop = new JPanel();
         pnTop.setBackground(Color.WHITE);
         JLabel lblTieuDe = new JLabel("Thông tin nhân viên");
-        lblTieuDe.setFont(new Font(Font.SANS_SERIF, Font.BOLD,26));
+        lblTieuDe.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 26));
         lblTieuDe.setForeground(backGroundBlue);
         pnTop.add(lblTieuDe);
 
         //The bottom panel
         JPanel pnBottom = new JPanel();
-        pnBottom.setBorder(BorderFactory.createEmptyBorder(0 ,0, 20,0));
+        pnBottom.setBorder(BorderFactory.createEmptyBorder(0, 0, 20, 0));
         pnBottom.setBackground(Color.WHITE);
         pnBottom.setLayout(new FlowLayout(FlowLayout.CENTER));
         btnXacNhan = new JButton("Lưu thay đổi");
@@ -83,11 +84,11 @@ public class AddAndChangeEmployeeDialogAdd extends JDialog {
 
         //The center panel
         JPanel pnEast = new JPanel();
-        pnEast.setLayout( new BoxLayout (pnEast, BoxLayout.Y_AXIS));
+        pnEast.setLayout(new BoxLayout(pnEast, BoxLayout.Y_AXIS));
         pnEast.setBackground(Color.WHITE);
         pnEast.setPreferredSize(new Dimension(400, 0));
 
-        JPanel pnMaNhanVien= new JPanel();
+        JPanel pnMaNhanVien = new JPanel();
         pnMaNhanVien.setBackground(Color.WHITE);
         txtMaNhanVien = new JTextField();
         txtMaNhanVien.setPreferredSize(dimenTextField);
@@ -98,7 +99,7 @@ public class AddAndChangeEmployeeDialogAdd extends JDialog {
         pnMaNhanVien.add(lblMaNhanVien);
         pnMaNhanVien.add(txtMaNhanVien);
 
-        JPanel pnTenNhanVien= new JPanel();
+        JPanel pnTenNhanVien = new JPanel();
         pnTenNhanVien.setBackground(Color.WHITE);
         txtTenNhanVien = new JTextField();
         txtTenNhanVien.setPreferredSize(dimenTextField);
@@ -109,7 +110,7 @@ public class AddAndChangeEmployeeDialogAdd extends JDialog {
         pnTenNhanVien.add(lblTenNhanVien);
         pnTenNhanVien.add(txtTenNhanVien);
 
-        JPanel pnDiaChi= new JPanel();
+        JPanel pnDiaChi = new JPanel();
         pnDiaChi.setBackground(Color.WHITE);
         txtDiaChi = new JTextField();
         txtDiaChi.setPreferredSize(dimenTextField);
@@ -120,7 +121,7 @@ public class AddAndChangeEmployeeDialogAdd extends JDialog {
         pnDiaChi.add(lblDiaChi);
         pnDiaChi.add(txtDiaChi);
 
-        JPanel pnSDT= new JPanel();
+        JPanel pnSDT = new JPanel();
         pnSDT.setBackground(Color.WHITE);
         txtSDT = new JTextField();
         txtSDT.setPreferredSize(dimenTextField);
@@ -131,7 +132,7 @@ public class AddAndChangeEmployeeDialogAdd extends JDialog {
         pnSDT.add(lblSDT);
         pnSDT.add(txtSDT);
 
-        JPanel pnChucVu= new JPanel();
+        JPanel pnChucVu = new JPanel();
         pnChucVu.setBackground(Color.WHITE);
         txtChucVu = new JTextField();
         txtChucVu.setPreferredSize(dimenTextField);
@@ -142,7 +143,7 @@ public class AddAndChangeEmployeeDialogAdd extends JDialog {
         pnChucVu.add(lblChucVu);
         pnChucVu.add(txtChucVu);
 
-        JPanel pnNgaySinh= new JPanel();
+        JPanel pnNgaySinh = new JPanel();
         pnNgaySinh.setBackground(Color.WHITE);
         Calendar cal = Calendar.getInstance();
         Date now = cal.getTime();
@@ -170,13 +171,13 @@ public class AddAndChangeEmployeeDialogAdd extends JDialog {
         pnNgayBatDauLam.add(lblNgayBatDauLam);
         pnNgayBatDauLam.add(txtNgayBatDauLam);
 
-        JPanel pnGioiTinh= new JPanel();
+        JPanel pnGioiTinh = new JPanel();
         JLabel lblGioiTinh = new JLabel("Giới tính:");
         lblGioiTinh.setFont(new Font(Font.SANS_SERIF, Font.ITALIC, 20));
         lblGioiTinh.setPreferredSize(dimenLabel);
         pnGioiTinh.setBackground(Color.WHITE);
         String gioiTinh[] = {"Nam", "Nữ"};
-        chonGioiTinh =  new JComboBox(gioiTinh);
+        chonGioiTinh = new JComboBox(gioiTinh);
         chonGioiTinh.setPreferredSize(dimenTextField);
         pnGioiTinh.add(lblGioiTinh);
         pnGioiTinh.add(chonGioiTinh);
@@ -203,7 +204,7 @@ public class AddAndChangeEmployeeDialogAdd extends JDialog {
         con.add(pnMain);
     }
 
-    private void addEvents(){
+    private void addEvents() {
         btnThoat.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -215,52 +216,44 @@ public class AddAndChangeEmployeeDialogAdd extends JDialog {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Connection conn = DatabaseConnection.getConnection(database);
-                if (conn!= null){
+                if (conn != null) {
                     try {
                         CallableStatement statement = conn.prepareCall("{ CALL sp_Employee_Check(?)}");
                         statement.setString(1, txtMaNhanVien.getText());
                         ResultSet resultSet = statement.executeQuery();
-                        if(resultSet.next()){
-                            int select = JOptionPane.showConfirmDialog(MainUI.frame, "Mã nhân viên đã tồn tại \n Bạn " +
-                                    "có " +
-                                    "muốn tiếp tục?", "Thông báo", JOptionPane.OK_CANCEL_OPTION);
-                            if(select== JOptionPane.OK_OPTION){
-                                statement = conn.prepareCall("{CALL sp_Employee_Update(?,?,?,?,?,?,?,?)}");
-                                statement.setString(1, txtMaNhanVien.getText());
-                                statement.setString(2, txtTenNhanVien.getText());
-                                statement.setString(3, txtDiaChi.getText());
-                                statement.setString(4, txtSDT.getText());
-                                statement.setString(5, txtChucVu.getText());
-                                statement.setString(6,
-                                        new SimpleDateFormat("dd/MM/yyyy").format(txtNgaySinh.getModel().getValue()));
-                                statement.setString(7,
-                                        new SimpleDateFormat("dd/MM/yyyy").format(txtNgayBatDauLam.getModel().getValue()));
-                                statement.setString(8, (String) chonGioiTinh.getSelectedItem());
-                                int result = statement.executeUpdate();
-                                if(result!= 0 ){
-                                    showListEmployee(getAllEmployee());
-                                    dispose();
-                                    JOptionPane.showMessageDialog(MainUI.frame, "Cập nhật thành công","Thông báo", JOptionPane.INFORMATION_MESSAGE);
-                                }
-                            }
-                        } else {
+                        if (!resultSet.next()) {
                             statement = conn.prepareCall("{CALL sp_Employee_Add(?,?,?,?,?,?,?,?)}");
                             statement.setString(1, txtMaNhanVien.getText());
                             statement.setString(2, txtTenNhanVien.getText());
                             statement.setString(3, txtDiaChi.getText());
                             statement.setString(4, txtSDT.getText());
                             statement.setString(5, txtChucVu.getText());
-                            statement.setString(6,
-                                    new SimpleDateFormat("dd/MM/yyyy").format(txtNgaySinh.getModel().getValue()));
-                            statement.setString(7,
-                                    new SimpleDateFormat("dd/MM/yyyy").format(txtNgayBatDauLam.getModel().getValue()));
-                            statement.setString(8, (String) chonGioiTinh.getSelectedItem());
-                            int result = statement.executeUpdate();
-                            if(result!= 0 ){
-                                showListEmployee(getAllEmployee());
-                                dispose();
-                                JOptionPane.showMessageDialog(MainUI.frame, "Thêm thành công","Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                            Date ngaySinhNV = (Date) txtNgaySinh.getModel().getValue();
+                            Date ngayBatDauLam = (Date) txtNgayBatDauLam.getModel().getValue();
+                            if (ngaySinhNV != null) {
+                                statement.setString(6,
+                                        new SimpleDateFormat("dd/MM/yyyy").format(txtNgaySinh.getModel().getValue()));
+                                if (ngayBatDauLam != null) {
+                                    statement.setString(7,
+                                            new SimpleDateFormat("dd/MM/yyyy").format(txtNgayBatDauLam.getModel().getValue()));
+                                    statement.setString(8, (String) chonGioiTinh.getSelectedItem());
+                                    int result = statement.executeUpdate();
+                                    if (result != 0) {
+                                        showListEmployee(getAllEmployee());
+                                        dispose();
+                                        JOptionPane.showMessageDialog(MainUI.frame, "Thêm thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                                    }
+                                } else {
+                                    JOptionPane.showMessageDialog(MainUI.frame, "Bạn chưa chọn ngày vào làm!");
+                                }
+                            } else {
+                                JOptionPane.showMessageDialog(MainUI.frame, "Bạn chưa chọn ngày sinh!");
                             }
+
+
+                        } else {
+                            JOptionPane.showMessageDialog(MainUI.frame, "Mã nhân viên đã tồn tại\nVui lòng thực " +
+                                    "hiện lại!");
                         }
                     } catch (SQLException ex) {
                         ex.printStackTrace();
@@ -318,12 +311,12 @@ public class AddAndChangeEmployeeDialogAdd extends JDialog {
     }
 
 
-    private void setInforEmployee(EmployeeModel employee){
+    private void setInforEmployee(EmployeeModel employee) {
         txtMaNhanVien.setText(employee.getMaNhanVien());
     }
 
-    private void showDialog(Frame parent){
-        this.setSize(500,600);
+    private void showDialog(Frame parent) {
+        this.setSize(500, 600);
         this.setLocationRelativeTo(parent);
         this.setVisible(true);
 
