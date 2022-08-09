@@ -1,6 +1,5 @@
 package View;
 
-import Model.Database;
 import com.formdev.flatlaf.FlatIntelliJLaf;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 
