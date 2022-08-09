@@ -34,6 +34,7 @@ public class  EmployeePanel extends JPanel {
     private Database database;
     private final Color backGroundColor = new Color(245, 245, 251);
     private final Color backGroundBlue = new Color(78, 138, 201);
+    private final Color lineBorder = new Color(99, 200, 221);
     private final Font font = new Font(Font.SANS_SERIF, Font.PLAIN, 18);
     private JButton btnSua, btnThemMoi, btnXoa, btnXuatFile;
     public static DefaultTableModel dtmDsNhanVien;
@@ -90,7 +91,7 @@ public class  EmployeePanel extends JPanel {
         tableHeader.setForeground(Color.WHITE);
         tableHeader.setOpaque(true);
         tableHeader.setReorderingAllowed(true);
-        tableHeader.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        tableHeader.setBorder(BorderFactory.createLineBorder(lineBorder));
         ((DefaultTableCellRenderer) tableHeader.getDefaultRenderer()).setHorizontalAlignment(JLabel.CENTER);
 
         dtmDsNhanVien = new DefaultTableModel();
@@ -105,7 +106,8 @@ public class  EmployeePanel extends JPanel {
         tbDsNhanVien.setModel(dtmDsNhanVien);
         JScrollPane scrollDanhSachKH = new JScrollPane(tbDsNhanVien, JScrollPane.VERTICAL_SCROLLBAR_NEVER, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         //scrollDanhSachNV.setBorder(BorderFactory.createEmptyBorder(4 , 10,4 ,10));
-        scrollDanhSachKH.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(4, 4, 4, 4), BorderFactory.createLineBorder(Color.BLACK)));
+        scrollDanhSachKH.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(4, 4, 4, 4),
+                BorderFactory.createLineBorder(lineBorder)));
 
         DefaultTableCellRenderer cellRendererCenter = new DefaultTableCellRenderer();
         cellRendererCenter.setHorizontalAlignment(JLabel.CENTER);
@@ -163,7 +165,7 @@ public class  EmployeePanel extends JPanel {
         pnSouth.add(btnXuatFile);
         pnSouth.add(Box.createHorizontalGlue());
         pnSouth.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(0, 5, 5, 5),
-                BorderFactory.createLineBorder(Color.BLACK, 1)));
+                BorderFactory.createLineBorder(lineBorder, 2)));
 
         // East panel
         JPanel pnEast = new JPanel();
