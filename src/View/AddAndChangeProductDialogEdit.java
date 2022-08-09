@@ -5,6 +5,7 @@ import Controller.DatabaseConnection;
 import Model.Database;
 import Model.ProductModel;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
+import com.sun.tools.javac.Main;
 import org.jdatepicker.JDatePicker;
 
 import javax.swing.*;
@@ -212,17 +213,25 @@ public class AddAndChangeProductDialogEdit extends JDialog {
                         statement.setString(2,txtTenSanPham.getText());
                         statement.setString(3,txtDonVi.getText());
                         statement.setString(4,txtLoai.getText());
-                        statement.setString(5,new SimpleDateFormat("dd/MM/yyyy").format(txtHan.getModel().getValue()));
-                        statement.setString(6,txtGia.getText());
-                        statement.setString(7,txtSoLuong.getText());
-                        int result = statement.executeUpdate();
-                        if(result==0){
-                            JOptionPane.showMessageDialog(AddAndChangeProductDialogEdit.this, "Sửa thất bại!", "Error", JOptionPane.ERROR_MESSAGE);
-                        } else {
-                            showListProduct(getAllProducts());
-                            dispose();
-                            JOptionPane.showMessageDialog(AddAndChangeProductDialogEdit.this, "Sửa thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                        Date hsd = (Date) txtHan.getModel().getValue();
+                        if(hsd != null){
+                            statement.setString(5,new SimpleDateFormat("dd/MM/yyyy").format(hsd));
+                            statement.setString(6,txtGia.getText());
+                            statement.setString(7,txtSoLuong.getText());
+                            int result = statement.executeUpdate();
+                            if(result==0){
+                                JOptionPane.showMessageDialog(AddAndChangeProductDialogEdit.this, "Sửa thất bại!", "Error", JOptionPane.ERROR_MESSAGE);
+                            } else {
+                                showListProduct(getAllProducts());
+                                dispose();
+                                JOptionPane.showMessageDialog(AddAndChangeProductDialogEdit.this, "Sửa thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                            }
                         }
+                        else{
+                            JOptionPane.showMessageDialog(MainUI.frame,"bạn chưa chọn ngày","Thông báo ",JOptionPane.ERROR_MESSAGE);
+                        }
+
+
 
                     } catch (SQLException ex) {
                         ex.printStackTrace();

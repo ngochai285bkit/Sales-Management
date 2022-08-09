@@ -236,7 +236,7 @@ public class SupplierPanel extends JPanel {
                     supplier.setSoTaiKhoan((String) tbDsNCC.getValueAt(rowSelected, 4));
                     new AddAndChangeSupplierDialogEdit(MainUI.frame, "Sửa nhà cung cấp", supplier, database);
                 } else {
-                    JOptionPane.showMessageDialog(MainUI.frame, "bạn chưa chọn hàng", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(MainUI.frame, "bạn chưa chọn đối tượng cần sửa", "Lỗi", JOptionPane.ERROR_MESSAGE);
                 }
                 try {
                     showListSupplier(getAllSuppliers());
@@ -267,7 +267,7 @@ public class SupplierPanel extends JPanel {
                     }
                 }
                 else{
-                    JOptionPane.showMessageDialog(null,"chưa chọn hàng","Thông báo",JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null,"bạn chưa chọn đối tượng cần xóa","Thông báo",JOptionPane.ERROR_MESSAGE);
                 }
 
             }

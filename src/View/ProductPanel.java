@@ -253,11 +253,12 @@ public class ProductPanel extends JPanel {
                     } catch (ParseException ex) {
                         ex.printStackTrace();
                     }
-                    product.setHan(hsd);
+                    //if(hsd == null ) {JOptionPane.showMessageDialog(MainUI.frame,"vui lòng điền ngày tháng năm","thông báo ",JOptionPane.INFORMATION_MESSAGE);}
+                    if(hsd != null) product.setHan(hsd);
                     product.setSoLuong((String) tbDsSP.getValueAt(rowSelected, 6));
                     new AddAndChangeProductDialogEdit(MainUI.frame, "Sửa sản phẩm", product, database);
                 } else {
-                    JOptionPane.showMessageDialog(MainUI.frame, "bạn chưa chọn hàng", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(MainUI.frame, "bạn chưa chọn đối tượng cần sửa", "Lỗi", JOptionPane.ERROR_MESSAGE);
                 }
                 try {
                     showListProduct(getAllProducts());
@@ -287,7 +288,7 @@ public class ProductPanel extends JPanel {
                         }
                     }
                 } else {
-                    JOptionPane.showMessageDialog(null, "chưa chọn hàng", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "bạn chưa chọn đối tượng cần xóa", "Lỗi", JOptionPane.ERROR_MESSAGE);
                 }
 
             }
