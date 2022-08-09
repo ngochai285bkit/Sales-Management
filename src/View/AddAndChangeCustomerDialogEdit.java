@@ -2,6 +2,7 @@ package View;
 
 //import Controller.CustomerController;
 
+import Controller.CustomerController;
 import Controller.DatabaseConnection;
 import Model.CustomerModel;
 import Model.Database;
@@ -159,25 +160,30 @@ public class AddAndChangeCustomerDialogEdit extends JDialog {
         btnXacNhan.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Connection conn = DatabaseConnection.getConnection(database);
-                if (conn != null) {
-                    try {
-                        CallableStatement statement = conn.prepareCall("{CALL sp_Customer_Update(?,?,?,?)}");
-                        statement.setString(1, txtMaKhachHang.getText());
-                        statement.setString(2, txtTenKhachHang.getText());
-                        statement.setString(3, txtDiaChi.getText());
-                        statement.setString(4, txtSDT.getText());
-                        int result = statement.executeUpdate();
-                        if (result != 0) {
+                CustomerModel customer = new CustomerModel();
+                        customer.setMaKhachHang(txtMaKhachHang.getText());
+                        customer.setTenKhachHang(txtTenKhachHang.getText());
+                        customer.setDiaChi(txtDiaChi.getText());
+                        customer.setSoDienThoai(txtSDT.getText());
+                try {
+                    if (CustomerController.editCustomer(database, customer)) {
+                        try {
                             showListCustomer(getAllCustomer());
-                            dispose();
-                            JOptionPane.showMessageDialog(MainUI.frame, "Thêm thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-
+                        } catch (SQLException ex) {
+                            ex.printStackTrace();
                         }
-                    } catch (SQLException ex) {
-                        ex.printStackTrace();
+                        dispose();
+                        JOptionPane.showMessageDialog(MainUI.frame, "Chỉnh sửa thành công", "Thông báo",
+                                JOptionPane.INFORMATION_MESSAGE);
+
+                    } else {
+                        JOptionPane.showMessageDialog(MainUI.frame, "Chỉnh sửa thất bại", "Thông báo",
+                                JOptionPane.WARNING_MESSAGE);
                     }
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
                 }
+
             }
         });
     }

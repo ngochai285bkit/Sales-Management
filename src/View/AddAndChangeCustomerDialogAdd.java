@@ -153,8 +153,8 @@ public class AddAndChangeCustomerDialogAdd extends JDialog {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String maKhachHang = txtMaKhachHang.getText();
-
-                    if (CustomerController.checkCustomer(database, maKhachHang)){
+                try {
+                    if (CustomerController.checkCustomer(database, maKhachHang)) {
                         JOptionPane.showMessageDialog(MainUI.frame, "Mã khách hàng đã tồn tại!", "Cảnh báo",
                                 JOptionPane.WARNING_MESSAGE);
                     } else {
@@ -163,30 +163,23 @@ public class AddAndChangeCustomerDialogAdd extends JDialog {
                         customer.setTenKhachHang(txtTenKhachHang.getText());
                         customer.setDiaChi(txtDiaChi.getText());
                         customer.setSoDienThoai(txtSDT.getText());
-                        if (addCustomer)
-                    }
-                statement.setString(1, txtMaKhachHang.getText());
-                        ResultSet resultSet = statement.executeQuery();
-                        if (!resultSet.next()) {
-                            int select = JOptionPane.showConfirmDialog(MainUI.frame, "Mã khách hàng đã tồn tại \n Bạn có muốn tiếp tục?", "Thông báo", JOptionPane.OK_CANCEL_OPTION);
-                            if (select == JOptionPane.OK_OPTION) {
-                                statement = conn.prepareCall("{CALL sp_Customer_Add(?,?,?,?)}");
-                                statement.setString(1, txtMaKhachHang.getText());
-                                statement.setString(2, txtTenKhachHang.getText());
-                                statement.setString(3, txtDiaChi.getText());
-                                statement.setString(4, txtSDT.getText());
-                                int result = statement.executeUpdate();
-                                if (result != 0) {
-                                    showListCustomer(getAllCustomer());
-                                    dispose();
-                                    JOptionPane.showMessageDialog(MainUI.frame, "Thêm thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-                                }
+                        try {
+                            if (CustomerController.addCustomer(database, customer)) {
+                                showListCustomer(CustomerController.getAllCustomer(database));
+                                dispose();
+                                JOptionPane.showMessageDialog(MainUI.frame, "Thêm thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
                             }
-                        } else {
-                            JOptionPane.showMessageDialog(MainUI.frame, "Mã khách hàng đã trùng\nVui lòng thực hiện " +
-                                    "lại!");
+                            else {
+                                JOptionPane.showMessageDialog(MainUI.frame, "Thêm thất bại!", "Thông báo",
+                                        JOptionPane.WARNING_MESSAGE);
+                            }
+                        } catch (SQLException ex) {
+                            ex.printStackTrace();
                         }
-
+                    }
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
             }
         });
     }

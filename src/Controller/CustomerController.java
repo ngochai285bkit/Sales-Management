@@ -65,6 +65,20 @@ public class CustomerController {
         return false;
     }
 
+    public static boolean editCustomer(Database database, CustomerModel customer) throws SQLException {
+        Connection conn = DatabaseConnection.getConnection(database);
+        if (conn != null) {
+            CallableStatement statement = conn.prepareCall("{CALL sp_Customer_Update(?,?,?,?)}");
+            statement.setString(1, customer.getMaKhachHang());
+            statement.setString(2, customer.getTenKhachHang());
+            statement.setString(3, customer.getDiaChi());
+            statement.setString(4, customer.getSoDienThoai());
+            int result = statement.executeUpdate();
+            return result != 0;
+        }
+        return false;
+    }
+
 }
 
 
