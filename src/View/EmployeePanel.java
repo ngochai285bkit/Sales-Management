@@ -1,6 +1,7 @@
 package View;
 
 import Controller.DatabaseConnection;
+import Controller.EmployeeController;
 import Controller.ExportExcel;
 import Model.Database;
 import Model.EmployeeModel;
@@ -119,7 +120,7 @@ public class  EmployeePanel extends JPanel {
         pnCenter.add(scrollDanhSachKH, BorderLayout.CENTER);
 
         try {
-            showListEmployee(getAllEmployee());
+            showListEmployee(EmployeeController.getAllEmployee(database));
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -312,19 +313,17 @@ public class  EmployeePanel extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 int rowSelected = tbDsNhanVien.getSelectedRow();
                 if (rowSelected != -1) {
-                    Connection conn = DatabaseConnection.getConnection(database);
+                    String maNhanVien= (String) tbDsNhanVien.getValueAt(rowSelected, 0);
                     try {
-                        CallableStatement statement = conn.prepareCall("{ CALL sp_Employee_Delete(?) }");
-                        statement.setString(1, (String) tbDsNhanVien.getValueAt(rowSelected, 0));
-                        int result = statement.executeUpdate();
-                        if (result != 0) {
-                            showListEmployee(getAllEmployee());
+                        if (EmployeeController.deleteEmployee(database,maNhanVien )){
+                            showListEmployee(EmployeeController.getAllEmployee(database));
                             JOptionPane.showMessageDialog(MainUI.frame, "Xoá thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                        }else {
+                            JOptionPane.showMessageDialog(MainUI.frame, "Xóa thất bại!", "Cảnh báo", JOptionPane.WARNING_MESSAGE);
                         }
                     } catch (SQLException ex) {
                         ex.printStackTrace();
                     }
-
                 } else {
                     JOptionPane.showMessageDialog(MainUI.frame, "Bạn chưa chọn đối tượng cần xoá!", "Lỗi", JOptionPane.ERROR_MESSAGE);
                 }
@@ -404,7 +403,7 @@ public class  EmployeePanel extends JPanel {
         List<EmployeeModel> listLater = new ArrayList<>();
         String searchText = txtTimKiem.getText().toLowerCase();
         try {
-            List<EmployeeModel> list = getAllEmployee();
+            List<EmployeeModel> list = EmployeeController.getAllEmployee(database);
             for (EmployeeModel employee : list) {
                 if (txtTimKiem.getText().isEmpty()) {
                     listLater.add(employee);
@@ -454,35 +453,6 @@ public class  EmployeePanel extends JPanel {
         return listLater;
     }
 
-    private List<EmployeeModel> getAllEmployee() throws SQLException {
-        List<EmployeeModel> listEmployee = new ArrayList<>();
-        Connection conn = DatabaseConnection.getConnection(database);
-        if (conn != null) {
-            CallableStatement statement = ((Connection) conn).prepareCall("{ CALL sp_Employee_GetAll() }");
-            ResultSet rs = statement.executeQuery();
-            while (rs != null && rs.next()) {
-                EmployeeModel employeeModel = new EmployeeModel();
-                employeeModel.setMaNhanVien(rs.getString("MaNV"));
-                employeeModel.setHoTenNhanVien(rs.getString("HoTenNV"));
-                employeeModel.setDiaChiNhanVien(rs.getString("DiaChiNV"));
-                employeeModel.setSdtNhanVien(rs.getString("SdtNV"));
-                employeeModel.setChucVuNhanVien(rs.getString("ChucVu"));
-                try {
-                    employeeModel.setNgaySinhNhanVien(new SimpleDateFormat("dd/MM/yyyy").parse(rs.getString("NgaySinh")));
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-                try {
-                    employeeModel.setNgayBatDauLam(new SimpleDateFormat("dd/MM/yyyy").parse(rs.getString("NgayLamViec")));
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-                employeeModel.setGioiTinh(rs.getString("GioiTinh"));
-                listEmployee.add(employeeModel);
-            }
-        }
-        return listEmployee;
-    }
 
     private void showListEmployee(java.util.List<EmployeeModel> listEmployee) {
         dtmDsNhanVien.setRowCount(0);

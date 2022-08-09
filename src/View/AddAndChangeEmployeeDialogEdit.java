@@ -1,6 +1,7 @@
 package View;
 
 import Controller.DatabaseConnection;
+import Controller.EmployeeController;
 import Model.Database;
 import Model.EmployeeModel;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
@@ -215,85 +216,42 @@ public class AddAndChangeEmployeeDialogEdit extends JDialog {
         btnXacNhan.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Connection conn = DatabaseConnection.getConnection(database);
-                if (conn != null) {
-                    try {
-                        CallableStatement statement = conn.prepareCall("{CALL sp_Employee_Update(?,?,?,?,?,?,?,?)}");
-                        statement.setString(1, txtMaNhanVien.getText());
-                        statement.setString(2, txtTenNhanVien.getText());
-                        statement.setString(3, txtDiaChi.getText());
-                        statement.setString(4, txtSDT.getText());
-                        statement.setString(5, txtChucVu.getText());
-                        Date ngaySinhNV = (Date) txtNgaySinh.getModel().getValue();
-                        Date ngayBatDauLam = (Date) txtNgayBatDauLam.getModel().getValue();
-                        if (ngaySinhNV != null) {
-                            statement.setString(6,
-                                    new SimpleDateFormat("dd/MM/yyyy").format(txtNgaySinh.getModel().getValue()));
-                            if (ngayBatDauLam != null) {
-                                statement.setString(7,
-                                        new SimpleDateFormat("dd/MM/yyyy").format(txtNgayBatDauLam.getModel().getValue()));
-                                statement.setString(8, (String) chonGioiTinh.getSelectedItem());
+                EmployeeModel employee = new EmployeeModel();
+                employee.setMaNhanVien(txtMaNhanVien.getText());
+                employee.setHoTenNhanVien(txtTenNhanVien.getText());
+                employee.setDiaChiNhanVien(txtDiaChi.getText());
+                employee.setSdtNhanVien(txtSDT.getText());
+                employee.setChucVuNhanVien(txtChucVu.getText());
+                employee.setGioiTinh((String) chonGioiTinh.getSelectedItem());
+                Date ngaySinhNV = (Date) txtNgaySinh.getModel().getValue();
+                Date ngayBatDauLam = (Date) txtNgayBatDauLam.getModel().getValue();
+                if (ngaySinhNV != null) {
+                    employee.setNgaySinhNhanVien(ngaySinhNV);
+                    if (ngayBatDauLam != null) {
+                        employee.setNgayBatDauLam(ngayBatDauLam);
+                        try {
+                            if (EmployeeController.editEmployee(database, employee)) {
+                                showListEmployee(EmployeeController.getAllEmployee(database));
+                                dispose();
+                                JOptionPane.showMessageDialog(MainUI.frame, "Chỉnh sửa thành công", "Thông báo",
+                                        JOptionPane.INFORMATION_MESSAGE);
 
-                                int result = statement.executeUpdate();
-                                if (result != 0) {
-                                    showListEmployee(getAllEmployee());
-                                    dispose();
-                                    JOptionPane.showMessageDialog(MainUI.frame, "Chỉnh sửa thành công", "Thông báo",
-                                            JOptionPane.INFORMATION_MESSAGE);
-
-                                }
-                            } else {
-                                JOptionPane.showMessageDialog(MainUI.frame, "Chưa có ngày bắt đầu làm!");
+                            }else {
+                                JOptionPane.showMessageDialog(MainUI.frame, "Chỉnh sửa thất bại", "Thông báo",
+                                        JOptionPane.WARNING_MESSAGE);
                             }
-
-                        } else {
-                            JOptionPane.showMessageDialog(MainUI.frame, "Chưa có ngày sinh nhân viên!");
+                        } catch (SQLException ex) {
+                            ex.printStackTrace();
                         }
-
-                    } catch (SQLException ex) {
-                        ex.printStackTrace();
+                    } else {
+                        JOptionPane.showMessageDialog(MainUI.frame, "Chưa có ngày bắt đầu làm!");
                     }
+
+                } else {
+                    JOptionPane.showMessageDialog(MainUI.frame, "Chưa có ngày sinh nhân viên!");
                 }
             }
         });
-    }
-
-    private List<EmployeeModel> getAllEmployee() {
-        List<EmployeeModel> listEmployee = new ArrayList<>();
-        Connection conn = DatabaseConnection.getConnection(database);
-        if (conn != null) {
-            try {
-                CallableStatement statement = ((Connection) conn).prepareCall("{ CALL sp_Employee_GetAll() }");
-                ResultSet rs = statement.executeQuery();
-                while (rs != null && rs.next()) {
-                    EmployeeModel employeeModel = new EmployeeModel();
-                    employeeModel.setMaNhanVien(rs.getString("MaNV"));
-                    employeeModel.setHoTenNhanVien(rs.getString("HoTenNV"));
-                    employeeModel.setDiaChiNhanVien(rs.getString("DiaChiNV"));
-                    employeeModel.setSdtNhanVien(rs.getString("SdtNV"));
-                    employeeModel.setChucVuNhanVien(rs.getString("ChucVu"));
-                    try {
-                        employeeModel.setNgaySinhNhanVien(new SimpleDateFormat("dd/MM/yyyy").parse(rs.getString("NgaySinh")));
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                    }
-                    try {
-                        employeeModel.setNgayBatDauLam(new SimpleDateFormat("dd/MM/yyyy").parse(rs.getString("NgayLamViec")));
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                    }
-                    try {
-                        employeeModel.setGioiTinh(rs.getString("GioiTinh"));
-                    } catch (SQLException e) {
-                        e.printStackTrace();
-                    }
-                    listEmployee.add(employeeModel);
-                }
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
-            }
-        }
-        return listEmployee;
     }
 
     private void showListEmployee(java.util.List<EmployeeModel> listEmployee) {

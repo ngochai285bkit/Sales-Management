@@ -195,21 +195,21 @@ public class CustomerPanel extends JPanel {
         pnTimKiem.add(rbtnTenKhachHang);
         pnTimKiem.add(rbtnDienThoaiKhachHang);
 
-        JPanel pnLoc = new JPanel();
-        pnLoc.setLayout(new BorderLayout());
-        pnLoc.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(10,
-                5, 0, 0), BorderFactory.createLineBorder(new Color(78, 138, 201), 1)));
-        JLabel lblImageCustomer1 = new JLabel();
-        lblImageCustomer1.setIcon(new FlatSVGIcon(Objects.requireNonNull(this.getClass().getResource("/Images" +
-                "/customerSVG.svg"))));
-        JLabel lblImageCustomer2 = new JLabel();
-        lblImageCustomer2.setFont();
-        pnLoc.add(lblImageCustomer1, BorderLayout.CENTER);
+//        JPanel pnLoc = new JPanel();
+//        pnLoc.setLayout(new BorderLayout());
+//        pnLoc.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(10,
+//                5, 0, 0), BorderFactory.createLineBorder(new Color(78, 138, 201), 1)));
+//        JLabel lblImageCustomer1 = new JLabel();
+//        lblImageCustomer1.setIcon(new FlatSVGIcon(Objects.requireNonNull(this.getClass().getResource("/Images" +
+//                "/customerSVG.svg"))));
+//        JLabel lblImageCustomer2 = new JLabel();
+//        lblImageCustomer2.setFont();
+//        pnLoc.add(lblImageCustomer1, BorderLayout.CENTER);
 
 
 
         pnEast.add(pnTimKiem, BorderLayout.NORTH);
-        pnEast.add(pnLoc, BorderLayout.CENTER);
+//        pnEast.add(pnLoc, BorderLayout.CENTER);
 
         JPanel pnCenterMain = new JPanel();
         pnCenterMain.setLayout(new BorderLayout());
