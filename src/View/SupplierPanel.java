@@ -1,10 +1,8 @@
 package View;
 
-import Controller.DatabaseConnection;
 import Controller.ExportExcel;
 import Controller.SupplierController;
 import Model.Database;
-import Model.ProductModel;
 import Model.SupplierModel;
 import com.formdev.flatlaf.FlatIntelliJLaf;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
@@ -19,11 +17,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.sql.CallableStatement;
-import java.sql.Connection;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.List;
 
@@ -246,7 +240,7 @@ public class SupplierPanel extends JPanel {
         btnThemMoi.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new AddAndChangeSupplierDialogAdd(MainUI.frame, "Thêm nhà cung cấp", database);
+                new AddSupplierDialog(MainUI.frame, "Thêm nhà cung cấp", database);
                 try {
                     showListSupplier(SupplierController.getAllSuppliers(database));
                 } catch (SQLException ex) {
@@ -266,7 +260,7 @@ public class SupplierPanel extends JPanel {
                     supplier.setDiaChi((String) tbDsNCC.getValueAt(rowSelected, 2));
                     supplier.setSoDienThoai((String) tbDsNCC.getValueAt(rowSelected, 3));
                     supplier.setSoTaiKhoan((String) tbDsNCC.getValueAt(rowSelected, 4));
-                    new AddAndChangeSupplierDialogEdit(MainUI.frame, "Sửa nhà cung cấp", supplier, database);
+                    new EditSupplierDialog(MainUI.frame, "Sửa nhà cung cấp", supplier, database);
                 } else {
                     JOptionPane.showMessageDialog(MainUI.frame, "bạn chưa chọn đối tượng cần sửa", "Lỗi", JOptionPane.ERROR_MESSAGE);
                 }

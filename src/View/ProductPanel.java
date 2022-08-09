@@ -1,6 +1,5 @@
 package View;
 
-import Controller.DatabaseConnection;
 import Controller.ExportExcel;
 import Controller.ProductController;
 import Model.Database;
@@ -18,9 +17,6 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.sql.CallableStatement;
-import java.sql.Connection;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -253,7 +249,7 @@ public class ProductPanel extends JPanel {
         btnThemMoi.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new AddAndChangeProductDialogAdd(MainUI.frame, "Thêm sản phẩm", database);
+                new AddProductDialog(MainUI.frame, "Thêm sản phẩm", database);
                 try {
                     showListProduct(ProductController.getAllProducts(database));
                 } catch (SQLException ex) {
@@ -281,7 +277,7 @@ public class ProductPanel extends JPanel {
                         ex.printStackTrace();
                     }
                     product.setSoLuong((String) tbDsSP.getValueAt(rowSelected, 6));
-                    new AddAndChangeProductDialogEdit(MainUI.frame, "Sửa sản phẩm", product, database);
+                    new EditProductDialog(MainUI.frame, "Sửa sản phẩm", product, database);
                 } else {
                     JOptionPane.showMessageDialog(MainUI.frame, "bạn chưa chọn đối tượng cần sửa", "Lỗi", JOptionPane.ERROR_MESSAGE);
                 }

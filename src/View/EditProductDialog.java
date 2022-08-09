@@ -4,10 +4,6 @@ package View;
 import Controller.ProductController;
 import Model.Database;
 import Model.ProductModel;
-<<<<<<< HEAD
-=======
-import Model.ProductModel;
->>>>>>> 8031b50 (update giao diện)
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import org.jdatepicker.JDatePicker;
 
@@ -17,28 +13,39 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
+<<<<<<< HEAD
+import java.util.Date;
 import java.util.List;
+import java.util.Objects;
+import java.util.Vector;
+=======
 import java.util.*;
+import java.util.List;
+>>>>>>> 8031b50 (update giao diện)
 
-public class AddAndChangeProductDialogAdd extends JDialog {
+public class EditProductDialog extends JDialog {
     private JTextField txtMaSanPham, txtTenSanPham, txtGia, txtDonVi, txtLoai, txtSoLuong;
     private JDatePicker txtHan;
-    private JButton btnGhiLai, btnThoat;
+    private JButton btnXacNhan, btnThoat;
     private final Dimension dimenLabel = new Dimension(200, 25);
     private final Dimension dimenTextField = new Dimension(200, 30);
     private final Color backGroundBlue = new Color(78, 138, 201);
     private Database database;
+    private ProductModel product;
 
-    // constructor
-    public AddAndChangeProductDialogAdd(Window owner, String title, Database database) {
+
+    public EditProductDialog(Window owner, String title, ProductModel product, Database database) {
         super(owner);
         this.setTitle(title);
         this.setModal(true);
         this.database = database;
+        this.product = product;
         initComponents();
+        setInforProduct(product);
 
         addEvents();
         showDialog(owner);
+
     }
 
     private void initComponents() {
@@ -56,15 +63,16 @@ public class AddAndChangeProductDialogAdd extends JDialog {
         pnCenter.setBackground(new Color(245, 245, 251));
         pnCenter.setLayout(new BoxLayout(pnCenter, BoxLayout.Y_AXIS));
 <<<<<<< HEAD
+
 =======
-
+        
+        
 >>>>>>> 8031b50 (update giao diện)
-
 
         JPanel pnMaSanPham = new JPanel();
         pnMaSanPham.setBackground(new Color(245, 245, 251));
         txtMaSanPham = new JTextField();
-
+        txtMaSanPham.setEditable(false);
         txtMaSanPham.setPreferredSize(dimenTextField);
         txtMaSanPham.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 16));
         JLabel lblMaSanPham = new JLabel("Mã sản phẩm: ");
@@ -120,9 +128,8 @@ public class AddAndChangeProductDialogAdd extends JDialog {
 
         JPanel pnHan = new JPanel();
         pnHan.setBackground(new Color(245, 245, 251));
-        Calendar cal = Calendar.getInstance();
-        Date now = cal.getTime();
-        txtHan = new JDatePicker(now);
+        txtHan = new JDatePicker(product.getHan());
+        txtHan.setPreferredSize(dimenTextField);
         txtHan.getComponent(0).setPreferredSize(new Dimension(170, 30));
         txtHan.getComponent(1).setPreferredSize(new Dimension(30, 30));
         txtHan.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 16));
@@ -159,22 +166,22 @@ public class AddAndChangeProductDialogAdd extends JDialog {
         pnSouth.setLayout(new FlowLayout(FlowLayout.CENTER));
 
 
-        btnGhiLai = new JButton("Xác nhận");
-        btnGhiLai.setIcon(new FlatSVGIcon(Objects.requireNonNull(AddAndChangeProductDialogAdd.class.getResource("/Images/24x24/checked_24x24.svg"))));
-        btnGhiLai.setBackground(Color.WHITE);
-        btnGhiLai.setForeground(Color.BLACK);
-        btnGhiLai.setPreferredSize(new Dimension(160, 38));
+        btnXacNhan = new JButton("Xác nhận");
+        btnXacNhan.setIcon(new FlatSVGIcon(Objects.requireNonNull(EditProductDialog.class.getResource("/Images/24x24/checked_24x24.svg"))));
+        btnXacNhan.setBackground(Color.WHITE);
+        btnXacNhan.setForeground(Color.BLACK);
+        btnXacNhan.setPreferredSize(new Dimension(160, 38));
 <<<<<<< HEAD
-        btnGhiLai.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 19));
+        btnXacNhan.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 19));
 =======
-        btnGhiLai.setFont(new Font(Font.SANS_SERIF,Font.PLAIN,19));
+        btnXacNhan.setFont(new Font(Font.SANS_SERIF,Font.PLAIN,19));
 >>>>>>> 8031b50 (update giao diện)
-        JPanel pnbtnGhiLai = new JPanel();
-        pnbtnGhiLai.setBackground(new Color(245, 245, 251));
-        pnbtnGhiLai.add(btnGhiLai);
+        JPanel pnbtnXacNhan = new JPanel();
+        pnbtnXacNhan.setBackground(new Color(245, 245, 251));
+        pnbtnXacNhan.add(btnXacNhan);
 
         btnThoat = new JButton("Thoát");
-        btnThoat.setIcon(new FlatSVGIcon(Objects.requireNonNull(AddAndChangeProductDialogAdd.class.getResource("/Images/24x24/exitDialog_24x24.svg"))));
+        btnThoat.setIcon(new FlatSVGIcon(Objects.requireNonNull(EditProductDialog.class.getResource("/Images/24x24/exitDialog_24x24.svg"))));
         btnThoat.setBackground(Color.WHITE);
         btnThoat.setForeground(Color.BLACK);
         btnThoat.setPreferredSize(new Dimension(160, 38));
@@ -187,7 +194,7 @@ public class AddAndChangeProductDialogAdd extends JDialog {
         pnbtnThoat.setBackground(new Color(245, 245, 251));
         pnbtnThoat.add(btnThoat);
 
-        pnSouth.add(pnbtnGhiLai);
+        pnSouth.add(pnbtnXacNhan);
         pnSouth.add(pnbtnThoat);
 
         JPanel pnMain = new JPanel();
@@ -209,45 +216,34 @@ public class AddAndChangeProductDialogAdd extends JDialog {
                 setVisible(false);
             }
         });
-        btnGhiLai.addActionListener(new ActionListener() {
+        btnXacNhan.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String MaSP = txtMaSanPham.getText();
-                try {
-                    if (ProductController.CheckProduct(database, MaSP)) {
-                        JOptionPane.showMessageDialog(MainUI.frame, "Mã sản phẩm đã tồn tại ", "Thông báo ", JOptionPane.INFORMATION_MESSAGE);
-                    } else {
-                        ProductModel product = new ProductModel();
-                        product.setMaSanPham(txtMaSanPham.getText());
-                        product.setTenSanPham(txtTenSanPham.getText());
-                        product.setGia(txtGia.getText());
-                        product.setLoai(txtLoai.getText());
-                        product.setSoLuong(txtSoLuong.getText());
-                        product.setDonVi(txtDonVi.getText());
-                        Date han = (Date) txtHan.getModel().getValue();
-                        if (han != null) {
-                            product.setHan(han);
-                            if (ProductController.AddProduct(database, product)) {
-                                showListProduct(ProductController.getAllProducts(database));
-                                dispose();
-                                JOptionPane.showMessageDialog(MainUI.frame, "Thêm thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-                            }
-                            else JOptionPane.showMessageDialog(MainUI.frame, "Thêm thất bại", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                ProductModel product = new ProductModel();
+                product.setMaSanPham(txtMaSanPham.getText());
+                product.setTenSanPham(txtTenSanPham.getText());
+                product.setGia(txtGia.getText());
+                product.setLoai(txtLoai.getText());
+                product.setDonVi(txtDonVi.getText());
+                product.setSoLuong(txtSoLuong.getText());
+                Date han = (Date) txtHan.getModel().getValue();
+                if (han != null) {
+                    product.setHan(han);
+                    try {
+                        if (ProductController.UpdateProduct(database, product)) {
+                            showListProduct(ProductController.getAllProducts(database));
+                            dispose();
+                            JOptionPane.showMessageDialog(MainUI.frame, "Sửa thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
                         } else
-                            JOptionPane.showMessageDialog(MainUI.frame, "Bạn chưa chọn ngày", "Cảnh báo", JOptionPane.WARNING_MESSAGE);
+                            JOptionPane.showMessageDialog(MainUI.frame, "Sửa thất bại", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                    } catch (SQLException ex) {
+                        ex.printStackTrace();
                     }
-                } catch (SQLException throwables) {
-                    throwables.printStackTrace();
-                }
+                } else
+                    JOptionPane.showMessageDialog(MainUI.frame, "Bạn chưa chọn ngày", "Cảnh báo", JOptionPane.WARNING_MESSAGE);
             }
         });
     }
-    private ProductModel getProduct() {
-        ProductModel Product = new ProductModel();
-
-        return Product;
-    }
-
     private void showListProduct(List<ProductModel> listProduct) {
 
         ProductPanel.dtmDanhSachSP.setRowCount(0);
@@ -264,10 +260,30 @@ public class AddAndChangeProductDialogAdd extends JDialog {
         }
     }
 
+
+    private void setInforProduct(ProductModel Product) {
+
+        txtMaSanPham.setText(Product.getMaSanPham());
+        txtTenSanPham.setText(Product.getTenSanPham());
+        txtDonVi.setText(Product.getDonVi());
+        txtLoai.setText(Product.getLoai());
+        //txtHan.setText(new SimpleDateFormat("dd/MM/yyyy").format(Product.getHan()));
+        //txtHan.getModel().setDate();
+        txtGia.setText(Product.getGia());
+        txtSoLuong.setText(Product.getSoLuong());
+    }
+
     private void showDialog(Window owner) {
         this.setSize(809, 500);
-        this.setLocationRelativeTo(owner);
+<<<<<<< HEAD
+<<<<<<< HEAD
         this.setResizable(false);
+=======
+>>>>>>> 8031b50 (update giao diện)
+=======
+        this.setResizable(false);
+>>>>>>> 6966e9f (chỉnh cho đẹp)
+        this.setLocationRelativeTo(owner);
         this.setDefaultCloseOperation(HIDE_ON_CLOSE);
         this.setVisible(true);
 

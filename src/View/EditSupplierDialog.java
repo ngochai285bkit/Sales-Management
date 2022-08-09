@@ -1,7 +1,6 @@
 package View;
 
 
-import Controller.DatabaseConnection;
 import Controller.SupplierController;
 import Model.Database;
 import Model.SupplierModel;
@@ -11,49 +10,54 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.sql.CallableStatement;
-import java.sql.Connection;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Vector;
 
-public class AddAndChangeSupplierDialogAdd extends JDialog {
+public class EditSupplierDialog extends JDialog {
     private JTextField txtMaNhaCungCap, txtDiaChi, txtTenNhaCungCap, txtSDT, txtSoTaiKhoan;
-    private JButton btnGhiLai, btnThoat;
+    private JButton btnXacNhan, btnThoat;
     private final Dimension dimenLabel = new Dimension(200, 25);
     private final Dimension dimenTextField = new Dimension(200, 30);
     private final Color backGroundBlue = new Color(78, 138, 201);
-    private final Database database;
+    private Database database;
 
-    // constructor
-    public AddAndChangeSupplierDialogAdd(Window owner, String title, Database database) {
+    public EditSupplierDialog(Window owner, String title, SupplierModel supplier, Database database) {
         super(owner);
         this.setTitle(title);
         this.setModal(true);
         this.database = database;
         initComponents();
+        setInforSupplier(supplier);
 
         addEvents();
         showDialog(owner);
+
     }
 
     private void initComponents() {
         //The top panel
         JPanel pnTop = new JPanel();
         pnTop.setBackground(new Color(245, 245, 251));
-        JLabel lblTieuDe = new JLabel("Thông tin nhân viên");
+        JLabel lblTieuDe = new JLabel("Thông tin nhà cung cấp");
         lblTieuDe.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 26));
         lblTieuDe.setForeground(backGroundBlue);
         pnTop.add(lblTieuDe);
 
-
-        //The right panel
+<<<<<<< HEAD
+        //The Center panel
         JPanel pnCenter = new JPanel();
+        //pnCenter.setPreferredSize(new Dimension(400,0));
+=======
+
+        //The Center panel
+        JPanel pnCenter = new JPanel();
+<<<<<<< HEAD
+>>>>>>> 8031b50 (update giao diện)
+=======
+        //pnCenter.setPreferredSize(new Dimension(400,0));
+>>>>>>> 6966e9f (chỉnh cho đẹp)
         pnCenter.setLayout(new BoxLayout(pnCenter, BoxLayout.Y_AXIS));
         pnCenter.setBackground(new Color(245, 245, 251));
 
@@ -61,13 +65,10 @@ public class AddAndChangeSupplierDialogAdd extends JDialog {
         JPanel pnMaNhaCungCap = new JPanel();
         pnMaNhaCungCap.setBackground(new Color(245, 245, 251));
         txtMaNhaCungCap = new JTextField();
-
+        txtMaNhaCungCap.setEditable(false);
         txtMaNhaCungCap.setPreferredSize(dimenTextField);
-<<<<<<< HEAD
         txtMaNhaCungCap.setFont(new Font(Font.SANS_SERIF, Font.ITALIC, 16));
-=======
-        txtMaNhaCungCap.setFont(new Font(Font.SANS_SERIF,Font.ITALIC,16));
->>>>>>> 8031b50 (update giao diện)
+        ;
         JLabel lblMaNhaCungCap = new JLabel("Mã nhà cung cấp: ");
         lblMaNhaCungCap.setFont(new Font(Font.SANS_SERIF, Font.ITALIC, 20));
         lblMaNhaCungCap.setPreferredSize(dimenLabel);
@@ -120,6 +121,7 @@ public class AddAndChangeSupplierDialogAdd extends JDialog {
 
 
         pnCenter.add(Box.createVerticalGlue());
+
         pnCenter.add(pnMaNhaCungCap);
         pnCenter.add(pnTenNhaCungCap);
         pnCenter.add(pnDiaChi);
@@ -127,46 +129,45 @@ public class AddAndChangeSupplierDialogAdd extends JDialog {
         pnCenter.add(pnSoTaiKhoan);
         pnCenter.add(Box.createVerticalGlue());
 
+        //South panel
         JPanel pnSouth = new JPanel();
         pnSouth.setLayout(new FlowLayout(FlowLayout.CENTER));
         pnSouth.setBackground(new Color(245, 245, 251));
 
-        btnGhiLai = new JButton("Xác nhận");
-        btnGhiLai.setIcon(new FlatSVGIcon(Objects.requireNonNull(AddAndChangeProductDialogAdd.class.getResource("/Images/24x24/checked_24x24.svg"))));
-        btnGhiLai.setBackground(Color.WHITE);
-        btnGhiLai.setForeground(Color.BLACK);
-        btnGhiLai.setPreferredSize(new Dimension(160, 38));
+        btnXacNhan = new JButton("Xác nhận");
+        btnXacNhan.setIcon(new FlatSVGIcon(Objects.requireNonNull(EditSupplierDialog.class.getResource("/Images/24x24/checked_24x24.svg"))));
+        btnXacNhan.setBackground(Color.WHITE);
+        btnXacNhan.setForeground(Color.BLACK);
+        btnXacNhan.setPreferredSize(new Dimension(160, 38));
 <<<<<<< HEAD
-        btnGhiLai.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 20));
+        btnXacNhan.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 19));
 =======
-        btnGhiLai.setFont(new Font(Font.SANS_SERIF,Font.PLAIN,20));
+        btnXacNhan.setFont(new Font(Font.SANS_SERIF,Font.PLAIN,19));
 >>>>>>> 8031b50 (update giao diện)
-        JPanel pnbtnGhiLai = new JPanel();
-        pnbtnGhiLai.setBackground(new Color(245, 245, 251));
-        pnbtnGhiLai.add(btnGhiLai);
+        JPanel pnbtnXacNhan = new JPanel();
+        pnbtnXacNhan.setBackground(new Color(245, 245, 251));
+        pnbtnXacNhan.add(btnXacNhan);
 
         btnThoat = new JButton("Thoát");
+        btnThoat.setIcon(new FlatSVGIcon(Objects.requireNonNull(EditSupplierDialog.class.getResource("/Images/24x24/exitDialog_24x24.svg"))));
+        btnThoat.setBackground(Color.WHITE);
+        btnThoat.setForeground(Color.BLACK);
+        btnThoat.setPreferredSize(new Dimension(160, 38));
 <<<<<<< HEAD
-        btnThoat.setIcon(new FlatSVGIcon(Objects.requireNonNull(AddAndChangeSupplierDialogAdd.class.getResource("/Images/24x24/exitDialog_24x24.svg"))));
-        btnThoat.setBackground(Color.WHITE);
-        btnThoat.setForeground(Color.BLACK);
-        btnThoat.setPreferredSize(new Dimension(160, 38));
-        btnThoat.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 20));
+        btnThoat.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 19));
 =======
-        btnThoat.setIcon(new FlatSVGIcon(AddAndChangeSupplierDialogAdd.class.getResource("/Images/24x24/exitDialog_24x24.svg")));
-        btnThoat.setBackground(Color.WHITE);
-        btnThoat.setForeground(Color.BLACK);
-        btnThoat.setPreferredSize(new Dimension(160, 38));
-        btnThoat.setFont(new Font(Font.SANS_SERIF,Font.PLAIN,20));
+        btnThoat.setFont(new Font(Font.SANS_SERIF,Font.PLAIN,19));
 >>>>>>> 8031b50 (update giao diện)
         JPanel pnbtnThoat = new JPanel();
         pnbtnThoat.setBackground(new Color(245, 245, 251));
         pnbtnThoat.add(btnThoat);
 
-        pnSouth.add(pnbtnGhiLai);
+        pnSouth.add(pnbtnXacNhan);
         pnSouth.add(pnbtnThoat);
 
+        //Main Panel
         JPanel pnMain = new JPanel();
+        pnMain.setBackground(new Color(245, 245, 251));
         pnMain.setLayout(new BorderLayout());
         pnMain.add(pnTop, BorderLayout.NORTH);
         pnMain.add(pnCenter, BorderLayout.CENTER);
@@ -185,32 +186,25 @@ public class AddAndChangeSupplierDialogAdd extends JDialog {
                 setVisible(false);
             }
         });
-        btnGhiLai.addActionListener(new ActionListener() {
+        btnXacNhan.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                SupplierModel supplier = new SupplierModel();
+                supplier.setMaNhaCungCap(txtMaNhaCungCap.getText());
+                supplier.setDiaChi(txtDiaChi.getText());
+                supplier.setSoTaiKhoan(txtSoTaiKhoan.getText());
+                supplier.setSoDienThoai(txtSDT.getText());
+                supplier.setTenNhaCungCap(txtTenNhaCungCap.getText());
                 try {
-                    if(SupplierController.checkSupplier(database, txtMaNhaCungCap.getText())){
-                        JOptionPane.showMessageDialog(MainUI.frame, "Mã đã tồn tại", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-                    } else {
-                        SupplierModel supplier = new SupplierModel();
-                        supplier.setMaNhaCungCap(txtMaNhaCungCap.getText());
-                        supplier.setDiaChi(txtDiaChi.getText());
-                        supplier.setSoTaiKhoan(txtSoTaiKhoan.getText());
-                        supplier.setSoDienThoai(txtSDT.getText());
-                        supplier.setTenNhaCungCap(txtTenNhaCungCap.getText());
-                        if(SupplierController.addSupplier(database, supplier)){
-                            showListSupplier(SupplierController.getAllSuppliers(database));
-                            dispose();
-                            JOptionPane.showMessageDialog(MainUI.frame, "Thêm thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-                        } else {
-                            JOptionPane.showMessageDialog(MainUI.frame, "Thêm thất bại!", "Cảnh báo", JOptionPane.WARNING_MESSAGE);
-                        }
+                    if(SupplierController.updateSupplier(database,supplier)){
+                        showListSupplier(SupplierController.getAllSuppliers(database));
+                        dispose();
+                        JOptionPane.showMessageDialog(EditSupplierDialog.this, "Sửa thành công!", "Thông báo",JOptionPane.INFORMATION_MESSAGE);
                     }
-
+                    else JOptionPane.showMessageDialog(MainUI.frame,"Sửa thất bại","Cảnh báo",JOptionPane.WARNING_MESSAGE);
                 } catch (SQLException ex) {
                     ex.printStackTrace();
                 }
-
             }
         });
 
@@ -227,6 +221,16 @@ public class AddAndChangeSupplierDialogAdd extends JDialog {
             vector.add(supplierModel.getSoTaiKhoan());
             SupplierPanel.dtmDanhSachNCC.addRow(vector);
         }
+    }
+
+
+    private void setInforSupplier(SupplierModel supplier) {
+
+        txtMaNhaCungCap.setText(supplier.getMaNhaCungCap());
+        txtTenNhaCungCap.setText(supplier.getTenNhaCungCap());
+        txtDiaChi.setText(supplier.getDiaChi());
+        txtSDT.setText(supplier.getSoDienThoai());
+        txtSoTaiKhoan.setText(supplier.getSoTaiKhoan());
     }
 
     private void showDialog(Window owner) {
