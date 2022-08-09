@@ -2,6 +2,7 @@ package View;
 
 import Controller.DatabaseConnection;
 import Controller.ExportExcel;
+import Controller.ProductController;
 import Model.Database;
 import Model.ProductModel;
 import com.formdev.flatlaf.FlatIntelliJLaf;
@@ -112,7 +113,7 @@ public class ProductPanel extends JPanel {
         tbDsSP.getColumnModel().getColumn(6).setCellRenderer(cellRendererCenter);
         pnCenter.add(scrollDanhSachNV, BorderLayout.CENTER);
         try {
-            showListProduct(getAllProducts());
+            showListProduct(ProductController.getAllProducts(database));
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -166,10 +167,16 @@ public class ProductPanel extends JPanel {
         pnTimKiem.add(rbtnGia);
         pnTimKiem.add(rbtnSoLuong);
 
+        JPanel pnLoc = new JPanel();
+        pnLoc.setLayout(new BorderLayout());
+        JLabel iconlabel = new JLabel();
 
-
+        pnLoc.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(10,
+                5, 5, 5), BorderFactory.createLineBorder(new Color(78, 138, 201), 1)));
+        iconlabel.setIcon(new FlatSVGIcon(Objects.requireNonNull(ProductPanel.class.getResource("/Images/48x48/box1.svg"))));
+        pnLoc.add(iconlabel,BorderLayout.CENTER);
         pnEast.add(pnTimKiem, BorderLayout.NORTH);
-        //pnEast.add(pnLoc, BorderLayout.CENTER);
+        pnEast.add(pnLoc, BorderLayout.CENTER);
 
         //South panel
         JPanel pnSouth = new JPanel();
@@ -228,7 +235,7 @@ public class ProductPanel extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 new AddAndChangeProductDialogAdd(MainUI.frame, "Thêm sản phẩm", database);
                 try {
-                    showListProduct(getAllProducts());
+                    showListProduct(ProductController.getAllProducts(database));
                 } catch (SQLException ex) {
                     ex.printStackTrace();
                 }
@@ -249,19 +256,16 @@ public class ProductPanel extends JPanel {
                     Date hsd = null;
                     try {
                         hsd = new SimpleDateFormat("dd/MM/yyyy").parse((String) tbDsSP.getValueAt(rowSelected, 4));
-
                     } catch (ParseException ex) {
                         ex.printStackTrace();
                     }
-                    //if(hsd == null ) {JOptionPane.showMessageDialog(MainUI.frame,"vui lòng điền ngày tháng năm","thông báo ",JOptionPane.INFORMATION_MESSAGE);}
-                    if(hsd != null) product.setHan(hsd);
                     product.setSoLuong((String) tbDsSP.getValueAt(rowSelected, 6));
                     new AddAndChangeProductDialogEdit(MainUI.frame, "Sửa sản phẩm", product, database);
                 } else {
                     JOptionPane.showMessageDialog(MainUI.frame, "bạn chưa chọn đối tượng cần sửa", "Lỗi", JOptionPane.ERROR_MESSAGE);
                 }
                 try {
-                    showListProduct(getAllProducts());
+                    showListProduct(ProductController.getAllProducts(database));
                 } catch (SQLException ex) {
                     ex.printStackTrace();
                 }
@@ -272,21 +276,18 @@ public class ProductPanel extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 int rowSelected = tbDsSP.getSelectedRow();
                 if (rowSelected != -1) {
-                    Connection conn = DatabaseConnection.getConnection(database);
-                    if (conn != null) {
-                        try {
-                            CallableStatement statement = conn.prepareCall("{ CALL sp_Product_Delete(?)} ");
-                            statement.setString(1, (String) tbDsSP.getValueAt(rowSelected, 0));
-                            int result = statement.executeUpdate();
-                            if (result != 0) {
-                                showListProduct(getAllProducts());
-                                JOptionPane.showMessageDialog(null, "Xóa thành công", "thông báo", JOptionPane.INFORMATION_MESSAGE);
-                            }
-
-                        } catch (SQLException throwables) {
-                            throwables.printStackTrace();
+                    String MaSP =(String) tbDsSP.getValueAt(rowSelected, 0);
+                    try {
+                        if(ProductController.DeleteProduct(database,MaSP)){
+                            showListProduct(ProductController.getAllProducts(database));
+                            JOptionPane.showMessageDialog(MainUI.frame,"Xóa thành công!","Thông báo",JOptionPane.INFORMATION_MESSAGE);
                         }
+                        else JOptionPane.showMessageDialog(MainUI.frame,"Xóa thất bại","Cảnh báo",JOptionPane.INFORMATION_MESSAGE);
+
+                    } catch (SQLException ex) {
+                        ex.printStackTrace();
                     }
+
                 } else {
                     JOptionPane.showMessageDialog(null, "bạn chưa chọn đối tượng cần xóa", "Lỗi", JOptionPane.ERROR_MESSAGE);
                 }
@@ -378,7 +379,7 @@ public class ProductPanel extends JPanel {
         List<ProductModel> listLater = new ArrayList<>();
         String searchText = txtTimKiem.getText().toLowerCase();
         try {
-            List<ProductModel> list = getAllProducts();
+            List<ProductModel> list = ProductController.getAllProducts(database);
             for (ProductModel product : list) {
                 if (txtTimKiem.getText().isEmpty()) {
                     listLater.add(product);
@@ -429,31 +430,6 @@ public class ProductPanel extends JPanel {
         ProductModel Product = new ProductModel();
 
         return Product;
-    }
-
-    private List<ProductModel> getAllProducts() throws SQLException {
-        List<ProductModel> listProduct = new ArrayList<>();
-        Connection conn = DatabaseConnection.getConnection(database);
-        if (conn != null) {
-            CallableStatement statement = conn.prepareCall("{ CALL sp_Product_GetAll() }");
-            ResultSet rs = statement.executeQuery();
-            while (rs != null && rs.next()) {
-                ProductModel productModel = new ProductModel();
-                productModel.setMaSanPham(rs.getString("Ma"));
-                productModel.setTenSanPham(rs.getString("Ten"));
-                productModel.setDonVi(rs.getString("DonVi"));
-                productModel.setLoai(rs.getString("Loai"));
-                try {
-                    productModel.setHan(new SimpleDateFormat("dd/MM/yyyy").parse(rs.getString("Han")));
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-                productModel.setGia(rs.getString("Gia"));
-                productModel.setSoLuong(rs.getString("SoLuong"));
-                listProduct.add(productModel);
-            }
-        }
-        return listProduct;
     }
 
     private void showListProduct(List<ProductModel> listProduct) {

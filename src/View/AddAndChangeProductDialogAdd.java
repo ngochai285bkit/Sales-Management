@@ -2,9 +2,11 @@ package View;
 
 
 import Controller.DatabaseConnection;
+import Controller.ProductController;
 import Model.Database;
 import Model.ProductModel;
 import Model.ProductModel;
+import Model.SupplierModel;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import org.jdatepicker.JDatePicker;
 
@@ -25,7 +27,7 @@ import java.util.*;
 import java.util.List;
 
 public class AddAndChangeProductDialogAdd extends JDialog {
-    private JTextField txtMaSanPham, txtTenSanPham, txtGia, txtDonVi, txtLoai,txtSoLuong;
+    private JTextField txtMaSanPham, txtTenSanPham, txtGia, txtDonVi, txtLoai, txtSoLuong;
     private JDatePicker txtHan;
     private JButton btnGhiLai, btnThoat;
     private final Dimension dimenLabel = new Dimension(200, 25);
@@ -61,13 +63,12 @@ public class AddAndChangeProductDialogAdd extends JDialog {
         pnCenter.setLayout(new BoxLayout(pnCenter, BoxLayout.Y_AXIS));
 
 
-
         JPanel pnMaSanPham = new JPanel();
         pnMaSanPham.setBackground(new Color(245, 245, 251));
         txtMaSanPham = new JTextField();
 
         txtMaSanPham.setPreferredSize(dimenTextField);
-        txtMaSanPham.setFont(new Font(Font.SANS_SERIF,Font.PLAIN,16));
+        txtMaSanPham.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 16));
         JLabel lblMaSanPham = new JLabel("Mã sản phẩm: ");
         lblMaSanPham.setFont(new Font(Font.SANS_SERIF, Font.ITALIC, 20));
         lblMaSanPham.setPreferredSize(dimenLabel);
@@ -78,7 +79,7 @@ public class AddAndChangeProductDialogAdd extends JDialog {
         pnTenSanPham.setBackground(new Color(245, 245, 251));
         txtTenSanPham = new JTextField();
         txtTenSanPham.setPreferredSize(dimenTextField);
-        txtTenSanPham.setFont(new Font(Font.SANS_SERIF,Font.PLAIN,16));
+        txtTenSanPham.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 16));
         JLabel lblTenSanPham = new JLabel("Tên sản phẩm: ");
         lblTenSanPham.setFont(new Font(Font.SANS_SERIF, Font.ITALIC, 20));
         lblTenSanPham.setPreferredSize(dimenLabel);
@@ -89,7 +90,7 @@ public class AddAndChangeProductDialogAdd extends JDialog {
         pnGia.setBackground(new Color(245, 245, 251));
         txtGia = new JTextField();
         txtGia.setPreferredSize(dimenTextField);
-        txtGia.setFont(new Font(Font.SANS_SERIF,Font.PLAIN,16));
+        txtGia.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 16));
         JLabel lblGia = new JLabel("Giá: ");
         lblGia.setFont(new Font(Font.SANS_SERIF, Font.ITALIC, 20));
         lblGia.setBackground(new Color(245, 245, 251));
@@ -101,7 +102,7 @@ public class AddAndChangeProductDialogAdd extends JDialog {
         pnDonVi.setBackground(new Color(245, 245, 251));
         txtDonVi = new JTextField();
         txtDonVi.setPreferredSize(dimenTextField);
-        txtDonVi.setFont(new Font(Font.SANS_SERIF,Font.PLAIN,16));
+        txtDonVi.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 16));
         JLabel lblDonVi = new JLabel("Đơn vị: ");
         lblDonVi.setFont(new Font(Font.SANS_SERIF, Font.ITALIC, 20));
         lblDonVi.setPreferredSize(dimenLabel);
@@ -112,7 +113,7 @@ public class AddAndChangeProductDialogAdd extends JDialog {
         pnLoai.setBackground(new Color(245, 245, 251));
         txtLoai = new JTextField();
         txtLoai.setPreferredSize(dimenTextField);
-        txtLoai.setFont(new Font(Font.SANS_SERIF,Font.PLAIN,16));
+        txtLoai.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 16));
         JLabel lblLoai = new JLabel("Loại: ");
         lblLoai.setFont(new Font(Font.SANS_SERIF, Font.ITALIC, 20));
         lblLoai.setPreferredSize(dimenLabel);
@@ -124,9 +125,9 @@ public class AddAndChangeProductDialogAdd extends JDialog {
         Calendar cal = Calendar.getInstance();
         Date now = cal.getTime();
         txtHan = new JDatePicker(now);
-        txtHan.getComponent(0).setPreferredSize(new Dimension(170,30));
-        txtHan.getComponent(1).setPreferredSize(new Dimension(30,30));
-        txtHan.setFont(new Font(Font.SANS_SERIF,Font.PLAIN,16));
+        txtHan.getComponent(0).setPreferredSize(new Dimension(170, 30));
+        txtHan.getComponent(1).setPreferredSize(new Dimension(30, 30));
+        txtHan.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 16));
         JLabel lblHan = new JLabel("Hạn: ");
         lblHan.setFont(new Font(Font.SANS_SERIF, Font.ITALIC, 20));
         lblHan.setPreferredSize(dimenLabel);
@@ -137,7 +138,7 @@ public class AddAndChangeProductDialogAdd extends JDialog {
         pnSoLuong.setBackground(new Color(245, 245, 251));
         txtSoLuong = new JTextField();
         txtSoLuong.setPreferredSize(dimenTextField);
-        txtSoLuong.setFont(new Font(Font.SANS_SERIF,Font.PLAIN,16));
+        txtSoLuong.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 16));
         JLabel lblSoLuong = new JLabel("Số lượng: ");
         lblSoLuong.setFont(new Font(Font.SANS_SERIF, Font.ITALIC, 20));
         lblSoLuong.setPreferredSize(dimenLabel);
@@ -165,7 +166,7 @@ public class AddAndChangeProductDialogAdd extends JDialog {
         btnGhiLai.setBackground(Color.WHITE);
         btnGhiLai.setForeground(Color.BLACK);
         btnGhiLai.setPreferredSize(new Dimension(160, 38));
-        btnGhiLai.setFont(new Font(Font.SANS_SERIF,Font.PLAIN,19));
+        btnGhiLai.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 19));
         JPanel pnbtnGhiLai = new JPanel();
         pnbtnGhiLai.setBackground(new Color(245, 245, 251));
         pnbtnGhiLai.add(btnGhiLai);
@@ -175,7 +176,7 @@ public class AddAndChangeProductDialogAdd extends JDialog {
         btnThoat.setBackground(Color.WHITE);
         btnThoat.setForeground(Color.BLACK);
         btnThoat.setPreferredSize(new Dimension(160, 38));
-        btnThoat.setFont(new Font(Font.SANS_SERIF,Font.PLAIN,19));
+        btnThoat.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 19));
         JPanel pnbtnThoat = new JPanel();
         pnbtnThoat.setBackground(new Color(245, 245, 251));
         pnbtnThoat.add(btnThoat);
@@ -205,94 +206,40 @@ public class AddAndChangeProductDialogAdd extends JDialog {
         btnGhiLai.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
-
-                Connection conn = DatabaseConnection.getConnection(database);
-                if (conn != null) {
-                    try {
-                        CallableStatement statement = conn.prepareCall("{ CALL sp_Product_Check(?) }");//gọi đến lệnh trong procerdeur
-                        statement.setString(1, txtMaSanPham.getText());
-                        ResultSet resultSet = statement.executeQuery();
-                        if (resultSet.next()) {
-                            int select = JOptionPane.showConfirmDialog(MainUI.frame, "Mã sản phẩm đã tồn tại.\nBạn có muốn thay đổi?", "Thông báo", JOptionPane.OK_CANCEL_OPTION);
-                            if (select == JOptionPane.OK_OPTION) {
-                                statement = conn.prepareCall("{ CALL sp_Product_Update(?,?,?,?,?,?,?) }");
-                                statement.setString(1, txtMaSanPham.getText());
-                                statement.setString(2, txtTenSanPham.getText());
-                                statement.setString(3, txtDonVi.getText());
-                                statement.setString(4, txtLoai.getText());
-                                statement.setString(5, new SimpleDateFormat("dd/MM/yyyy").format(txtHan.getModel().getValue()));
-                                statement.setString(6, txtGia.getText());
-                                statement.setString(7,txtSoLuong.getText());
-                                int result = statement.executeUpdate();
-                                if(result != 0){
-                                    showListProduct(getAllProducts());
-                                    dispose();
-                                    JOptionPane.showMessageDialog(MainUI.frame, "Sửa thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-                                }
-                            }
-                        } else {
-                            statement = conn.prepareCall("{ CALL sp_Product_Add(?,?,?,?,?,?,?) }");
-                            statement.setString(1, txtMaSanPham.getText());
-                            statement.setString(2, txtTenSanPham.getText());
-                            statement.setString(3, txtDonVi.getText());
-                            statement.setString(4, txtLoai.getText());
-                            statement.setString(5, new SimpleDateFormat("dd/MM/yyyy").format(txtHan.getModel().getValue()));
-                            statement.setString(6,txtGia.getText());
-                            statement.setString(7,txtSoLuong.getText());
-                            int result = statement.executeUpdate();
-                            if(result != 0){
-                                showListProduct(getAllProducts());
+                String MaSP = txtMaSanPham.getText();
+                try {
+                    if (ProductController.CheckProduct(database, MaSP)) {
+                        JOptionPane.showMessageDialog(MainUI.frame, "Mã sản phẩm đã tồn tại ", "Thông báo ", JOptionPane.INFORMATION_MESSAGE);
+                    } else {
+                        ProductModel product = new ProductModel();
+                        product.setMaSanPham(txtMaSanPham.getText());
+                        product.setTenSanPham(txtTenSanPham.getText());
+                        product.setGia(txtGia.getText());
+                        product.setLoai(txtLoai.getText());
+                        product.setSoLuong(txtSoLuong.getText());
+                        product.setDonVi(txtDonVi.getText());
+                        Date han = (Date) txtHan.getModel().getValue();
+                        if (han != null) {
+                            product.setHan(han);
+                            if (ProductController.AddProduct(database, product)) {
+                                showListProduct(ProductController.getAllProducts(database));
                                 dispose();
                                 JOptionPane.showMessageDialog(MainUI.frame, "Thêm thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
                             }
-                        }
-                    } catch (SQLException ex) {
-                        ex.printStackTrace();
+                            else JOptionPane.showMessageDialog(MainUI.frame, "Thêm thất bại", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                        } else
+                            JOptionPane.showMessageDialog(MainUI.frame, "Bạn chưa chọn ngày", "Cảnh báo", JOptionPane.WARNING_MESSAGE);
                     }
-                } else {
-                    JOptionPane.showMessageDialog(AddAndChangeProductDialogAdd.this, "Kết nối CSDL không thành công!", "Error", JOptionPane.ERROR_MESSAGE);
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
                 }
             }
         });
-
     }
-
-
-
-
     private ProductModel getProduct() {
         ProductModel Product = new ProductModel();
 
         return Product;
-    }
-
-    private List<ProductModel> getAllProducts() throws SQLException {
-        List<ProductModel> listProduct = new ArrayList<>();
-        Connection conn = DatabaseConnection.getConnection(database);
-        if (conn != null) {
-            CallableStatement statement = conn.prepareCall("{ CALL sp_Product_GetAll() }");
-            ResultSet rs = statement.executeQuery();
-            while (rs != null && rs.next()) {
-                ProductModel productModel = new ProductModel();
-                productModel.setMaSanPham(rs.getString("Ma"));
-                productModel.setTenSanPham(rs.getString("Ten"));
-                productModel.setDonVi(rs.getString("DonVi"));
-                productModel.setLoai(rs.getString("Loai"));
-                String sDate = rs.getString("Han");
-                Date hsd = null;
-                try {
-                    hsd = new SimpleDateFormat("dd/MM/yyyy").parse(sDate);
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-                productModel.setHan(hsd);
-                productModel.setGia(rs.getString("Gia"));
-                productModel.setSoLuong(rs.getString("SoLuong"));
-                listProduct.add(productModel);
-            }
-        }
-        return listProduct;
     }
 
     private void showListProduct(List<ProductModel> listProduct) {
