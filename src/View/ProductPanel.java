@@ -256,6 +256,7 @@ public class ProductPanel extends JPanel {
                     Date hsd = null;
                     try {
                         hsd = new SimpleDateFormat("dd/MM/yyyy").parse((String) tbDsSP.getValueAt(rowSelected, 4));
+                        product.setHan(hsd);
                     } catch (ParseException ex) {
                         ex.printStackTrace();
                     }

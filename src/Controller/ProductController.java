@@ -2,6 +2,7 @@ package Controller;
 
 import Model.Database;
 import Model.ProductModel;
+import View.AddAndChangeProductDialogEdit;
 import View.MainUI;
 
 import javax.swing.*;
@@ -79,4 +80,22 @@ public class ProductController {
         }
         return false;
     }
+
+    public static Boolean UpdateProduct(Database database, ProductModel product) throws SQLException {
+        Connection conn = DatabaseConnection.getConnection(database);
+        if (conn != null) {
+            CallableStatement statement = conn.prepareCall("{CALL sp_Product_Update(?,?,?,?,?,?,?)}");
+            statement.setString(1, product.getMaSanPham());
+            statement.setString(2, product.getTenSanPham());
+            statement.setString(3, product.getDonVi());
+            statement.setString(4, product.getLoai());
+            statement.setString(5, new SimpleDateFormat("dd/MM/yyyy").format(product.getHan()));
+            statement.setString(6, product.getGia());
+            statement.setString(7, product.getSoLuong());
+            int result = statement.executeUpdate();
+            return result != 0;
+        }
+        return false;
+    }
 }
+

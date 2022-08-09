@@ -2,6 +2,7 @@ package View;
 
 
 import Controller.DatabaseConnection;
+import Controller.SupplierController;
 import Model.Database;
 import Model.SupplierModel;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
@@ -64,7 +65,8 @@ public class AddAndChangeSupplierDialogEdit extends JDialog {
         txtMaNhaCungCap = new JTextField();
         txtMaNhaCungCap.setEditable(false);
         txtMaNhaCungCap.setPreferredSize(dimenTextField);
-        txtMaNhaCungCap.setFont(new Font(Font.SANS_SERIF,Font.ITALIC,16));;
+        txtMaNhaCungCap.setFont(new Font(Font.SANS_SERIF, Font.ITALIC, 16));
+        ;
         JLabel lblMaNhaCungCap = new JLabel("Mã nhà cung cấp: ");
         lblMaNhaCungCap.setFont(new Font(Font.SANS_SERIF, Font.ITALIC, 20));
         lblMaNhaCungCap.setPreferredSize(dimenLabel);
@@ -75,7 +77,7 @@ public class AddAndChangeSupplierDialogEdit extends JDialog {
         pnTenNhaCungCap.setBackground(new Color(245, 245, 251));
         txtTenNhaCungCap = new JTextField();
         txtTenNhaCungCap.setPreferredSize(dimenTextField);
-        txtTenNhaCungCap.setFont(new Font(Font.SANS_SERIF,Font.ITALIC,16));
+        txtTenNhaCungCap.setFont(new Font(Font.SANS_SERIF, Font.ITALIC, 16));
         JLabel lblTenNhaCungCap = new JLabel("Tên nhà cung cấp: ");
         lblTenNhaCungCap.setFont(new Font(Font.SANS_SERIF, Font.ITALIC, 20));
         lblTenNhaCungCap.setPreferredSize(dimenLabel);
@@ -86,7 +88,7 @@ public class AddAndChangeSupplierDialogEdit extends JDialog {
         pnDiaChi.setBackground(new Color(245, 245, 251));
         txtDiaChi = new JTextField();
         txtDiaChi.setPreferredSize(dimenTextField);
-        txtDiaChi.setFont(new Font(Font.SANS_SERIF,Font.ITALIC,16));
+        txtDiaChi.setFont(new Font(Font.SANS_SERIF, Font.ITALIC, 16));
         JLabel lblDiaChi = new JLabel("Địa chỉ: ");
         lblDiaChi.setFont(new Font(Font.SANS_SERIF, Font.ITALIC, 20));
         lblDiaChi.setPreferredSize(dimenLabel);
@@ -97,7 +99,7 @@ public class AddAndChangeSupplierDialogEdit extends JDialog {
         pnSDT.setBackground(new Color(245, 245, 251));
         txtSDT = new JTextField();
         txtSDT.setPreferredSize(dimenTextField);
-        txtSDT.setFont(new Font(Font.SANS_SERIF,Font.ITALIC,16));
+        txtSDT.setFont(new Font(Font.SANS_SERIF, Font.ITALIC, 16));
         JLabel lblSDT = new JLabel("Số điện thoại: ");
         lblSDT.setFont(new Font(Font.SANS_SERIF, Font.ITALIC, 20));
         lblSDT.setPreferredSize(dimenLabel);
@@ -108,7 +110,7 @@ public class AddAndChangeSupplierDialogEdit extends JDialog {
         pnSoTaiKhoan.setBackground(new Color(245, 245, 251));
         txtSoTaiKhoan = new JTextField();
         txtSoTaiKhoan.setPreferredSize(dimenTextField);
-        txtSoTaiKhoan.setFont(new Font(Font.SANS_SERIF,Font.ITALIC,16));
+        txtSoTaiKhoan.setFont(new Font(Font.SANS_SERIF, Font.ITALIC, 16));
         JLabel lblSoTaiKhoan = new JLabel("Số Tài Khoản: ");
         lblSoTaiKhoan.setFont(new Font(Font.SANS_SERIF, Font.ITALIC, 20));
         lblSoTaiKhoan.setPreferredSize(dimenLabel);
@@ -135,7 +137,7 @@ public class AddAndChangeSupplierDialogEdit extends JDialog {
         btnXacNhan.setBackground(Color.WHITE);
         btnXacNhan.setForeground(Color.BLACK);
         btnXacNhan.setPreferredSize(new Dimension(160, 38));
-        btnXacNhan.setFont(new Font(Font.SANS_SERIF,Font.PLAIN,19));
+        btnXacNhan.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 19));
         JPanel pnbtnXacNhan = new JPanel();
         pnbtnXacNhan.setBackground(new Color(245, 245, 251));
         pnbtnXacNhan.add(btnXacNhan);
@@ -145,7 +147,7 @@ public class AddAndChangeSupplierDialogEdit extends JDialog {
         btnThoat.setBackground(Color.WHITE);
         btnThoat.setForeground(Color.BLACK);
         btnThoat.setPreferredSize(new Dimension(160, 38));
-        btnThoat.setFont(new Font(Font.SANS_SERIF,Font.PLAIN,19));
+        btnThoat.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 19));
         JPanel pnbtnThoat = new JPanel();
         pnbtnThoat.setBackground(new Color(245, 245, 251));
         pnbtnThoat.add(btnThoat);
@@ -177,57 +179,30 @@ public class AddAndChangeSupplierDialogEdit extends JDialog {
         btnXacNhan.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Connection conn = DatabaseConnection.getConnection(database);
-                if (conn != null) {
-                    try {
-                        CallableStatement statement = conn.prepareCall("{CALL sp_Supplier_Update(?,?,?,?,?)}");
-                        statement.setString(1, txtMaNhaCungCap.getText());
-                        statement.setString(2, txtTenNhaCungCap.getText());
-                        statement.setString(3, txtDiaChi.getText());
-                        statement.setString(4, txtSDT.getText());
-                        statement.setString(5, txtSoTaiKhoan.getText());
-                        int result = statement.executeUpdate();
-                        if(result==0){
-                            JOptionPane.showMessageDialog(AddAndChangeSupplierDialogEdit.this, "Sửa thất bại!", "Error", JOptionPane.ERROR_MESSAGE);
-                        } else {
-                            showListSupplier(getAllSuppliers());
-                            dispose();
-                            JOptionPane.showMessageDialog(AddAndChangeSupplierDialogEdit.this, "Sửa thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-                        }
-
-                    } catch (SQLException ex) {
-                        ex.printStackTrace();
+                SupplierModel supplier = new SupplierModel();
+                supplier.setMaNhaCungCap(txtMaNhaCungCap.getText());
+                supplier.setDiaChi(txtDiaChi.getText());
+                supplier.setSoTaiKhoan(txtSoTaiKhoan.getText());
+                supplier.setSoDienThoai(txtSDT.getText());
+                supplier.setTenNhaCungCap(txtTenNhaCungCap.getText());
+                try {
+                    if(SupplierController.updateSupplier(database,supplier)){
+                        showListSupplier(SupplierController.getAllSuppliers(database));
+                        dispose();
+                        JOptionPane.showMessageDialog(AddAndChangeSupplierDialogEdit.this, "Sửa thành công!", "Thông báo",JOptionPane.INFORMATION_MESSAGE);
                     }
-                } else {
-                    JOptionPane.showMessageDialog(AddAndChangeSupplierDialogEdit.this, "Kết nối CSDL không thành công!", "Error", JOptionPane.ERROR_MESSAGE);
+                    else JOptionPane.showMessageDialog(MainUI.frame,"Sửa thất bại","Cảnh báo",JOptionPane.WARNING_MESSAGE);
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
                 }
-
             }
         });
 
     }
-    private List<SupplierModel> getAllSuppliers() throws SQLException {
-        List<SupplierModel> listSupplier = new ArrayList<>();
-        Connection conn = DatabaseConnection.getConnection(database);
-        if(conn!=null){
-            CallableStatement statement = conn.prepareCall("{ CALL sp_Supplier_GetAll() }");
-            ResultSet rs = statement.executeQuery();
-            while (rs != null && rs.next()){
-                SupplierModel supplierModel = new SupplierModel();
-                supplierModel.setMaNhaCungCap(rs.getString("Ma"));
-                supplierModel.setTenNhaCungCap(rs.getString("Ten"));
-                supplierModel.setDiaChi(rs.getString("DiaChi"));
-                supplierModel.setSoDienThoai(rs.getString("SoDienThoai"));
-                supplierModel.setSoTaiKhoan(rs.getString("SoTaiKhoan"));
-                listSupplier.add(supplierModel);
-            }
-        }
-        return listSupplier;
-    }
 
-    private void showListSupplier(List<SupplierModel> listSuppliers){
+    private void showListSupplier(List<SupplierModel> listSuppliers) {
         SupplierPanel.dtmDanhSachNCC.setRowCount(0);
-        for(SupplierModel supplierModel:listSuppliers){
+        for (SupplierModel supplierModel : listSuppliers) {
             Vector<String> vector = new Vector<>();
             vector.add(supplierModel.getMaNhaCungCap());
             vector.add(supplierModel.getTenNhaCungCap());

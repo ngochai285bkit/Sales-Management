@@ -2,7 +2,9 @@ package Controller;
 
 import Model.Database;
 import Model.SupplierModel;
+import View.AddAndChangeSupplierDialogEdit;
 
+import javax.swing.*;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -66,7 +68,19 @@ public class SupplierController {
         }
         return false;
     }
-//    public static boolean updateSupplier(Database database,SupplierModel supplier){
-//
-//    }
+
+    public static boolean updateSupplier(Database database, SupplierModel supplier) throws SQLException {
+        Connection conn = DatabaseConnection.getConnection(database);
+        if (conn != null) {
+            CallableStatement statement = conn.prepareCall("{CALL sp_Supplier_Update(?,?,?,?,?)}");
+            statement.setString(1, supplier.getMaNhaCungCap());
+            statement.setString(2, supplier.getTenNhaCungCap());
+            statement.setString(3, supplier.getDiaChi());
+            statement.setString(4, supplier.getSoDienThoai());
+            statement.setString(5, supplier.getSoTaiKhoan());
+            int result = statement.executeUpdate();
+            return result!=0;
+        }
+        return false;
+    }
 }
