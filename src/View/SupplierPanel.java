@@ -127,7 +127,7 @@ public class SupplierPanel extends JPanel {
         JPanel pnTimKiem = new JPanel();
         pnTimKiem.setLayout(new BoxLayout(pnTimKiem, BoxLayout.Y_AXIS));
         pnTimKiem.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(10,
-                5, 5, 5), BorderFactory.createLineBorder(new Color(78, 138, 201), 1)));
+                5, 5, 5), BorderFactory.createLineBorder(new Color(78, 138, 201), 2)));
 
 
         rbtnMaNhaCungCap = new JRadioButton("Mã nhà cung cấp");

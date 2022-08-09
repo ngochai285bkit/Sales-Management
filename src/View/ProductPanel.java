@@ -170,7 +170,7 @@ public class ProductPanel extends JPanel {
         JLabel iconlabel = new JLabel();
 
         pnLoc.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(10,
-                5, 5, 5), BorderFactory.createLineBorder(new Color(78, 138, 201), 1)));
+                5, 5, 5), BorderFactory.createLineBorder(new Color(99, 200, 221, 255), 2)));
         iconlabel.setIcon(new FlatSVGIcon(Objects.requireNonNull(ProductPanel.class.getResource("/Images/48x48/box1.svg"))));
         pnLoc.add(iconlabel,BorderLayout.CENTER);
         pnEast.add(pnTimKiem, BorderLayout.NORTH);
