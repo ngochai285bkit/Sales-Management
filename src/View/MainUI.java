@@ -43,8 +43,7 @@ public class MainUI extends JFrame {
         menuFile.setMnemonic('F');
         menuItemExit = new JMenuItem("Exit");
         menuItemExit.setIcon(new FlatSVGIcon(Objects.requireNonNull(this.getClass().getResource(
-                "/Images" +
-                        "/24x24/ic_close_24px.svg"))));
+                "/Images/24x24/ic_close_24px.svg"))));
         menuItemExit.setAccelerator(KeyStroke.getKeyStroke('Q',
                 Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
         menuFile.add(menuItemExit);
@@ -169,7 +168,7 @@ public class MainUI extends JFrame {
         JPanel pnTop = new JPanel();
         pnTop.setLayout(new BorderLayout());
         pnTop.setBackground(Color.WHITE);
-        pnTop.setPreferredSize(new Dimension(0, 45));
+        pnTop.setPreferredSize(new Dimension(0, 48));
         pnTop.add(pnBtnLogout, BorderLayout.EAST);
         pnTop.add(pnTool, BorderLayout.CENTER);
 
@@ -220,71 +219,71 @@ public class MainUI extends JFrame {
 
         lblTrangChu.addMouseListener(new MouseAdapter() {
             @Override
-            public void mouseReleased(MouseEvent e) {
-                lblTrangChu.setSelected(true);
-                lblNhaCungCap.setSelected(false);
-                lblNhanVien.setSelected(false);
-                lblKhachHang.setSelected(false);
-                lblSanPham.setSelected(false);
-                pnCenter.removeAll();
-                pnCenter.add(new HomePanel(), BorderLayout.CENTER);
-                pnCenter.updateUI();
+            public void mousePressed(MouseEvent e) {
+                selectHomePage();
+            }
+        });
+
+        lblBtnHome.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                selectHomePage();
             }
         });
 
         lblNhanVien.addMouseListener(new MouseAdapter() {
             @Override
-            public void mouseReleased(MouseEvent e) {
-                lblTrangChu.setSelected(false);
-                lblNhaCungCap.setSelected(false);
-                lblNhanVien.setSelected(true);
-                lblKhachHang.setSelected(false);
-                lblSanPham.setSelected(false);
-                pnCenter.removeAll();
-                pnCenter.add(new EmployeePanel(database), BorderLayout.CENTER);
-                pnCenter.updateUI();
+            public void mousePressed(MouseEvent e) {
+                selectEmployee();
+            }
+        });
+
+        lblBtnEmployee.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                selectEmployee();
             }
         });
 
         lblSanPham.addMouseListener(new MouseAdapter() {
             @Override
-            public void mouseReleased(MouseEvent e) {
-                lblTrangChu.setSelected(false);
-                lblNhaCungCap.setSelected(false);
-                lblNhanVien.setSelected(false);
-                lblKhachHang.setSelected(false);
-                lblSanPham.setSelected(true);
-                pnCenter.removeAll();
-                pnCenter.add(new ProductPanel(database), BorderLayout.CENTER);
-                pnCenter.updateUI();
+            public void mousePressed(MouseEvent e) {
+                selectProduct();
+            }
+        });
+
+        lblBtnProduct.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                selectProduct();
             }
         });
 
         lblKhachHang.addMouseListener(new MouseAdapter() {
             @Override
-            public void mouseReleased(MouseEvent e) {
-                lblTrangChu.setSelected(false);
-                lblNhaCungCap.setSelected(false);
-                lblNhanVien.setSelected(false);
-                lblKhachHang.setSelected(true);
-                lblSanPham.setSelected(false);
-                pnCenter.removeAll();
-                pnCenter.add(new CustomerPanel(database), BorderLayout.CENTER);
-                pnCenter.updateUI();
+            public void mousePressed(MouseEvent e) {
+                selectCustomer();
+            }
+        });
+
+        lblBtnCustomer.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                selectCustomer();
             }
         });
 
         lblNhaCungCap.addMouseListener(new MouseAdapter() {
             @Override
-            public void mouseReleased(MouseEvent e) {
-                lblTrangChu.setSelected(false);
-                lblNhaCungCap.setSelected(true);
-                lblNhanVien.setSelected(false);
-                lblKhachHang.setSelected(false);
-                lblSanPham.setSelected(false);
-                pnCenter.removeAll();
-                pnCenter.add(new SupplierPanel(database), BorderLayout.CENTER);
-                pnCenter.updateUI();
+            public void mousePressed(MouseEvent e) {
+                selectSupplier();
+            }
+        });
+
+        lblBtnSupplier.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                selectSupplier();
             }
         });
 
@@ -300,6 +299,61 @@ public class MainUI extends JFrame {
         menuItemExit.addActionListener(e -> System.exit(0));
 
         menuItemInformation.addActionListener(e -> new InformationDialog(MainUI.this));
+    }
+
+    private void selectHomePage() {
+        lblTrangChu.setSelected(true);
+        lblNhaCungCap.setSelected(false);
+        lblNhanVien.setSelected(false);
+        lblKhachHang.setSelected(false);
+        lblSanPham.setSelected(false);
+        pnCenter.removeAll();
+        pnCenter.add(new HomePanel(), BorderLayout.CENTER);
+        pnCenter.updateUI();
+    }
+
+    private void selectEmployee() {
+        lblTrangChu.setSelected(false);
+        lblNhaCungCap.setSelected(false);
+        lblNhanVien.setSelected(true);
+        lblKhachHang.setSelected(false);
+        lblSanPham.setSelected(false);
+        pnCenter.removeAll();
+        pnCenter.add(new EmployeePanel(database), BorderLayout.CENTER);
+        pnCenter.updateUI();
+    }
+
+    private void selectProduct() {
+        lblTrangChu.setSelected(false);
+        lblNhaCungCap.setSelected(false);
+        lblNhanVien.setSelected(false);
+        lblKhachHang.setSelected(false);
+        lblSanPham.setSelected(true);
+        pnCenter.removeAll();
+        pnCenter.add(new ProductPanel(database), BorderLayout.CENTER);
+        pnCenter.updateUI();
+    }
+
+    private void selectCustomer() {
+        lblTrangChu.setSelected(false);
+        lblNhaCungCap.setSelected(false);
+        lblNhanVien.setSelected(false);
+        lblKhachHang.setSelected(true);
+        lblSanPham.setSelected(false);
+        pnCenter.removeAll();
+        pnCenter.add(new CustomerPanel(database), BorderLayout.CENTER);
+        pnCenter.updateUI();
+    }
+
+    private void selectSupplier() {
+        lblTrangChu.setSelected(false);
+        lblNhaCungCap.setSelected(true);
+        lblNhanVien.setSelected(false);
+        lblKhachHang.setSelected(false);
+        lblSanPham.setSelected(false);
+        pnCenter.removeAll();
+        pnCenter.add(new SupplierPanel(database), BorderLayout.CENTER);
+        pnCenter.updateUI();
     }
 
     private void showWindow() {
