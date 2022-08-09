@@ -33,11 +33,7 @@ public class SupplierPanel extends JPanel {
     private final Font font = new Font(Font.SANS_SERIF, Font.PLAIN, 16);
     private SupplierModel supplier;
     private JTextField txtTimKiem;
-<<<<<<< HEAD
     private final Dimension dimenButton = new Dimension(160, 38);
-=======
-    private Dimension dimenButton = new Dimension(160,38);
->>>>>>> 8031b50 (update giao diện)
 
 
     // constructor
@@ -87,21 +83,12 @@ public class SupplierPanel extends JPanel {
         tableHeader.setBorder(BorderFactory.createLineBorder(new Color(99, 200, 221, 255), 1));
         ((DefaultTableCellRenderer) tableHeader.getDefaultRenderer()).setHorizontalAlignment(JLabel.CENTER);
 
-<<<<<<< HEAD
         dtmDanhSachNCC = new DefaultTableModel();
         dtmDanhSachNCC.addColumn("Mã");
         dtmDanhSachNCC.addColumn("Tên ");
         dtmDanhSachNCC.addColumn("Địa chỉ ");
         dtmDanhSachNCC.addColumn("Điện thoại");
         dtmDanhSachNCC.addColumn("Số tài khoản");
-=======
-                dtmDanhSachNCC = new DefaultTableModel();
-                dtmDanhSachNCC.addColumn("Mã");
-                dtmDanhSachNCC.addColumn("Tên ");
-                dtmDanhSachNCC.addColumn("Địa chỉ ");
-                dtmDanhSachNCC.addColumn("Điện thoại");
-                dtmDanhSachNCC.addColumn("Số tài khoản");
->>>>>>> 8031b50 (update giao diện)
 
         tbDsNCC.setModel(dtmDanhSachNCC);
         tbDsNCC.getColumnModel().getColumn(1).setPreferredWidth(100);
@@ -130,15 +117,9 @@ public class SupplierPanel extends JPanel {
         pnEast.setPreferredSize(new Dimension(240, 0));
         pnEast.setLayout(new BorderLayout());
         pnEast.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(0,
-<<<<<<< HEAD
-<<<<<<< HEAD
-                5, 5, 5), BorderFactory.createLineBorder(Color.BLACK, 2)));
-=======
+
                 5, 5, 5), BorderFactory.createLineBorder(new Color(99, 200, 221, 255), 2)));
->>>>>>> 8031b50 (update giao diện)
-=======
-                5, 5, 5), BorderFactory.createLineBorder(Color.BLACK, 2)));
->>>>>>> 6966e9f (chỉnh cho đẹp)
+
         JPanel pnTimKiem = new JPanel();
         pnTimKiem.setLayout(new BoxLayout(pnTimKiem, BoxLayout.Y_AXIS));
         pnTimKiem.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(10,
@@ -178,18 +159,8 @@ public class SupplierPanel extends JPanel {
         JPanel pnSouth = new JPanel();
         pnSouth.setLayout(new FlowLayout(FlowLayout.CENTER, 20, 20));
         pnSouth.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(0,
-<<<<<<< HEAD
-<<<<<<< HEAD
                 5, 5, 3), BorderFactory.createLineBorder(new Color(99, 200, 221, 255), 2)));
         pnSouth.setBackground(backGroundColor);
-=======
-                5, 5, 0), BorderFactory.createLineBorder(new Color(99, 200, 221, 255), 2)));
-
->>>>>>> 8031b50 (update giao diện)
-=======
-                5, 5, 3), BorderFactory.createLineBorder(Color.BLACK, 2)));
-        pnSouth.setBackground(backGroundColor);
->>>>>>> 6966e9f (chỉnh cho đẹp)
         btnXuatfile = new JButton("Xuất file");
         btnXuatfile.setIcon(new FlatSVGIcon(Objects.requireNonNull(ProductPanel.class.getResource("/Images/24x24/excel_24x24.svg"))));
         btnXuatfile.setFont(font);

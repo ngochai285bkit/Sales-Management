@@ -4,13 +4,6 @@ package View;
 import Controller.ProductController;
 import Model.Database;
 import Model.ProductModel;
-<<<<<<< HEAD:src/View/AddAndChangeProductDialogAdd.java
-<<<<<<< HEAD
-=======
-import Model.ProductModel;
->>>>>>> 8031b50 (update giao diện)
-=======
->>>>>>> 2b99d4c (update):src/View/AddProductDialog.java
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import org.jdatepicker.JDatePicker;
 
@@ -58,11 +51,6 @@ public class AddProductDialog extends JDialog {
         JPanel pnCenter = new JPanel();
         pnCenter.setBackground(new Color(245, 245, 251));
         pnCenter.setLayout(new BoxLayout(pnCenter, BoxLayout.Y_AXIS));
-<<<<<<< HEAD
-=======
-
->>>>>>> 8031b50 (update giao diện)
-
 
         JPanel pnMaSanPham = new JPanel();
         pnMaSanPham.setBackground(new Color(245, 245, 251));
@@ -167,11 +155,7 @@ public class AddProductDialog extends JDialog {
         btnGhiLai.setBackground(Color.WHITE);
         btnGhiLai.setForeground(Color.BLACK);
         btnGhiLai.setPreferredSize(new Dimension(160, 38));
-<<<<<<< HEAD
         btnGhiLai.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 19));
-=======
-        btnGhiLai.setFont(new Font(Font.SANS_SERIF,Font.PLAIN,19));
->>>>>>> 8031b50 (update giao diện)
         JPanel pnbtnGhiLai = new JPanel();
         pnbtnGhiLai.setBackground(new Color(245, 245, 251));
         pnbtnGhiLai.add(btnGhiLai);
@@ -181,11 +165,7 @@ public class AddProductDialog extends JDialog {
         btnThoat.setBackground(Color.WHITE);
         btnThoat.setForeground(Color.BLACK);
         btnThoat.setPreferredSize(new Dimension(160, 38));
-<<<<<<< HEAD
         btnThoat.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 19));
-=======
-        btnThoat.setFont(new Font(Font.SANS_SERIF,Font.PLAIN,19));
->>>>>>> 8031b50 (update giao diện)
         JPanel pnbtnThoat = new JPanel();
         pnbtnThoat.setBackground(new Color(245, 245, 251));
         pnbtnThoat.add(btnThoat);

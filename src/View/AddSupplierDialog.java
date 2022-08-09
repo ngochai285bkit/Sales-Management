@@ -56,11 +56,8 @@ public class AddSupplierDialog extends JDialog {
         txtMaNhaCungCap = new JTextField();
 
         txtMaNhaCungCap.setPreferredSize(dimenTextField);
-<<<<<<< HEAD
         txtMaNhaCungCap.setFont(new Font(Font.SANS_SERIF, Font.ITALIC, 16));
-=======
-        txtMaNhaCungCap.setFont(new Font(Font.SANS_SERIF,Font.ITALIC,16));
->>>>>>> 8031b50 (update giao diện)
+
         JLabel lblMaNhaCungCap = new JLabel("Mã nhà cung cấp: ");
         lblMaNhaCungCap.setFont(new Font(Font.SANS_SERIF, Font.ITALIC, 20));
         lblMaNhaCungCap.setPreferredSize(dimenLabel);
@@ -129,33 +126,20 @@ public class AddSupplierDialog extends JDialog {
         btnGhiLai.setBackground(Color.WHITE);
         btnGhiLai.setForeground(Color.BLACK);
         btnGhiLai.setPreferredSize(new Dimension(160, 38));
-<<<<<<< HEAD
         btnGhiLai.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 20));
-=======
-        btnGhiLai.setFont(new Font(Font.SANS_SERIF,Font.PLAIN,20));
->>>>>>> 8031b50 (update giao diện)
+
         JPanel pnbtnGhiLai = new JPanel();
         pnbtnGhiLai.setBackground(new Color(245, 245, 251));
         pnbtnGhiLai.add(btnGhiLai);
 
         btnThoat = new JButton("Thoát");
-<<<<<<< HEAD:src/View/AddAndChangeSupplierDialogAdd.java
-<<<<<<< HEAD
-        btnThoat.setIcon(new FlatSVGIcon(Objects.requireNonNull(AddAndChangeSupplierDialogAdd.class.getResource("/Images/24x24/exitDialog_24x24.svg"))));
-=======
-        btnThoat.setIcon(new FlatSVGIcon(Objects.requireNonNull(AddSupplierDialog.class.getResource("/Images/24x24/exitDialog_24x24.svg"))));
->>>>>>> 2b99d4c (update):src/View/AddSupplierDialog.java
+        btnThoat.setIcon(new FlatSVGIcon(Objects.requireNonNull(AddSupplierDialog.class.getResource("/Images" +
+                "/24x24/exitDialog_24x24.svg"))));
+
         btnThoat.setBackground(Color.WHITE);
         btnThoat.setForeground(Color.BLACK);
         btnThoat.setPreferredSize(new Dimension(160, 38));
         btnThoat.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 20));
-=======
-        btnThoat.setIcon(new FlatSVGIcon(AddAndChangeSupplierDialogAdd.class.getResource("/Images/24x24/exitDialog_24x24.svg")));
-        btnThoat.setBackground(Color.WHITE);
-        btnThoat.setForeground(Color.BLACK);
-        btnThoat.setPreferredSize(new Dimension(160, 38));
-        btnThoat.setFont(new Font(Font.SANS_SERIF,Font.PLAIN,20));
->>>>>>> 8031b50 (update giao diện)
         JPanel pnbtnThoat = new JPanel();
         pnbtnThoat.setBackground(new Color(245, 245, 251));
         pnbtnThoat.add(btnThoat);

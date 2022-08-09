@@ -45,19 +45,10 @@ public class EditSupplierDialog extends JDialog {
         lblTieuDe.setForeground(backGroundBlue);
         pnTop.add(lblTieuDe);
 
-<<<<<<< HEAD
         //The Center panel
         JPanel pnCenter = new JPanel();
         //pnCenter.setPreferredSize(new Dimension(400,0));
-=======
 
-        //The Center panel
-        JPanel pnCenter = new JPanel();
-<<<<<<< HEAD
->>>>>>> 8031b50 (update giao diện)
-=======
-        //pnCenter.setPreferredSize(new Dimension(400,0));
->>>>>>> 6966e9f (chỉnh cho đẹp)
         pnCenter.setLayout(new BoxLayout(pnCenter, BoxLayout.Y_AXIS));
         pnCenter.setBackground(new Color(245, 245, 251));
 
@@ -139,11 +130,7 @@ public class EditSupplierDialog extends JDialog {
         btnXacNhan.setBackground(Color.WHITE);
         btnXacNhan.setForeground(Color.BLACK);
         btnXacNhan.setPreferredSize(new Dimension(160, 38));
-<<<<<<< HEAD
         btnXacNhan.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 19));
-=======
-        btnXacNhan.setFont(new Font(Font.SANS_SERIF,Font.PLAIN,19));
->>>>>>> 8031b50 (update giao diện)
         JPanel pnbtnXacNhan = new JPanel();
         pnbtnXacNhan.setBackground(new Color(245, 245, 251));
         pnbtnXacNhan.add(btnXacNhan);
@@ -153,11 +140,8 @@ public class EditSupplierDialog extends JDialog {
         btnThoat.setBackground(Color.WHITE);
         btnThoat.setForeground(Color.BLACK);
         btnThoat.setPreferredSize(new Dimension(160, 38));
-<<<<<<< HEAD
         btnThoat.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 19));
-=======
-        btnThoat.setFont(new Font(Font.SANS_SERIF,Font.PLAIN,19));
->>>>>>> 8031b50 (update giao diện)
+
         JPanel pnbtnThoat = new JPanel();
         pnbtnThoat.setBackground(new Color(245, 245, 251));
         pnbtnThoat.add(btnThoat);
