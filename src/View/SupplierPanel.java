@@ -147,6 +147,12 @@ public class SupplierPanel extends JPanel {
         pnTimKiem.add(rbtnTenNhaCungCap);
         pnTimKiem.add(rbtnDienThoai);
         pnTimKiem.add(rbtnSoTaiKhoan);
+
+        JPanel pnanh = new JPanel();
+        pnanh.setLayout(new BorderLayout());
+        JLabel lblanh = new JLabel();
+        lblanh.setIcon(new FlatSVGIcon(Objects.requireNonNull(ProductPanel.class.getResource("/Images/48x48/supplier1.svg"))));
+        pnEast.add(lblanh,BorderLayout.CENTER);
         pnEast.add(pnTimKiem, BorderLayout.NORTH);
 
         //South panel

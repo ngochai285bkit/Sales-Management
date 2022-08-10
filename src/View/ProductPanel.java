@@ -162,17 +162,17 @@ public class ProductPanel extends JPanel {
         pnTimKiem.add(rbtnGia);
         pnTimKiem.add(rbtnSoLuong);
 
-        JPanel pnLoc = new JPanel();
-        pnLoc.setLayout(new BorderLayout());
+        JPanel pnanh = new JPanel();
+        pnanh.setLayout(new BorderLayout());
         JLabel iconlabel = new JLabel();
 
-        pnLoc.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(10,
+        pnanh.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(10,
                 5, 5, 5), BorderFactory.createLineBorder(new Color(99, 200, 221, 255), 2)));
         iconlabel.setIcon(new FlatSVGIcon(Objects.requireNonNull(ProductPanel.class.getResource("/Images/48x48/box1.svg"))));
-        pnLoc.add(iconlabel,BorderLayout.CENTER);
+        pnanh.add(iconlabel,BorderLayout.CENTER);
 
         pnEast.add(pnTimKiem, BorderLayout.NORTH);
-        //pnEast.add(pnLoc, BorderLayout.CENTER);
+        pnEast.add(pnanh, BorderLayout.CENTER);
 
         //South panel
         JPanel pnSouth = new JPanel();
