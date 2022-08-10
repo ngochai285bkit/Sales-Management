@@ -169,8 +169,8 @@ public class ProductPanel extends JPanel {
         pnanh.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(10,
                 5, 5, 5), BorderFactory.createLineBorder(new Color(99, 200, 221, 255), 2)));
         iconlabel.setIcon(new FlatSVGIcon(Objects.requireNonNull(ProductPanel.class.getResource("/Images/48x48/box1.svg"))));
+        iconlabel.setHorizontalAlignment(JLabel.CENTER);
         pnanh.add(iconlabel,BorderLayout.CENTER);
-
         pnEast.add(pnTimKiem, BorderLayout.NORTH);
         pnEast.add(pnanh, BorderLayout.CENTER);
 

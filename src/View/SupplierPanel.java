@@ -152,6 +152,7 @@ public class SupplierPanel extends JPanel {
         pnanh.setLayout(new BorderLayout());
         JLabel lblanh = new JLabel();
         lblanh.setIcon(new FlatSVGIcon(Objects.requireNonNull(ProductPanel.class.getResource("/Images/48x48/supplier1.svg"))));
+        lblanh.setHorizontalAlignment(JLabel.CENTER);
         pnEast.add(lblanh,BorderLayout.CENTER);
         pnEast.add(pnTimKiem, BorderLayout.NORTH);
 
