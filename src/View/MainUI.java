@@ -77,6 +77,7 @@ public class MainUI extends JFrame {
         JLabel lblImage = new JLabel();
         lblImage.setIcon(new FlatSVGIcon(Objects.requireNonNull(this.getClass().getResource(
                 "/Images/sales_manager.svg"))));
+        lblImage.setHorizontalAlignment(JLabel.CENTER);
         lblImage.setBorder(BorderFactory.createLineBorder(new Color(75, 102, 147), 2));
         JPanel pnLblImage = new JPanel();
         pnLblImage.setBackground(new Color(244, 247, 254));
@@ -190,8 +191,9 @@ public class MainUI extends JFrame {
         JPanel pnMain = new JPanel();
         pnMain.setLayout(new BorderLayout());
         pnMain.add(pnTop, BorderLayout.NORTH);
-        pnMain.add(pnLeft, BorderLayout.WEST);
-        pnMain.add(pnCenter, BorderLayout.CENTER);
+        JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, pnLeft, pnCenter);
+        splitPane.setOneTouchExpandable(true);
+        pnMain.add(splitPane, BorderLayout.CENTER);
         pnMain.add(pnStatusBar, BorderLayout.SOUTH);
         con.add(pnMain);
     }

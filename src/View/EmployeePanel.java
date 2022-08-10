@@ -41,11 +41,6 @@ public class  EmployeePanel extends JPanel {
     private final Dimension dimenTextField = new Dimension(200, 30);
     private final Font fontTextField = new Font(Font.SANS_SERIF, Font.PLAIN, 16);
 
-
-    public EmployeePanel() {
-
-    }
-
     // constructor
     public EmployeePanel(Database database) {
         this.database = database;
@@ -91,17 +86,16 @@ public class  EmployeePanel extends JPanel {
         ((DefaultTableCellRenderer) tableHeader.getDefaultRenderer()).setHorizontalAlignment(JLabel.CENTER);
 
         dtmDsNhanVien = new DefaultTableModel();
-        dtmDsNhanVien.addColumn("Mã nhân viên");
-        dtmDsNhanVien.addColumn("Họ và tên");
+        dtmDsNhanVien.addColumn("Mã");
+        dtmDsNhanVien.addColumn("Họ tên");
         dtmDsNhanVien.addColumn("Địa chỉ");
         dtmDsNhanVien.addColumn("SĐT");
         dtmDsNhanVien.addColumn("Chức vụ");
         dtmDsNhanVien.addColumn("Ngày sinh");
-        dtmDsNhanVien.addColumn("Ngày vào làm");
+        dtmDsNhanVien.addColumn("Ngày làm");
         dtmDsNhanVien.addColumn("Giới tính");
         tbDsNhanVien.setModel(dtmDsNhanVien);
         JScrollPane scrollDanhSachKH = new JScrollPane(tbDsNhanVien, JScrollPane.VERTICAL_SCROLLBAR_NEVER, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-        //scrollDanhSachNV.setBorder(BorderFactory.createEmptyBorder(4 , 10,4 ,10));
         scrollDanhSachKH.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(4, 4, 4, 4),
                 BorderFactory.createLineBorder(lineBorder,2)));
 

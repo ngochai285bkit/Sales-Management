@@ -89,8 +89,8 @@ public class CustomerPanel extends JPanel {
         ((DefaultTableCellRenderer) tableHeader.getDefaultRenderer()).setHorizontalAlignment(JLabel.CENTER);
 
         dtmDsKhachHang = new DefaultTableModel();
-        dtmDsKhachHang.addColumn("Mã khách hàng");
-        dtmDsKhachHang.addColumn("Họ và tên");
+        dtmDsKhachHang.addColumn("Mã");
+        dtmDsKhachHang.addColumn("Họ tên");
         dtmDsKhachHang.addColumn("Địa chỉ");
         dtmDsKhachHang.addColumn("Số điện thoại");
         tbDsKhachHang.setModel(dtmDsKhachHang);
