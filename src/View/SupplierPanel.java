@@ -119,7 +119,7 @@ public class SupplierPanel extends JPanel {
         JPanel pnTimKiem = new JPanel();
         pnTimKiem.setLayout(new BoxLayout(pnTimKiem, BoxLayout.Y_AXIS));
         pnTimKiem.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(10,
-                5, 5, 5), BorderFactory.createLineBorder(new Color(78, 138, 201), 1)));
+                5, 5, 5), BorderFactory.createLineBorder(new Color(99, 200, 221), 2)));
 
         rbtnMaNhaCungCap = new JRadioButton("Mã nhà cung cấp");
         rbtnMaNhaCungCap.setFont(font);
@@ -149,11 +149,14 @@ public class SupplierPanel extends JPanel {
         pnTimKiem.add(rbtnSoTaiKhoan);
 
         JPanel pnanh = new JPanel();
+        pnanh.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(10,
+                5, 5, 5), BorderFactory.createLineBorder(new Color(99, 200, 221), 2)));
         pnanh.setLayout(new BorderLayout());
         JLabel lblanh = new JLabel();
         lblanh.setIcon(new FlatSVGIcon(Objects.requireNonNull(ProductPanel.class.getResource("/Images/48x48/supplier1.svg"))));
         lblanh.setHorizontalAlignment(JLabel.CENTER);
-        pnEast.add(lblanh,BorderLayout.CENTER);
+        pnanh.add(lblanh);
+        pnEast.add(pnanh,BorderLayout.CENTER);
         pnEast.add(pnTimKiem, BorderLayout.NORTH);
 
         //South panel

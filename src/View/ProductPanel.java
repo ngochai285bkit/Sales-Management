@@ -124,7 +124,7 @@ public class ProductPanel extends JPanel {
         JPanel pnTimKiem = new JPanel();
         pnTimKiem.setLayout(new BoxLayout(pnTimKiem, BoxLayout.Y_AXIS));
         pnTimKiem.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(10,
-                5, 5, 5), BorderFactory.createLineBorder(new Color(78, 138, 201), 1)));
+                5, 5, 5), BorderFactory.createLineBorder(new Color(99, 200, 221), 1)));
 
 
         rbtnMaSanPham = new JRadioButton("Mã sản phẩm");
