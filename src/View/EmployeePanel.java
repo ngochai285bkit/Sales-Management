@@ -31,7 +31,7 @@ public class  EmployeePanel extends JPanel {
     private final Color backGroundColor = new Color(245, 245, 251);
     private final Color backGroundBlue = new Color(78, 138, 201);
     private final Color lineBorder = new Color(99, 200, 221);
-    private final Font font = new Font(Font.SANS_SERIF, Font.PLAIN, 18);
+    private final Font font = new Font(Font.SANS_SERIF, Font.PLAIN, 16);
     private JButton btnSua, btnThemMoi, btnXoa, btnXuatFile;
     public static DefaultTableModel dtmDsNhanVien;
     private final Dimension dimenButton = new Dimension(160, 38);
@@ -91,7 +91,7 @@ public class  EmployeePanel extends JPanel {
         ((DefaultTableCellRenderer) tableHeader.getDefaultRenderer()).setHorizontalAlignment(JLabel.CENTER);
 
         dtmDsNhanVien = new DefaultTableModel();
-        dtmDsNhanVien.addColumn("Mã");
+        dtmDsNhanVien.addColumn("Mã nhân viên");
         dtmDsNhanVien.addColumn("Họ và tên");
         dtmDsNhanVien.addColumn("Địa chỉ");
         dtmDsNhanVien.addColumn("SĐT");
@@ -168,14 +168,14 @@ public class  EmployeePanel extends JPanel {
         pnEast.setPreferredSize(new Dimension(240, 0));
         pnEast.setLayout(new BorderLayout());
         pnEast.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(0,
-                5, 5, 5), BorderFactory.createLineBorder(new Color(78, 138, 201), 1)));
+                5, 5, 5), BorderFactory.createLineBorder(lineBorder, 2)));
         JPanel pnTimKiem = new JPanel();
         pnTimKiem.setLayout(new BoxLayout(pnTimKiem, BoxLayout.Y_AXIS));
-        pnTimKiem.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(10, 5, 0, 5),
-                BorderFactory.createLineBorder(new Color(78, 138, 201), 1)));
+        pnTimKiem.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(5, 5, 0, 5),
+                BorderFactory.createLineBorder(lineBorder, 2)));
 
 
-        rbtnMaNhanVien = new JRadioButton("Mã");
+        rbtnMaNhanVien = new JRadioButton("Mã nhân viên");
         rbtnMaNhanVien.setFont(font);
         rbtnTenNhanVien = new JRadioButton("Họ và tên");
         rbtnTenNhanVien.setFont(font);
@@ -216,24 +216,16 @@ public class  EmployeePanel extends JPanel {
         pnTimKiem.add(rbtnNgaySinh);
         pnTimKiem.add(rbtnNgayBatDauLam);
         pnTimKiem.add(rbtnGioiTinh);
-
-//        JPanel pnLoc = new JPanel();
-//        pnLoc.setLayout(new BoxLayout(pnLoc, BoxLayout.Y_AXIS));
-//        pnLoc.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(10,
-//                5, 0, 0), BorderFactory.createLineBorder(new Color(78, 138, 201), 1)));
-////        JCheckBox chka = new JCheckBox();
-////        JCheckBox chkb = new JCheckBox();
-////        JCheckBox chkc = new JCheckBox();
-////        JButton btnLoc = new JButton("Lọc");
-////        btnLoc.setFont(font);
-////
-////        pnLoc.add(chka);
-////        pnLoc.add(chkb);
-//        pnLoc.add(chkc);
-//        pnLoc.add(btnLoc);
+        //Panel add ảnh
+        JPanel pnImage = new JPanel();
+        pnImage.setLayout(new BorderLayout());
+        JLabel imageEmployee = new JLabel();
+        imageEmployee.setIcon(new FlatSVGIcon(Objects.requireNonNull(EmployeePanel.class.getResource("/Images/EmployeeSVG.svg"))));
+        imageEmployee.setHorizontalAlignment(JLabel.CENTER);
+        pnImage.add(imageEmployee, BorderLayout.CENTER);
 
         pnEast.add(pnTimKiem, BorderLayout.NORTH);
-//        pnEast.add(pnLoc, BorderLayout.CENTER);
+        pnEast.add(pnImage, BorderLayout.CENTER);
 
         JPanel pnCenterMain = new JPanel();
         pnCenterMain.setLayout(new BorderLayout());

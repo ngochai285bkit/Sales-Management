@@ -5,7 +5,7 @@ public class CustomerModel {
     private String tenKhachHang;
     private String diaChi;
     private String soDienThoai;
-
+    // tạo ra các đối tượng để xử lý các dữ liệu
     public CustomerModel() {
     }
 

@@ -31,7 +31,7 @@ public class CustomerPanel extends JPanel {
     private final Database database;
     private final Color backGroundColor = new Color(245, 245, 251);
     private final Color lineBorder = new Color(99, 200, 221);
-    private final Font font = new Font(Font.SANS_SERIF, Font.PLAIN, 18);
+    private final Font font = new Font(Font.SANS_SERIF, Font.PLAIN, 16);
     private JButton btnSua, btnThemMoi, btnXoa, btnXuatFile;
     public static DefaultTableModel dtmDsKhachHang;
     private JTable tbDsKhachHang;
@@ -89,7 +89,7 @@ public class CustomerPanel extends JPanel {
         ((DefaultTableCellRenderer) tableHeader.getDefaultRenderer()).setHorizontalAlignment(JLabel.CENTER);
 
         dtmDsKhachHang = new DefaultTableModel();
-        dtmDsKhachHang.addColumn("Mã");
+        dtmDsKhachHang.addColumn("Mã khách hàng");
         dtmDsKhachHang.addColumn("Họ và tên");
         dtmDsKhachHang.addColumn("Địa chỉ");
         dtmDsKhachHang.addColumn("Số điện thoại");
@@ -161,14 +161,14 @@ public class CustomerPanel extends JPanel {
         pnEast.setPreferredSize(new Dimension(240, 0));
         pnEast.setLayout(new BorderLayout());
         pnEast.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(0,
-                5, 5, 5), BorderFactory.createLineBorder(new Color(78, 138, 201), 1)));
+                5, 5, 5), BorderFactory.createLineBorder(lineBorder, 2)));
         JPanel pnTimKiem = new JPanel();
         pnTimKiem.setLayout(new BoxLayout(pnTimKiem, BoxLayout.Y_AXIS));
-        pnTimKiem.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(10,
-                5, 0, 5), BorderFactory.createLineBorder(new Color(78, 138, 201), 1)));
+        pnTimKiem.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(5,
+                5, 0, 5), BorderFactory.createLineBorder(lineBorder, 2)));
 
 
-        rbtnMaKhachHang = new JRadioButton("Mã");
+        rbtnMaKhachHang = new JRadioButton("Mã khách hàng");
         rbtnMaKhachHang.setFont(font);
         rbtnTenKhachHang = new JRadioButton("Họ và tên");
         rbtnTenKhachHang.setFont(font);
@@ -193,6 +193,14 @@ public class CustomerPanel extends JPanel {
         pnTimKiem.add(rbtnTenKhachHang);
         pnTimKiem.add(rbtnDienThoaiKhachHang);
 
+        JPanel pnImage = new JPanel();
+        pnImage.setLayout(new BorderLayout());
+        JLabel imageEmployee = new JLabel();
+        imageEmployee.setIcon(new FlatSVGIcon(Objects.requireNonNull(EmployeePanel.class.getResource("/Images/EmployeeSVG.svg"))));
+        imageEmployee.setHorizontalAlignment(JLabel.CENTER);
+        pnImage.add(imageEmployee, BorderLayout.CENTER);
+
+        pnEast.add(pnImage, BorderLayout.CENTER);
         pnEast.add(pnTimKiem, BorderLayout.NORTH);
 
         JPanel pnCenterMain = new JPanel();
