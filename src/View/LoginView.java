@@ -1,6 +1,5 @@
 package View;
 
-import Controller.DatabaseConnection;
 import Controller.LoginController;
 import Model.Database;
 import Model.LoginModel;
@@ -11,7 +10,7 @@ import com.formdev.flatlaf.extras.FlatSVGUtils;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.Objects;
 
 public class LoginView extends JFrame {
@@ -85,7 +84,8 @@ public class LoginView extends JFrame {
         pnRight.setPreferredSize(new Dimension(350, 0));
 
         lblBtnClose = new JLabel();
-        lblBtnClose.setIcon(new FlatSVGIcon(Objects.requireNonNull(this.getClass().getResource("/Images" +
+        lblBtnClose.setIcon(new FlatSVGIcon(Objects.requireNonNull(this.getClass().getResource(
+                "/Images" +
                 "/32x32/ic_close_32px.svg"))));
         lblBtnClose.setBorder(BorderFactory.createLineBorder(new Color(25, 118, 211), 2));
         lblBtnClose.setHorizontalAlignment(JLabel.CENTER);
@@ -168,8 +168,8 @@ public class LoginView extends JFrame {
         btnLogin.setForeground(new Color(25, 118, 211));
         lblSqlConfig = new JLabel();
         lblSqlConfig.setBorder(BorderFactory.createLineBorder(new Color(25, 118, 211), 1));
-        lblSqlConfig.setIcon(new FlatSVGIcon(Objects.requireNonNull(this.getClass().getResource("/Images" +
-                "/24x24/database-icon_24px.svg"))));
+        lblSqlConfig.setIcon(new FlatSVGIcon(Objects.requireNonNull(this.getClass().getResource(
+                "/Images/24x24/database-icon_24px.svg"))));
         JPanel pnBtnLogin = new JPanel();
         pnBtnLogin.setLayout(new FlowLayout(FlowLayout.RIGHT));
         pnBtnLogin.setBorder(BorderFactory.createEmptyBorder(0, 40, 20, 40));
@@ -256,11 +256,14 @@ public class LoginView extends JFrame {
             }
         });
 
-        chkShowPassword.addItemListener(e -> {
-            if (e.getStateChange() == ItemEvent.SELECTED) {
-                txtPassword.setEchoChar((char) 0);
-            } else {
-                txtPassword.setEchoChar('\u25cf');
+        chkShowPassword.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                if (e.getStateChange() == ItemEvent.SELECTED) {
+                    txtPassword.setEchoChar((char) 0);
+                } else {
+                    txtPassword.setEchoChar('\u25cf');
+                }
             }
         });
 
@@ -273,7 +276,12 @@ public class LoginView extends JFrame {
             }
         });
 
-        btnLogin.addActionListener(e -> Login());
+        btnLogin.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Login();
+            }
+        });
 
         lblSqlConfig.addMouseListener(new MouseAdapter() {
             @Override
@@ -314,19 +322,17 @@ public class LoginView extends JFrame {
 
     private void Login() {
         if (checkInput()) {
-            Connection conn = DatabaseConnection.getConnection(database);
-            if (conn != null) {
-                LoginModel account = this.getUser();
-                if (LoginController.checkData(conn, account)) {
+            LoginModel account = this.getUser();
+            try {
+                if (LoginController.checkData(database, account)) {
                     this.setVisible(false);
                     new MainUI("Quản lý bán hàng", database);
                 } else {
-                    JOptionPane.showMessageDialog(LoginView.this, "Tài khoản không tồn tại!", "Error",
-                            JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(LoginView.this, "Tài khoản không tồn tại!",
+                            "Error", JOptionPane.ERROR_MESSAGE);
                 }
-            } else {
-                JOptionPane.showMessageDialog(LoginView.this, DatabaseConnection.exception.getMessage(), "Error",
-                        JOptionPane.ERROR_MESSAGE);
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
             }
         }
     }

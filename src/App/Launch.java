@@ -16,7 +16,7 @@ public class Launch {
 
             // application name used in screen menu bar
             // (in first menu after the "apple" menu)
-            System.setProperty("apple.awt.application.name", "FlatLaf Demo");
+            System.setProperty("apple.awt.application.name", "Quản lý bán hàng");
 
             // appearance of window title bars
             // possible values:

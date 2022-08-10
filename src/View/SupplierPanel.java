@@ -71,7 +71,6 @@ public class SupplierPanel extends JPanel {
         tbDsNCC.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         tbDsNCC.setAutoCreateRowSorter(true);
 
-
         JTableHeader tableHeader = tbDsNCC.getTableHeader();
         tableHeader.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 16));
         tableHeader.setBackground(new Color(79, 138, 201));

@@ -426,7 +426,6 @@ public class  EmployeePanel extends JPanel {
                         if (ngayBatDauLam.contains(searchText)) {
                             listLater.add(employee);
                         }
-
                     }
                 }
             }
@@ -453,7 +452,6 @@ public class  EmployeePanel extends JPanel {
             dtmDsNhanVien.addRow(vector);
         }
     }
-
 
     public static void main(String[] args) {
         FlatIntelliJLaf.setup();
