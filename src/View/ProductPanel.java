@@ -274,7 +274,7 @@ public class ProductPanel extends JPanel {
                 if (rowSelected != -1) {
                     String MaSP =(String) tbDsSP.getValueAt(rowSelected, 0);
                     try {
-                        if(ProductController.DeleteProduct(database,MaSP)){
+                        if(ProductController.deleteProduct(database,MaSP)){
                             showListProduct(ProductController.getAllProducts(database));
                             JOptionPane.showMessageDialog(MainUI.frame,"Xóa thành công!","Thông báo",JOptionPane.INFORMATION_MESSAGE);
                         }

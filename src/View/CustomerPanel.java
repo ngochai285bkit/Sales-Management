@@ -253,19 +253,18 @@ public class CustomerPanel extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 int rowSelected = tbDsKhachHang.getSelectedRow();
                 if (rowSelected != -1) {
-                    Connection conn = DatabaseConnection.getConnection(database);
+                    String maKhachHang = (String) tbDsKhachHang.getValueAt(rowSelected, 0);
                     try {
-                        CallableStatement statement = conn.prepareCall("{ CALL sp_Customer_Delete(?) }");
-                        statement.setString(1, (String) tbDsKhachHang.getValueAt(rowSelected, 0));
-                        int result = statement.executeUpdate();
-                        if (result != 0) {
+                        if(CustomerController.deleteCustomer(database, maKhachHang)){
                             showListCustomer(CustomerController.getAllCustomer(database));
                             JOptionPane.showMessageDialog(MainUI.frame, "Xoá thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                        } else {
+                            JOptionPane.showMessageDialog(MainUI.frame, "Xoá thất bại!", "Cảnh " +
+                                            "báo", JOptionPane.WARNING_MESSAGE);
                         }
                     } catch (SQLException ex) {
-                        ex.printStackTrace();
+                        throw new RuntimeException(ex);
                     }
-
                 } else {
                     JOptionPane.showMessageDialog(MainUI.frame, "Bạn chưa chọn đối tượng cần xoá!", "Lỗi", JOptionPane.ERROR_MESSAGE);
                 }

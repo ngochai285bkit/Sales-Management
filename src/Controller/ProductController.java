@@ -15,7 +15,6 @@ import java.util.List;
 public class ProductController {
     public static List<ProductModel> getAllProducts(Database database) throws SQLException {
         List<ProductModel> listProduct = new ArrayList<>();
-//        Database database;
         Connection conn = DatabaseConnection.getConnection(database);
         if (conn != null) {
             CallableStatement statement = conn.prepareCall("{ CALL sp_Product_GetAll() }");
@@ -39,7 +38,7 @@ public class ProductController {
         return listProduct;
     }
 
-    public static Boolean DeleteProduct(Database database, String MaSP) throws SQLException {
+    public static Boolean deleteProduct(Database database, String MaSP) throws SQLException {
         Connection conn = DatabaseConnection.getConnection(database);
         if (conn != null) {
             CallableStatement statement = conn.prepareCall("{ CALL sp_Product_Delete(?)} ");
@@ -49,7 +48,7 @@ public class ProductController {
         } else return false;
     }
 
-    public static Boolean CheckProduct(Database database, String MaSP) throws SQLException {
+    public static Boolean checkProduct(Database database, String MaSP) throws SQLException {
         Connection conn = DatabaseConnection.getConnection(database);
         if (conn != null) {
             CallableStatement statement = conn.prepareCall("{ CALL sp_Product_Check(?) }");
@@ -60,7 +59,7 @@ public class ProductController {
         return false;
     }
 
-    public static Boolean AddProduct(Database database, ProductModel product) throws SQLException {
+    public static Boolean addProduct(Database database, ProductModel product) throws SQLException {
         Connection conn = DatabaseConnection.getConnection(database);
         if (conn != null) {
             CallableStatement statement = conn.prepareCall("{ CALL sp_Product_Add(?,?,?,?,?,?,?) }");
@@ -77,7 +76,7 @@ public class ProductController {
         return false;
     }
 
-    public static Boolean UpdateProduct(Database database, ProductModel product) throws SQLException {
+    public static Boolean updateProduct(Database database, ProductModel product) throws SQLException {
         Connection conn = DatabaseConnection.getConnection(database);
         if (conn != null) {
             CallableStatement statement = conn.prepareCall("{CALL sp_Product_Update(?,?,?,?,?,?,?)}");

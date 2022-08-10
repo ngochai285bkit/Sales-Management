@@ -1,25 +1,18 @@
 package View;
 
-import Controller.DatabaseConnection;
 import Controller.EmployeeController;
 import Model.Database;
 import Model.EmployeeModel;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
-import org.jdatepicker.JDatePanel;
 import org.jdatepicker.JDatePicker;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.CallableStatement;
-import java.sql.Connection;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.*;
-import java.util.List;
+import java.util.Date;
+import java.util.Objects;
 
 public class EditEmployeeDialog extends JDialog {
     private JTextField txtMaNhanVien, txtDiaChi, txtChucVu, txtTenNhanVien, txtSDT;
@@ -30,7 +23,7 @@ public class EditEmployeeDialog extends JDialog {
     private JButton btnXacNhan, btnThoat;
     private final Database database;
     private JComboBox<String> chonGioiTinh;
-    private EmployeeModel employee;
+    private final EmployeeModel employee;
     private final Dimension dimenButton = new Dimension(160, 38);
     private final Font fontTextField = new Font(Font.SANS_SERIF, Font.PLAIN, 16);
 

@@ -168,7 +168,7 @@ public class EditCustomerDialog extends JDialog {
                 try {
                     if (CustomerController.editCustomer(database, customer)) {
                         try {
-                            CustomerPanel.showListCustomer(getAllCustomer());
+                            CustomerPanel.showListCustomer(CustomerController.getAllCustomer(database));
                         } catch (SQLException ex) {
                             ex.printStackTrace();
                         }
@@ -188,24 +188,6 @@ public class EditCustomerDialog extends JDialog {
 
             }
         });
-    }
-
-    private List<CustomerModel> getAllCustomer() throws SQLException {
-        List<CustomerModel> listCustomer = new ArrayList<>();
-        Connection conn = DatabaseConnection.getConnection(database);
-        if (conn != null) {
-            CallableStatement statement = conn.prepareCall("{ CALL sp_Customer_GetAll() }");
-            ResultSet rs = statement.executeQuery();
-            while (rs.next()) {
-                CustomerModel customerModel = new CustomerModel();
-                customerModel.setMaKhachHang(rs.getString("Ma"));
-                customerModel.setTenKhachHang(rs.getString("Ten"));
-                customerModel.setDiaChi(rs.getString("DiaChi"));
-                customerModel.setSoDienThoai(rs.getString("SDT"));
-                listCustomer.add(customerModel);
-            }
-        }
-        return listCustomer;
     }
 
     private void showDialog(Frame parent) {

@@ -211,7 +211,7 @@ public class EditProductDialog extends JDialog {
                 if (han != null) {
                     product.setHan(han);
                     try {
-                        if (ProductController.UpdateProduct(database, product)) {
+                        if (ProductController.updateProduct(database, product)) {
                             showListProduct(ProductController.getAllProducts(database));
                             dispose();
                             JOptionPane.showMessageDialog(MainUI.frame, "Sửa thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
@@ -240,7 +240,6 @@ public class EditProductDialog extends JDialog {
             ProductPanel.dtmDanhSachSP.addRow(vector);
         }
     }
-
 
     private void setInforProduct(ProductModel Product) {
         txtMaSanPham.setText(Product.getMaSanPham());

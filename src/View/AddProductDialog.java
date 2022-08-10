@@ -193,7 +193,7 @@ public class AddProductDialog extends JDialog {
             public void actionPerformed(ActionEvent e) {
                 String MaSP = txtMaSanPham.getText();
                 try {
-                    if (ProductController.CheckProduct(database, MaSP)) {
+                    if (ProductController.checkProduct(database, MaSP)) {
                         JOptionPane.showMessageDialog(MainUI.frame, "Mã sản phẩm đã tồn tại ", "Thông báo ", JOptionPane.INFORMATION_MESSAGE);
                     } else {
                         ProductModel product = new ProductModel();
@@ -206,7 +206,7 @@ public class AddProductDialog extends JDialog {
                         Date han = (Date) txtHan.getModel().getValue();
                         if (han != null) {
                             product.setHan(han);
-                            if (ProductController.AddProduct(database, product)) {
+                            if (ProductController.addProduct(database, product)) {
                                 ProductPanel.showListProduct(ProductController.getAllProducts(database));
                                 dispose();
                                 JOptionPane.showMessageDialog(MainUI.frame, "Thêm thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE);

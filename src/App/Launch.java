@@ -27,13 +27,11 @@ public class Launch {
             System.setProperty("apple.awt.application.appearance", "system");
         }
 
-        SwingUtilities.invokeLater(() -> {
-            try {
-                UIManager.setLookAndFeel(new FlatIntelliJLaf());
-            } catch (UnsupportedLookAndFeelException e) {
-                throw new RuntimeException(e);
-            }
-            new LoginView();
-        });
+        try {
+            UIManager.setLookAndFeel(new FlatIntelliJLaf());
+        } catch (UnsupportedLookAndFeelException e) {
+            throw new RuntimeException(e);
+        }
+        new LoginView();
     }
 }
