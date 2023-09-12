@@ -62,7 +62,7 @@ public class LoginView extends JFrame {
         pnLblImage.setBackground(Color.WHITE);
         pnLblImage.add(lblImage, BorderLayout.CENTER);
 
-        JLabel lblDevInfo = new JLabel("Created by Haiqqez");
+        JLabel lblDevInfo = new JLabel("SALE MANAGEMENT");
         lblDevInfo.setFont(new Font(Font.SANS_SERIF, Font.BOLD | Font.ITALIC, 15));
         lblDevInfo.setForeground(new Color(25, 118, 211));
         lblDevInfo.setHorizontalAlignment(JLabel.CENTER);
